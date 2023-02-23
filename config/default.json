@@ -1,0 +1,7 @@
+{
+    
+    "appUri": "http://localhost:3000",
+    "apiUri": "http://192.168.0.102:9095/",
+    "bodyParserLimit": "0.5mb",
+    "port": 9095
+}

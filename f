@@ -1,0 +1,95 @@
+[33mcommit ff61fe844b74c0e2dfacb7d3d08734033a23ba6d[m[33m ([m[1;36mHEAD -> [m[1;32mdpi[m[33m, [m[1;31morigin/dpi[m[33m)[m
+Author: Boris <tboris1983@gmail.com>
+Date:   Sun Oct 3 20:14:48 2021 +0300
+
+    Detail name excluded
+
+[1mdiff --git a/build/asset-manifest.json b/build/asset-manifest.json[m
+[1mindex 901a896..3040372 100644[m
+[1m--- a/build/asset-manifest.json[m
+[1m+++ b/build/asset-manifest.json[m
+[36m@@ -1,22 +1,22 @@[m
+ {[m
+[31m-  "main.css": "/static/css/main.2b65e38b.chunk.css",[m
+[31m-  "main.js": "/static/js/main.8763b689.chunk.js",[m
+[31m-  "main.js.map": "/static/js/main.8763b689.chunk.js.map",[m
+[31m-  "runtime~main.js": "/static/js/runtime~main.196450cc.js",[m
+[31m-  "runtime~main.js.map": "/static/js/runtime~main.196450cc.js.map",[m
+[31m-  "static/js/2.79e6d1ea.chunk.js": "/static/js/2.79e6d1ea.chunk.js",[m
+[31m-  "static/js/2.79e6d1ea.chunk.js.map": "/static/js/2.79e6d1ea.chunk.js.map",[m
+[31m-  "static/css/3.596b8dc1.chunk.css": "/static/css/3.596b8dc1.chunk.css",[m
+[31m-  "static/js/3.f169d65a.chunk.js": "/static/js/3.f169d65a.chunk.js",[m
+[31m-  "static/js/3.f169d65a.chunk.js.map": "/static/js/3.f169d65a.chunk.js.map",[m
+[31m-  "static/js/4.35a87fc7.chunk.js": "/static/js/4.35a87fc7.chunk.js",[m
+[31m-  "static/js/4.35a87fc7.chunk.js.map": "/static/js/4.35a87fc7.chunk.js.map",[m
+[31m-  "static/js/5.970c0b2e.chunk.js": "/static/js/5.970c0b2e.chunk.js",[m
+[31m-  "static/js/5.970c0b2e.chunk.js.map": "/static/js/5.970c0b2e.chunk.js.map",[m
+[32m+[m[32m  "main.css": "/static/css/main.8ad5dd0d.chunk.css",[m
+[32m+[m[32m  "main.js": "/static/js/main.6e844da7.chunk.js",[m
+[32m+[m[32m  "main.js.map": "/static/js/main.6e844da7.chunk.js.map",[m
+[32m+[m[32m  "runtime~main.js": "/static/js/runtime~main.ad2eae4f.js",[m
+[32m+[m[32m  "runtime~main.js.map": "/static/js/runtime~main.ad2eae4f.js.map",[m
+[32m+[m[32m  "static/js/2.5b021e41.chunk.js": "/static/js/2.5b021e41.chunk.js",[m
+[32m+[m[32m  "static/js/2.5b021e41.chunk.js.map": "/static/js/2.5b021e41.chunk.js.map",[m
+[32m+[m[32m  "static/css/3.132fa465.chunk.css": "/static/css/3.132fa465.chunk.css",[m
+[32m+[m[32m  "static/js/3.3fece3be.chunk.js": "/static/js/3.3fece3be.chunk.js",[m
+[32m+[m[32m  "static/js/3.3fece3be.chunk.js.map": "/static/js/3.3fece3be.chunk.js.map",[m
+[32m+[m[32m  "static/js/4.4a5aeef7.chunk.js": "/static/js/4.4a5aeef7.chunk.js",[m
+[32m+[m[32m  "static/js/4.4a5aeef7.chunk.js.map": "/static/js/4.4a5aeef7.chunk.js.map",[m
+[32m+[m[32m  "static/js/5.035fcbd7.chunk.js": "/static/js/5.035fcbd7.chunk.js",[m
+[32m+[m[32m  "static/js/5.035fcbd7.chunk.js.map": "/static/js/5.035fcbd7.chunk.js.map",[m
+   "index.html": "/index.html",[m
+[31m-  "precache-manifest.bbdaa8fa9434bb1ac0459620f7514b6c.js": "/precache-manifest.bbdaa8fa9434bb1ac0459620f7514b6c.js",[m
+[32m+[m[32m  "precache-manifest.7b14f9a2aba4f54ce773e5a10ca7ce3e.js": "/precache-manifest.7b14f9a2aba4f54ce773e5a10ca7ce3e.js",[m
+   "service-worker.js": "/service-worker.js",[m
+[31m-  "static/css/3.596b8dc1.chunk.css.map": "/static/css/3.596b8dc1.chunk.css.map",[m
+[31m-  "static/css/main.2b65e38b.chunk.css.map": "/static/css/main.2b65e38b.chunk.css.map",[m
+[31m-  "static/media/Graph.css": "/static/media/spinner.86044f68.svg"[m
+[32m+[m[32m  "static/css/3.132fa465.chunk.css.map": "/static/css/3.132fa465.chunk.css.map",[m
+[32m+[m[32m  "static/css/main.8ad5dd0d.chunk.css.map": "/static/css/main.8ad5dd0d.chunk.css.map",[m
+[32m+[m[32m  "static/media/Graph.css": "/static/media/spinner.9da0ff5b.svg"[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/build/index.html b/build/index.html[m
+[1mindex 1c60d26..0dfbc59 100644[m
+[1m--- a/build/index.html[m
+[1m+++ b/build/index.html[m
+[36m@@ -1,22 +1,161 @@[m
+[31m-<!doctype html>[m
+[32m+[m[32m<!DOCTYPE html>[m
+ <html lang="en">[m
+[31m-[m
+[31m-<head>[m
+[32m+[m[32m  <head>[m
+     <meta charset="utf-8" />[m
+     <link rel="shortcut icon" href="./favicon.ico" />[m
+[31m-    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />[m
+[32m+[m[32m    <meta[m
+[32m+[m[32m      name="viewport"[m
+[32m+[m[32m      content="width=device-width,initial-scale=1,shrink-to-fit=no"[m
+[32m+[m[32m    />[m
+     <meta name="theme-color" content="#000000" />[m
+[31m-    <link rel="manifest" href="/manifest.json" />[m
+[32m+[m[32m    <link rel="manifest" href="./manifest.json" />[m
+     <title></title>[m
+[31m-    <link href="./static/css/3.596b8dc1.chunk.css" rel="stylesheet">[m
+[31m-    <link href="./static/css/main.2b65e38b.chunk.css" rel="stylesheet">[m
+[31m-</head>[m
+[31m-[m
+[31m-<body><noscript>You need to enable JavaScript to run this app.</noscript>[m
+[32m+[m[32m    <link href="./static/css/3.132fa465.chunk.css" rel="stylesheet" />[m
+[32m+[m[32m    <link href="./static/css/main.8ad5dd0d.chunk.css" rel="stylesheet" />[m
+[32m+[m[32m  </head>[m
+[32m+[m[32m  <body>[m
+[32m+[m[32m    <noscript>You need to enable JavaScript to run this app.</noscript>[m
+     <div id="root"></div>[m
+[31m-    <script>!function (c) { function e(e) { for (var r, t, n = e[0], o = e[1], u = e[2], i = 0, a = []; i < n.length; i++)t = n[i], f[t] && a.push(f[t][0]), f[t] = 0; for (r in o) Object.prototype.hasOwnProperty.call(o, r) && (c[r] = o[r]); for (d && d(e); a.length;)a.shift()(); return p.push.apply(p, u || []), l() } function l() { for (var e, r = 0; r < p.length; r++) { for (var t = p[r], n = !0, o = 1; o < t.length; o++) { var u = t[o]; 0 !== f[u] && (n = !1) } n && (p.splice(r--, 1), e = s(s.s = t[0])) } return e } var t = {}, f = { 1: 0 }, p = []; function s(e) { if (t[e]) return t[e].exports; var r = t[e] = { i: e, l: !1, exports: {} }; return c[e].call(r.exports, r, r.exports, s), r.l = !0, r.exports } s.e = function (u) { var e = [], t = f[u]; if (0 !== t) if (t) e.push(t[2]); else { var r = new Promise(function (e, r) { t = f[u] = [e, r] }); e.push(t[2] = r); var n, i = document.createElement("script"); i.charset = "utf-8", i.timeout = 120, s.nc && i.setAttribute("nonce", s.nc), i.src = s.p + "static/js/" + ({}[u] || u) + "." + { 2: "79e6d1ea", 4: "35a87fc7", 5: "970c0b2e" }[u] + ".chunk.js", n = function (e) { i.onerror = i.onload = null, clearTimeout(a); var r = f[u]; if (0 !== r) { if (r) { var t = e && ("load" === e.type ? "missing" : e.type), n = e && e.target && e.target.src, o = new Error("Loading chunk " + u + " failed.\n(" + t + ": " + n + ")"); o.type = t, o.request = n, r[1](o) } f[u] = void 0 } }; var a = setTimeout(function () { n({ type: "timeout", target: i }) }, 12e4); i.onerror = i.onload = n, document.head.appendChild(i) } return Promise.all(e) }, s.m = c, s.c = t, s.d = function (e, r, t) { s.o(e, r) || Object.defineProperty(e, r, { enumerable: !0, get: t }) }, s.r = function (e) { "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(e, "__esModule", { value: !0 }) }, s.t = function (r, e) { if (1 & e && (r = s(r)), 8 & e) return r; if (4 & e && "object" == typeof r && r && r.__esModule) return r; var t = Object.create(null); if (s.r(t), Object.defineProperty(t, "default", { enumerable: !0, value: r }), 2 & e && "string" != typeof r) for (var n in r) s.d(t, n, function (e) { return r[e] }.bind(null, n)); return t }, s.n = function (e) { var r = e && e.__esModule ? function () { return e.default } : function () { return e }; return s.d(r, "a", r), r }, s.o = function (e, r) { return Object.prototype.hasOwnProperty.call(e, r) }, s.p = "/", s.oe = function (e) { throw console.error(e), e }; var r = window.webpackJsonp = window.webpackJsonp || [], n = r.push.bind(r); r.push = e, r = r.slice(); for (var o = 0; o < r.length; o++)e(r[o]); var d = n; l() }([])</script>[m
+[31m-    <script src="./static/js/3.f169d65a.chunk.js"></script>[m
+[31m-    <script src="./static/js/main.8763b689.chunk.js"></script>[m
+[31m-</body>[m
+[31m-[m
+[31m-</html>[m
+\ No newline at end of file[m
+[32m+[m[32m    <script>[m
+[32m+[m[32m      !(function (c) {[m
+[32m+[m[32m        function
