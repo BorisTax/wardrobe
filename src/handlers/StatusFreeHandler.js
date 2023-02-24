@@ -30,6 +30,7 @@ export class StatusFreeHandler extends MouseHandler {
         }else{
             this.activeShape = null;
             for(let p of appData.panels){
+                if(!p.selectable) continue;
                 if(p.isPointInside(this.coord)) {
                     appActions.setCursor(new DragCursor(this.coord));
                     p.setState({highlighted: true})
@@ -54,6 +55,7 @@ export class StatusFreeHandler extends MouseHandler {
         if(button !== 0)return
         this.activeShape = null;
         for(let p of appData.panels){
+            if(!p.selectable) continue;
             if(p.isPointInside(this.coord)) {
                 this.activeShape = p;
             }else{

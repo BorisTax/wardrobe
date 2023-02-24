@@ -7,14 +7,17 @@ export default class PanelShape extends Shape {
         super();
         this.model = { ...model };
         if (!model.active) this.model.active = false
-        this.state.canBePlaced = false;
         this.vertical = model.vertical
+        this.selectable = !!model.selectable
         const width = model.vertical ? 16 : model.length
         const height = model.vertical ? model.length : 16
         const last = { x: model.position.x + width, y: model.position.y + height }
         this.rect = { ...model.position, last, width, height }
         this.setStyle(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID));
-        this.state.selected = true;
+        this.jointFromBackSide = model.jointFromBackSide || []
+        this.jointFromFrontSide = model.jointFromFrontSide || []
+        this.nearestFromBack = model.nearestFromBack
+        this.nearestFromFront = model.nearestFromBack
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {
@@ -29,7 +32,8 @@ export default class PanelShape extends Shape {
         ctx.strokeRect(x, y, width, height);
     }
     refresh(realRect, screenRect) {
-
+        if (this.vertical) this.rect.height = this.model.length; else this.rect.width = this.model.length
+        this.rect.last = { x: this.rect.x + this.rect.width, y: this.rect.y + this.rect.height }
     }
     setCaption() {
         const ext = this.model.listKey === 'secondary' ? "Доп " : ""
@@ -37,15 +41,21 @@ export default class PanelShape extends Shape {
         this.caption = ` ${ext}№${this.model.id} ${this.model.origLength}x${this.model.origWidth} ${module} `;
         this.captionShape.setText(this.caption);
     }
-    setPosition(pos) {
-        this.rect.x = pos.x
-        this.rect.y = pos.y
-        this.rect.last = { x: pos.x + this.rect.width, y: pos.y + this.rect.height }
+    setPosition(x, y) {
+        this.rect.x = x
+        this.rect.y = y
+        this.rect.last = { x: x + this.rect.width, y: y + this.rect.height }
     }
     getPosition() {
         return this.rect
     }
-
+    setLength(length) {
+        this.model.length = length
+        this.refresh()
+    }
+    getLength() {
+        return this.model.length
+    }
     getId() {
         return this.model.id;
     }
@@ -59,6 +69,21 @@ export default class PanelShape extends Shape {
     }
     getDistance(point) {
 
+    }
+    canBePlaced(x, y, minDist) {
+        for (let par of this.parallelFromBack) {
+            const parPos = par.getPosition();
+            if ((((x - parPos.x) < minDist) && this.vertical) || (((y - parPos.y) < minDist) && !this.vertical)) {
+                return false
+            }
+        }
+        for (let par of this.parallelFromFront) {
+            const parPos = par.getPosition();
+            if ((((parPos.x - x) < minDist) && this.vertical) || (((parPos.y - y) < minDist) && !this.vertical)) {
+                return false
+            }
+        }
+        return true
     }
     isInRect({ topLeft, bottomRight }) {
         const inRect = [Geometry.pointInRect(this.rect, topLeft, bottomRight),
