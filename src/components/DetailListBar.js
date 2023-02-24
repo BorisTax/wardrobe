@@ -9,7 +9,8 @@ export default function DetailListBar({disabled, listKey, caption}){
     const panels = useSelector(store => store.panels)
 
     const contents =  <div>
-
+                        <input type="button" value="Вертикальная" onClick={()=>appActions.createPanel({vertical: true})}/>
+                        <input type="button" value="Горизонтальная" onClick={()=>appActions.createPanel({vertical: false})}/>
                     </div>
     return <ToolBar caption={caption}>
             {contents}

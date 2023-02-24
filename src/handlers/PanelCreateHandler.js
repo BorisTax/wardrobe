@@ -3,24 +3,16 @@ import { PropertyTypes } from "../components/shapes/PropertyData";
 import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
-export class PanelPlaceHandler extends MouseHandler {
-    constructor(state, newPanel, movePoint) {
+export class PanelCreateHandler extends MouseHandler {
+    constructor(state) {
         super(state);
-        this.movePoint = movePoint;
+        this.movePoint = {dx:0,dy:0};
         this.properties = [
             { type: PropertyTypes.BOOL, value: false, labelKey: "make_copy", setValue: (value) => { this.makeCopy = value; } },
         ]
-        if (!this.movePoint) {
-            this.movePoint = {}
-            this.movePoint.dx = (state.curShape.model.length + state.curShape.model.margin * 2) / 2
-            this.movePoint.dy = (state.curShape.model.width + state.curShape.model.margin * 2) / 2
-        }
+
         this.panels = state.panels
         this.activeShape = state.curShape
-        this.newPanel = newPanel;
-        if (this.newPanel) this.panels = [...state.panels, state.curShape];
-        this.curShape = state.curShape;
-        this.countSelected = this.panels.filter(p => p.state.selected).length
         this.first = true;
         this.setStatusBar()
     }
@@ -50,47 +42,24 @@ export class PanelPlaceHandler extends MouseHandler {
         if (!keys) keys = {}
         super.move({ curPoint, viewPortData });
         setViewPortData(prevData => setCurCoord(this.coord, this.curPoint, prevData))
-        let curShape = appData.curShape;
         let p = Geometry.screenToReal(curPoint.x, curPoint.y, viewPortData.viewPortWidth, viewPortData.viewPortHeight, viewPortData.topLeft, viewPortData.bottomRight);
         p.x = p.x - this.movePoint.dx;
         p.y = p.y + this.movePoint.dy;
 
         p.x = Math.trunc(p.x);
         p.y = Math.trunc(p.y);
-         var { x, y } = this.activeShape.getPosition();
-        var [dx, dy] = [p.x - x, p.y - y];
-        let selectedPanels = []
-        const minDist = 100
-        for (const panel of this.panels) {
-            if (!panel.state.selected) continue;
-            selectedPanels.push(panel);
-            ({ x, y } = panel.getPosition());
-            if (panel.vertical) dy = 0; else dx = 0
-            let newX = x + dx
-            let newY = y + dy
-
-            if(panel.canBeMoved(newX, newY, minDist)){
-                panel.setPosition(newX, newY);
-                for (let joint of panel.jointFromBackSide) {
-                    joint.setLength(joint.getLength() + (dx + dy))
-                }
-                for (let joint of panel.jointFromFrontSide) {
-                    joint.setLength(joint.getLength() - (dx + dy))
-                    const jpos = joint.getPosition()
-                    joint.setPosition(jpos.x + dx, jpos.y + dy)
-                }
-            }
-        }
+            if (this.activeShape.canBePlaced(p.x, p.y, appData.minDist, appData.panels, appData.wardrobe)) {
+                this.activeShape.findDimensions(p.x, p.y, appData.panels)
+                this.activeShape.setHidden(false)
+        }else this.activeShape.setHidden(true)
         this.lastPoint = { ...this.coord };
     }
 
     up({ button, curPoint, viewPortData, appActions, appData }) {
         super.click({ button, curPoint, viewPortData })
         if (button !== 0) return
-        if (this.newPanel) {
             appData.curShape.state.selected = false;
             appActions.addShape(appData.curShape)
-        }
         this.drag = false;
         appActions.cancelMoving();
     }

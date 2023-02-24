@@ -3,6 +3,7 @@ import { ShapeActions } from "../actions/ShapeActions";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import PanelShape from "../components/shapes/PanelShape"
+import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
 import { PanelPlaceHandler } from "../handlers/PanelPlaceHandler";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { Status } from "./functions";
@@ -11,17 +12,16 @@ export default function panelReducer(state, action){
     switch (action.type){
         case ScreenActions.ADD_PANEL:
             const panel = action.payload
-            for (const det of state.detailList[panel.model.listKey]) if (panel.getId() === det.id) det.created++;
             state.panels.push(panel);
             return { result: true, newState: {...state, status: Status.FREE} };
 
         case ShapeActions.CREATE_PANEL:
             state.panels.forEach(p => { p.state.selected = false })
             var newState = {
-                ...state, curShape: new PanelShape({ ...action.payload, drawModule: state.drawModuleInCaption, captions: state.captions.toolbars.property}),
+                ...state, curShape: new PanelShape({ ...action.payload, hidden: true}),
                 cursor: new DragCursor(state.curRealPoint), status: Status.CREATE
             }
-            return { result: true, newState: {...newState, mouseHandler: new PanelPlaceHandler(newState, true)} };
+            return { result: true, newState: {...newState, mouseHandler: new PanelCreateHandler(newState, true)} };
 
         case ScreenActions.DELETE_CONFIRM:
             const showConfirm = (state.panels.some(s => s.state.selected)) ? { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ScreenActions.deleteSelectedPanels }] } : {show: false}
