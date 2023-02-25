@@ -1,6 +1,5 @@
 import { ModelActions } from "../actions/ModelActions";
 import { setMaterial } from "./functions";
-import { updateDetailList } from "./panels";
 
 export default function detailReducer(state, action){
     switch (action.type){
@@ -28,10 +27,7 @@ export default function detailReducer(state, action){
             newState.panels = [];
             return {result: true, newState};
 
-        case ModelActions.SET_DETAIL_PROPERTY:
-            state.detailList[action.payload.listKey][action.payload.index][action.payload.key] = action.payload.value
-            updateDetailList(state)
-            return { result: true, newState: {...state} };
+
 
         default: {
             return {result: false, newState: state}

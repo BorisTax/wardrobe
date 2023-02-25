@@ -3,10 +3,11 @@ import { PropertyTypes } from "../components/shapes/PropertyData";
 import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
+import { updateParallelPanels } from "../reducers/panels";
 export class PanelCreateHandler extends MouseHandler {
     constructor(state) {
         super(state);
-        this.movePoint = {dx:0,dy:0};
+        this.movePoint = { dx: 0, dy: 0 };
         this.properties = [
             { type: PropertyTypes.BOOL, value: false, labelKey: "make_copy", setValue: (value) => { this.makeCopy = value; } },
         ]
@@ -48,18 +49,23 @@ export class PanelCreateHandler extends MouseHandler {
 
         p.x = Math.trunc(p.x);
         p.y = Math.trunc(p.y);
-            if (this.activeShape.canBePlaced(p.x, p.y, appData.minDist, appData.panels, appData.wardrobe)) {
-                this.activeShape.findDimensions(p.x, p.y, appData.panels)
-                this.activeShape.setHidden(false)
-        }else this.activeShape.setHidden(true)
+        if (this.activeShape.canBePlaced(p.x, p.y, appData.minDist, appData.panels, appData.wardrobe)) {
+            this.activeShape.findDimensions(p.x, p.y, appData.panels, appData.wardrobe)
+            this.activeShape.setHidden(false)
+
+        }
+        else this.activeShape.setHidden(true)
         this.lastPoint = { ...this.coord };
     }
 
     up({ button, curPoint, viewPortData, appActions, appData }) {
         super.click({ button, curPoint, viewPortData })
         if (button !== 0) return
-            appData.curShape.state.selected = false;
-            appActions.addShape(appData.curShape)
+        appData.curShape.state.selected = false;
+        if (appData.curShape.jointToBack) appData.curShape.jointToBack.jointFromBackSide.push(appData.curShape)
+        if (appData.curShape.jointToFront) appData.curShape.jointToFront.jointFromFrontSide.push(appData.curShape)
+        
+        appActions.addShape(appData.curShape)
         this.drag = false;
         appActions.cancelMoving();
     }

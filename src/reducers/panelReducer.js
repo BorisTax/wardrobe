@@ -7,18 +7,20 @@ import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
 import { PanelPlaceHandler } from "../handlers/PanelPlaceHandler";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { Status } from "./functions";
+import { updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action){
     switch (action.type){
         case ScreenActions.ADD_PANEL:
             const panel = action.payload
             state.panels.push(panel);
+            updateParallelPanels(state.panels)
             return { result: true, newState: {...state, status: Status.FREE} };
 
         case ShapeActions.CREATE_PANEL:
             state.panels.forEach(p => { p.state.selected = false })
             var newState = {
-                ...state, curShape: new PanelShape({ ...action.payload, hidden: true}),
+                ...state, curShape: new PanelShape({ ...action.payload, selectable: true, hidden: true}),
                 cursor: new DragCursor(state.curRealPoint), status: Status.CREATE
             }
             return { result: true, newState: {...newState, mouseHandler: new PanelCreateHandler(newState, true)} };

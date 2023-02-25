@@ -10,7 +10,7 @@ export default class PanelShape extends Shape {
         this.vertical = model.vertical
         this.selectable = !!model.selectable
         this.hidden = model.hidden
-        const position = model.position || {x:0,y:0}
+        const position = model.position || { x: 0, y: 0 }
         const width = model.vertical ? 16 : model.length
         const height = model.vertical ? model.length : 16
         const last = { x: position.x + width, y: position.y + height }
@@ -18,8 +18,8 @@ export default class PanelShape extends Shape {
         this.setStyle(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID));
         this.jointFromBackSide = model.jointFromBackSide || []
         this.jointFromFrontSide = model.jointFromFrontSide || []
-        this.nearestFromBack = model.nearestFromBack
-        this.nearestFromFront = model.nearestFromBack
+        this.parallelFromBack = model.parallelFromBack || []
+        this.parallelFromFront = model.parallelFromFront || []
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {
@@ -37,10 +37,10 @@ export default class PanelShape extends Shape {
     refresh(realRect, screenRect) {
         if (this.vertical) {
             this.rect.height = this.model.length
-            this.rect.width=16
+            this.rect.width = 16
         } else {
             this.rect.width = this.model.length
-            this.rect.height=16
+            this.rect.height = 16
         }
         this.rect.last = { x: this.rect.x + this.rect.width, y: this.rect.y + this.rect.height }
     }
@@ -107,33 +107,64 @@ export default class PanelShape extends Shape {
         return d > (this.model.length + panel.model.length)
     }
     canBePlaced(x, y, minDist, panels, wardrobe) {
-        if (x < 0 || x > wardrobe.width || y < 30 || y > wardrobe.height) return false
+        if (x < 16 || x > wardrobe.width - 16 || y < 46 || y > wardrobe.height - 16) return false
+        this.parallelFromBack = []
+        this.parallelFromFront = []
         for (let panel of panels) {
             if (!(panel.vertical === this.vertical)) continue
-            if(this.isNotIntersect(panel)) continue
-            if (this.vertical && Math.abs(x - panel.rect.x - 16) < minDist) return false
-            if (!this.vertical && Math.abs(y - panel.rect.y - 16) < minDist) return false
+            if (this.isNotIntersect(panel)) continue
+            if (this.vertical) {
+                if (panel.rect.x + 16 < x) this.parallelFromBack.push(panel)
+                if (panel.rect.x > x) this.parallelFromFront.push(panel)
+                if (Math.abs(x - panel.rect.x - 16) < minDist) return false
+            } else {
+                if (panel.rect.y + 16 < y) this.parallelFromBack.push(panel)
+                if (panel.rect.y > y) this.parallelFromFront.push(panel)
+                if (Math.abs(y - panel.rect.y - 16) < minDist) return false
+            }
         }
         return true
     }
-    findDimensions(x, y, panels) {
-        let min = 0
-        let max = 10000
+    findDimensions(x, y, panels, wardrobe) {
+        let minX = 16
+        let maxX = wardrobe.width - 16
+        let minY = 46
+        let maxY = wardrobe.height - 16
         for (let panel of panels) {
             if (panel === this) continue
             if (this.vertical === panel.vertical) continue
             if (this.vertical) {
                 if ((x - panel.rect.x) * (x - panel.rect.x - panel.rect.width) > 0) continue //if panels not intersect
-                if (panel.rect.y + 16 < y) min = (panel.rect.y + 16 > min) ? panel.rect.y + 16 : min
-                if (panel.rect.y > y) max = (panel.rect.y < max) ? panel.rect.y : max
+                if (panel.rect.y + 16 < y) {
+                    if (panel.rect.y + 16 > minY) {
+                        minY = panel.rect.y + 16
+                        this.jointToFront = panel
+                    }
+                }
+                if (panel.rect.y > y) {
+                    if (panel.rect.y < maxY) {
+                        maxY = panel.rect.y
+                        this.jointToBack = panel
+                    }
+                }
             } else {
                 if ((y - panel.rect.y) * (y - panel.rect.y - panel.rect.height) > 0) continue //if panels not intersect
-                if (panel.rect.x + 16 < x) min = (panel.rect.x + 16 > min) ? panel.rect.x + 16 : min
-                if (panel.rect.x > x) max = (panel.rect.x < max) ? panel.rect.x : max
+                if (panel.rect.x + 16 < x) {
+                    if (panel.rect.x + 16 > minX) {
+                        minX = panel.rect.x + 16
+                        this.jointToFront = panel
+                    }
+                }
+                if (panel.rect.x > x) {
+                    if (panel.rect.x <= maxX) {
+                        maxX = panel.rect.x
+                        this.jointToBack = panel
+                    }
+                }
             }
         }
-        this.model.length = max - min
-        this.rect = this.vertical ? { x, y: min } : { x: min, y }
+        this.model.length = this.vertical ? maxY - minY : maxX - minX
+        this.rect = this.vertical ? { x, y: minY } : { x: minX, y }
         this.refresh()
     }
     isInRect({ topLeft, bottomRight }) {

@@ -1,26 +1,28 @@
 
-export function updateDetailList(state) {
-    const removeList = new Set()
-    for (const panel of state.panels) {
-        let lonelyPanel = 0
-        for (const listKey of ["primary", "secondary"]) {
-            let index = 1
-            for (const detail of state.detailList[listKey]) {
-                if (panel.getId() === detail.id && panel.model.listKey === listKey) {
-                    panel.model.origLength = detail.length
-                    panel.model.origWidth = detail.width
-                    panel.model.id = index
-                    panel.model.module = detail.module
-                    panel.refreshModel();
-                    lonelyPanel = index
-                }
-                detail.id = index;
-                index++;
+export function isPanelIntersect(source, target) {
+    let d
+    if (source.vertical)
+        d = Math.max(source.rect.y + source.model.length, target.rect.y + target.model.length) -
+            Math.min(source.rect.y, target.rect.y);
+    else d = Math.max(source.rect.x + source.model.length, target.rect.x + target.model.length) -
+        Math.min(source.rect.x, target.rect.x)
+    return d > (source.model.length + target.model.length)
+}
+
+export function updateParallelPanels(panels) {
+    for (let source of panels)
+        for (let target of panels) {
+            if (source === target) continue
+            if (!(source.vertical === target.vertical)) continue
+            if (isPanelIntersect(source, target)) continue
+            if (source.vertical) {
+                if (target.rect.x + 16 < source.rect.x) source.parallelFromBack.push(target)
+                if (target.rect.x > source.rect.x + 16) source.parallelFromFront.push(target)
+            } else {
+                if (target.rect.y + 16 < source.rect.y) source.parallelFromBack.push(target)
+                if (target.rect.y > source.rect.y + 16) source.parallelFromFront.push(target)
             }
         }
-        if (lonelyPanel === 0) removeList.add(panel)
-    }
-    state.panels = state.panels.filter(p => !removeList.has(p));
 }
 
 
