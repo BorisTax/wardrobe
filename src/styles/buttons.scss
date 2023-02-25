@@ -11,13 +11,18 @@ $icon-url: '../images/icons/';
     height: 27px;
     cursor: pointer;
   }
-  
-.button-disabled{
+.tool-button{
     display: inline-block;
+    position: relative;
     background-size: 100%;
     background-position: center;
-    width: 27px;
-    height: 27px;
+    width: 54px;
+    height: 39px;
+    cursor: pointer;
+  }
+  
+.button-disabled{
+
     mix-blend-mode: multiply;
   }
 
@@ -72,9 +77,7 @@ $icon-url: '../images/icons/';
     background: url($icon-url+'placed_all.png') no-repeat center;
   }
   
-  .createPanel{
-    background: url($icon-url+'create.png') no-repeat center;
-  }
+  
   .createPanelError{
     background: url($icon-url+'create_error.png') no-repeat center;
   }
@@ -104,11 +107,21 @@ $icon-url: '../images/icons/';
     width: 30px;
   }
   
-  $table_icon_width:55px;
-  $table_icon_height:39px;
+  $table_icon_width:58px;
+  $table_icon_height:41px;
   @mixin instruments_button {
     width:$table_icon_width;
     height:$table_icon_height;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .createPanelVertical{
+    background-image: url($icon-url+'vertical.png');
+    @include instruments_button();
+  }
+  .createPanelHorizontal{
+    background: url($icon-url+'horizontal.png');
+    @include instruments_button();
   }
   .table_move_to{
     background-image: url($icon-url+'table_move_to.png');

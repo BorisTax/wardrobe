@@ -2,6 +2,7 @@ import Geometry, { Intersection } from '../../utils/geometry';
 import Shape from "./Shape";
 import ShapeStyle from './ShapeStyle';
 import { Color } from '../colors';
+import { isPanelIntersect } from '../../reducers/panels';
 export default class PanelShape extends Shape {
     constructor(model) {
         super();
@@ -76,11 +77,29 @@ export default class PanelShape extends Shape {
         this.refreshModel();
     }
 
-    isPointInside(p) {
-        return (p.x >= this.rect.x) && (p.x <= this.rect.x + this.rect.width) && (p.y >= this.rect.y) && (p.y <= this.rect.y + this.rect.height);
+    isPointInside(p, pixelRatio) {
+        const mult = 2
+        return (p.x >= this.rect.x - pixelRatio * mult) && (p.x <= this.rect.x + this.rect.width + pixelRatio * mult) && (p.y >= this.rect.y - pixelRatio * mult) && (p.y <= this.rect.y + this.rect.height + pixelRatio * mult);
     }
     getDistance(point) {
 
+    }
+    moveTo(dx, dy, minDist){
+        const { x, y } = this.getPosition();
+        if (this.vertical) dy = 0; else dx = 0
+        let newX = x + dx
+        let newY = y + dy
+        if(this.canBeMoved(newX, newY, minDist)){
+            this.setPosition(newX, newY);
+            for (let joint of this.jointFromBackSide) {
+                joint.setLength(joint.getLength() + (dx + dy))
+            }
+            for (let joint of this.jointFromFrontSide) {
+                joint.setLength(joint.getLength() - (dx + dy))
+                const jpos = joint.getPosition()
+                joint.setPosition(jpos.x + dx, jpos.y + dy)
+            }
+        }
     }
     canBeMoved(x, y, minDist) {
         for (let par of this.parallelFromBack) {
@@ -97,22 +116,13 @@ export default class PanelShape extends Shape {
         }
         return true
     }
-    isNotIntersect(panel) {
-        let d
-        if (this.vertical)
-            d = Math.max(this.rect.y + this.model.length, panel.rect.y + panel.model.length) -
-                Math.min(this.rect.y, panel.rect.y);
-        else d = Math.max(this.rect.x + this.model.length, panel.rect.x + panel.model.length) -
-            Math.min(this.rect.x, panel.rect.x)
-        return d > (this.model.length + panel.model.length)
-    }
     canBePlaced(x, y, minDist, panels, wardrobe) {
         if (x < 16 || x > wardrobe.width - 16 || y < 46 || y > wardrobe.height - 16) return false
         this.parallelFromBack = []
         this.parallelFromFront = []
         for (let panel of panels) {
             if (!(panel.vertical === this.vertical)) continue
-            if (this.isNotIntersect(panel)) continue
+            if (isPanelIntersect(this, panel)) continue
             if (this.vertical) {
                 if (panel.rect.x + 16 < x) this.parallelFromBack.push(panel)
                 if (panel.rect.x > x) this.parallelFromFront.push(panel)
@@ -136,13 +146,13 @@ export default class PanelShape extends Shape {
             if (this.vertical) {
                 if ((x - panel.rect.x) * (x - panel.rect.x - panel.rect.width) > 0) continue //if panels not intersect
                 if (panel.rect.y + 16 < y) {
-                    if (panel.rect.y + 16 > minY) {
+                    if (panel.rect.y + 16 >= minY) {
                         minY = panel.rect.y + 16
                         this.jointToFront = panel
                     }
                 }
                 if (panel.rect.y > y) {
-                    if (panel.rect.y < maxY) {
+                    if (panel.rect.y <= maxY) {
                         maxY = panel.rect.y
                         this.jointToBack = panel
                     }
@@ -150,7 +160,7 @@ export default class PanelShape extends Shape {
             } else {
                 if ((y - panel.rect.y) * (y - panel.rect.y - panel.rect.height) > 0) continue //if panels not intersect
                 if (panel.rect.x + 16 < x) {
-                    if (panel.rect.x + 16 > minX) {
+                    if (panel.rect.x + 16 >= minX) {
                         minX = panel.rect.x + 16
                         this.jointToFront = panel
                     }

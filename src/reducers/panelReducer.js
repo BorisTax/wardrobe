@@ -1,10 +1,11 @@
 import { ScreenActions } from "../actions/ScreenActions";
 import { ShapeActions } from "../actions/ShapeActions";
 import DragCursor from "../components/shapes/cursors/DragCursor";
+import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import PanelShape from "../components/shapes/PanelShape"
 import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
-import { PanelPlaceHandler } from "../handlers/PanelPlaceHandler";
+import { PanelMoveHandler } from "../handlers/PanelMoveHandler";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { Status } from "./functions";
 import { updateParallelPanels } from "./panels";
@@ -46,11 +47,11 @@ export default function panelReducer(state, action){
         case ShapeActions.MOVE_PANEL:
             newState = {
                 ...state, curShape: action.payload.panel,
-                cursor: new DragCursor(state.curRealPoint),
+                cursor: new ResizeCursor(state.curRealPoint, action.payload.panel.vertical),
             }
             return {result: true, 
                 newState: {...newState,
-                mouseHandler: new PanelPlaceHandler(newState, false, action.payload.movePoint)}
+                mouseHandler: new PanelMoveHandler(newState, false, action.payload.movePoint)}
             };
 
            

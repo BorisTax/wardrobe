@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Status } from "../reducers/functions";
 import InformationBar from "./InformationBar";
-import InstrumentsBar from "./InstrumentsBar";
-import MaterialBar from "./MaterialBar";
 import PropertyBar from "./PropertyBar";
 import SettingsBar from "./SettingsBar";
 import SideBarButton from "./SideBarButton";
-import TablesBar from "./TablesBar";
 
 export default function RightSideBar(props) {
   const [visible, setVisible] = useState(true);

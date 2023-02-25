@@ -3,7 +3,6 @@ import { PropertyTypes } from "../components/shapes/PropertyData";
 import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
-import { updateParallelPanels } from "../reducers/panels";
 export class PanelCreateHandler extends MouseHandler {
     constructor(state) {
         super(state);

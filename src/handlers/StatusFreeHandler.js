@@ -1,9 +1,9 @@
 import { MouseHandler } from "./MouseHandler";
-import DragCursor from "../components/shapes/cursors/DragCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
+import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 export class StatusFreeHandler extends MouseHandler {
     constructor(state){
         super(state);
@@ -31,8 +31,8 @@ export class StatusFreeHandler extends MouseHandler {
             this.activeShape = null;
             for(let p of appData.panels){
                 if(!p.selectable) continue;
-                if(p.isPointInside(this.coord)) {
-                    appActions.setCursor(new DragCursor(this.coord));
+                if(p.isPointInside(this.coord, viewPortData.pixelRatio)) {
+                    appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
                     p.setState({highlighted: true})
                     this.activeShape = p;
                 }else{
@@ -56,7 +56,7 @@ export class StatusFreeHandler extends MouseHandler {
         this.activeShape = null;
         for(let p of appData.panels){
             if(!p.selectable) continue;
-            if(p.isPointInside(this.coord)) {
+            if(p.isPointInside(this.coord, viewPortData.pixelRatio)) {
                 this.activeShape = p;
             }else{
                 //if(!keys.shiftKey)p.setState({selected:false})
@@ -80,7 +80,7 @@ export class StatusFreeHandler extends MouseHandler {
         }
         let clickOnPanel = false;
         for(let p of appData.panels){
-            if(p.isPointInside(this.coord)) {
+            if(p.isPointInside(this.coord, viewPortData.pixelRatio)) {
                 if(keys.shiftKey) p.setState({selected: !p.state.selected});else p.setState({selected: true})
                 clickOnPanel = true
             }else{
@@ -88,8 +88,6 @@ export class StatusFreeHandler extends MouseHandler {
             }
         }
         if(clickOnPanel) return appActions.updateState();
-        let tableIndex = 0
-
         appActions.updateState()
     }
     doubleClick({button, curPoint, viewPortData, setViewPortData, appActions, appData, keys}){

@@ -1,7 +1,6 @@
 import { ModelActions } from "../actions/ModelActions";
 import { ScreenActions } from "../actions/ScreenActions";
 import PanelShape from "../components/shapes/PanelShape";
-import TableLayoutShape from "../components/shapes/TableLayoutShape";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { getNewDate } from "./functions";
 import { getInitialState } from "./initialState";

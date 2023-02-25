@@ -3,7 +3,7 @@ import { PropertyTypes } from "../components/shapes/PropertyData";
 import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
-export class PanelPlaceHandler extends MouseHandler {
+export class PanelMoveHandler extends MouseHandler {
     constructor(state, newPanel, movePoint) {
         super(state);
         this.movePoint = movePoint;
@@ -50,7 +50,6 @@ export class PanelPlaceHandler extends MouseHandler {
         if (!keys) keys = {}
         super.move({ curPoint, viewPortData });
         setViewPortData(prevData => setCurCoord(this.coord, this.curPoint, prevData))
-        let curShape = appData.curShape;
         let p = Geometry.screenToReal(curPoint.x, curPoint.y, viewPortData.viewPortWidth, viewPortData.viewPortHeight, viewPortData.topLeft, viewPortData.bottomRight);
         p.x = p.x - this.movePoint.dx;
         p.y = p.y + this.movePoint.dy;
@@ -60,26 +59,10 @@ export class PanelPlaceHandler extends MouseHandler {
          var { x, y } = this.activeShape.getPosition();
         var [dx, dy] = [p.x - x, p.y - y];
         let selectedPanels = []
-        const minDist = 100
         for (const panel of this.panels) {
             if (!panel.state.selected) continue;
             selectedPanels.push(panel);
-            ({ x, y } = panel.getPosition());
-            if (panel.vertical) dy = 0; else dx = 0
-            let newX = x + dx
-            let newY = y + dy
-
-            if(panel.canBeMoved(newX, newY, minDist)){
-                panel.setPosition(newX, newY);
-                for (let joint of panel.jointFromBackSide) {
-                    joint.setLength(joint.getLength() + (dx + dy))
-                }
-                for (let joint of panel.jointFromFrontSide) {
-                    joint.setLength(joint.getLength() - (dx + dy))
-                    const jpos = joint.getPosition()
-                    joint.setPosition(jpos.x + dx, jpos.y + dy)
-                }
-            }
+            panel.moveTo(dx, dy, appData.minDist)
         }
         this.lastPoint = { ...this.coord };
     }

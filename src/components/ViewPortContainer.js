@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import ViewPort from './ViewPort'
 import { pointerMove, pointerDown, pointerUp, pointerLeave, pointerEnter, mouseWheel, click, doubleClick, keyDown, keyPress, keyUp } from "../functions/viewPortHandlers";
-import { zoomToTable } from "../functions/viewPortFunctions";
 import TouchManager from "../handlers/TouchManager";
 import useActions from "../customHooks/useActions";
 

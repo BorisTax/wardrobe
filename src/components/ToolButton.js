@@ -3,7 +3,8 @@ import { useToolTip } from '../customHooks/useToolTip';
 
 export default function ToolButton(props) {
         const [pressed, setPressed] = useState(false)
-        let className = props.disabled ? "button-disabled" : "button"
+        let className = "button"
+        if(props.disabled) className += " button-disabled"
         className += pressed ? " button-down" : " button-up";
         const { onMouseOver, onMouseLeave } = useToolTip(props.title);
         return <div
