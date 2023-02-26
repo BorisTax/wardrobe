@@ -29,7 +29,7 @@ export class StatusFreeHandler extends MouseHandler {
             return;
         }else{
             this.activeShape = null;
-            for(let p of appData.panels){
+            for(let p of [...appData.panels, ...appData.dimensions]){
                 if(!p.selectable) continue;
                 if(p.isPointInside(this.coord, viewPortData.pixelRatio)) {
                     appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
@@ -54,18 +54,19 @@ export class StatusFreeHandler extends MouseHandler {
             }
         if(button !== 0)return
         this.activeShape = null;
-        for(let p of appData.panels){
+        for(let p of [...appData.panels, ...appData.dimensions]){
             if(!p.selectable) continue;
             if(p.isPointInside(this.coord, viewPortData.pixelRatio)) {
                 this.activeShape = p;
             }else{
-                //if(!keys.shiftKey)p.setState({selected:false})
+                p.setState({selected:false})
             }
         }
         this.drag = false;
         if(this.activeShape) {
-            const dx = this.coord.x - this.activeShape.rect.x;
-            const dy = this.activeShape.rect.y - this.coord.y;
+            const {x, y} = this.activeShape.getPosition()
+            const dx = this.coord.x - x;
+            const dy = y - this.coord.y;
             this.drag = true;
             this.dragPos = {dx, dy}
         }else
@@ -79,7 +80,8 @@ export class StatusFreeHandler extends MouseHandler {
             return
         }
         let clickOnPanel = false;
-        for(let p of appData.panels){
+        for(let p of [...appData.panels, ...appData.dimensions]){
+            p.setState({selected: false})
             if(p.isPointInside(this.coord, viewPortData.pixelRatio)) {
                 if(keys.shiftKey) p.setState({selected: !p.state.selected});else p.setState({selected: true})
                 clickOnPanel = true

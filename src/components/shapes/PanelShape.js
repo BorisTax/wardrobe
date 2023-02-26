@@ -7,6 +7,7 @@ export default class PanelShape extends Shape {
     constructor(model) {
         super();
         this.model = { ...model };
+        this.gabarit = model.gabarit
         if (!model.active) this.model.active = false
         this.vertical = model.vertical
         this.selectable = !!model.selectable
@@ -84,13 +85,14 @@ export default class PanelShape extends Shape {
     getDistance(point) {
 
     }
-    moveTo(dx, dy, minDist){
+    moveTo(dx, dy, minDist) {
         const { x, y } = this.getPosition();
         if (this.vertical) dy = 0; else dx = 0
         let newX = x + dx
         let newY = y + dy
-        if(this.canBeMoved(newX, newY, minDist)){
+        if (this.canBeMoved(newX, newY, minDist)) {
             this.setPosition(newX, newY);
+            if (this.singleDimension) this.singleDimension.offset -= dx + dy
             for (let joint of this.jointFromBackSide) {
                 joint.setLength(joint.getLength() + (dx + dy))
             }
@@ -99,18 +101,19 @@ export default class PanelShape extends Shape {
                 const jpos = joint.getPosition()
                 joint.setPosition(jpos.x + dx, jpos.y + dy)
             }
+            return this.gabarit
         }
     }
     canBeMoved(x, y, minDist) {
         for (let par of this.parallelFromBack) {
             const parPos = par.getPosition();
-            if ((((x - parPos.x) < minDist) && this.vertical) || (((y - parPos.y) < minDist) && !this.vertical)) {
+            if ((((x - parPos.x - 16) < minDist) && this.vertical) || (((y - parPos.y - 16) < minDist) && !this.vertical)) {
                 return false
             }
         }
         for (let par of this.parallelFromFront) {
             const parPos = par.getPosition();
-            if ((((parPos.x - x) < minDist) && this.vertical) || (((parPos.y - y) < minDist) && !this.vertical)) {
+            if ((((parPos.x - x - 16) < minDist) && this.vertical) || (((parPos.y - y - 16) < minDist) && !this.vertical)) {
                 return false
             }
         }

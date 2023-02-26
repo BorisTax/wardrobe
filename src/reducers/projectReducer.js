@@ -40,6 +40,10 @@ export default function projectReducer(state, action){
             const newState = loadCurrentState(project.state, state);
             return { result: true, newState: {...state, ...newState} };
 
+        case ModelActions.SET_WARDROBE_DIMENSIONS:
+            const dimensions = action.payload;
+            return { result: true, newState: {...state, wardrobe: {...state.wardrobe, ...dimensions}} };
+            
         default: {
             return {result: false, newState: state}
         }

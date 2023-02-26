@@ -114,13 +114,26 @@ $icon-url: '../images/icons/';
     height:$table_icon_height;
     background-position: center;
     background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  .instruments_button_pressed {
+    @include  instruments_button;
+    border-style: inset;
+  }
+  .instruments_button_unpressed {
+    @include  instruments_button;
+    border-style: outset;
   }
   .createPanelVertical{
-    background-image: url($icon-url+'vertical.png');
+    background-image: url($icon-url+'vertical.svg');
     @include instruments_button();
   }
   .createPanelHorizontal{
-    background: url($icon-url+'horizontal.png');
+    background: url($icon-url+'horizontal.svg');
+    @include instruments_button();
+  }
+  .createSingleDimension{
+    background-image: url($icon-url+'single_dimension.svg');
     @include instruments_button();
   }
   .table_move_to{

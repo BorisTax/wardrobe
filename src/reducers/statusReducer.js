@@ -20,12 +20,18 @@ export default function statusReducer(state, action){
             state.panels.forEach(s => {
                 s.setState({ selected: false, underCursor: false, highlighted: false, inSelection: false });
             })
+            state.dimensions.forEach(s => s.setState({ selected: false, underCursor: false, highlighted: false, inSelection: false }))
             const newState = {
                 ...state,
                 status: Status.FREE,
                 curShape: null,
                 cursor: new SelectCursor(state.curRealPoint),
                 mouseHandler: new StatusFreeHandler(state),
+                toolButtonsPressed:{
+                    createVertical: false,
+                    createHorizontal: false,
+                    createSingleDimension: false,
+                }
             }
             return {result:true, newState};
 
@@ -38,6 +44,7 @@ export default function statusReducer(state, action){
 
         case ScreenActions.CANCEL_SELECTION:
             state.panels.forEach(s => s.setState({ selected: false, underCursor: false, highlighted: false, inSelection: false }))
+            state.dimensions.forEach(s => s.setState({ selected: false, underCursor: false, highlighted: false, inSelection: false }))
             return {result: true,
                 newState: {...state,
                 status: Status.FREE,

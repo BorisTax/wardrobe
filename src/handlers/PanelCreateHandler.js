@@ -66,7 +66,7 @@ export class PanelCreateHandler extends MouseHandler {
         
         appActions.addShape(appData.curShape)
         this.drag = false;
-        appActions.cancelMoving();
+        appActions.cancel();
     }
 
     touchMove({ pointerId, curPoint, viewPortData, setViewPortData, appActions, appData }) {

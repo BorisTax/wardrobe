@@ -133,7 +133,6 @@ export function addWindowListeners(
   const { sw, sh } = resize(viewPortData, setViewPortData, canvas);
   setViewPortData((prevData) => setDimensions(sw, sh, 4000, prevData));
   setViewPortData((prevData) => scale(1, { x: 1300, y: -600 }, prevData));
-  appActions.goToActiveTable();
   document.body.oncontextmenu = () => true;
   window.addEventListener("resize", () => {
     resize(viewPortData, setViewPortData, canvas);

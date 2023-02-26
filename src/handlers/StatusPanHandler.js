@@ -16,11 +16,11 @@ export class StatusPanHandler extends MouseHandler {
         let dy = this.coord.y - this.startPoint.y;
         const realRect = getRealRect(viewPortData.topLeft, viewPortData.bottomRight)
         const screenRect = getScreenRect(viewPortData.viewPortWidth, viewPortData.viewPortHeight)
-        const screenTopLeft = Geometry.realToScreen({ x: dx, y: 2400 }, realRect, screenRect);
-        const screenBottomRight = Geometry.realToScreen({ x: 3500 + dx, y: 0 }, realRect, screenRect);
+        const screenTopLeft = Geometry.realToScreen({ x: dx, y: appData.wardrobe.height }, realRect, screenRect);
+        const screenBottomRight = Geometry.realToScreen({ x: appData.wardrobe.width + dx, y: 0 }, realRect, screenRect);
         const topLeft = { x: 0, y: 0 }
-        const xInRange = (screenTopLeft.x <= viewPortData.viewPortWidth / 2) && (screenBottomRight.x >= viewPortData.viewPortWidth / 2);
-        const yInRange = (screenTopLeft.y < viewPortData.viewPortHeight / 2) && (screenBottomRight.y > 0);
+        const xInRange = ((screenTopLeft.x < viewPortData.viewPortWidth / 2) && (dx > 0)) || ((screenBottomRight.x > viewPortData.viewPortWidth / 2) && (dx < 0));
+        const yInRange = ((screenTopLeft.y < viewPortData.viewPortHeight / 2) && (dy < 0)) || ((screenBottomRight.y > viewPortData.viewPortHeight / 2) && (dy > 0));
         topLeft.x = xInRange ? viewPortData.topLeft.x - dx : viewPortData.topLeft.x;
         topLeft.y = yInRange ? viewPortData.topLeft.y - dy : viewPortData.topLeft.y;
         setViewPortData(prevData => setTopLeft(topLeft, prevData))

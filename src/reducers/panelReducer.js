@@ -6,12 +6,19 @@ import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import PanelShape from "../components/shapes/PanelShape"
 import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
 import { PanelMoveHandler } from "../handlers/PanelMoveHandler";
+import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimensionCreateHandler";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { Status } from "./functions";
 import { updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action){
     switch (action.type){
+        case ShapeActions.ADD_DIMENSION:
+            const dimension = action.payload
+            state.dimensions.push(dimension);
+
+            return { result: true, newState: {...state, status: Status.FREE} };
+
         case ScreenActions.ADD_PANEL:
             const panel = action.payload
             state.panels.push(panel);
@@ -22,9 +29,26 @@ export default function panelReducer(state, action){
             state.panels.forEach(p => { p.state.selected = false })
             var newState = {
                 ...state, curShape: new PanelShape({ ...action.payload, selectable: true, hidden: true}),
-                cursor: new DragCursor(state.curRealPoint), status: Status.CREATE
+                cursor: new DragCursor(state.curRealPoint), 
+                status: Status.CREATE,
+                toolButtonsPressed: {
+                    createVertical: action.payload.vertical,
+                    createHorizontal: !action.payload.vertical,
+                    createSingleDimension: false
+                }
             }
             return { result: true, newState: {...newState, mouseHandler: new PanelCreateHandler(newState, true)} };
+
+        case ShapeActions.CREATE_SINGLE_DIMENSION:
+            newState = {
+                ...state,
+                toolButtonsPressed : {
+                    createVertical: false,
+                    createHorizontal: false,
+                    createSingleDimension: true
+                }//                cursor: new DragCursor(state.curRealPoint), status: Status.CREATE
+            }
+            return { result: true, newState: {...newState, mouseHandler: new SinglePanelDimensionCreateHandler(newState)} };
 
         case ScreenActions.DELETE_CONFIRM:
             const showConfirm = (state.panels.some(s => s.state.selected)) ? { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ScreenActions.deleteSelectedPanels }] } : {show: false}

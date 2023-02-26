@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useToolTip } from '../customHooks/useToolTip';
 
 export default function ToolButton(props) {
-        const [pressed, setPressed] = useState(false)
         let className = "button"
         if(props.disabled) className += " button-disabled"
-        className += pressed ? " button-down" : " button-up";
+        className += props.pressed ? ` ${props.pressedStyle}` : ` ${props.unpressedStyle}`;
         const { onMouseOver, onMouseLeave } = useToolTip(props.title);
         return <div
                 className={`${className} ${props.icon} noselect`}
                 onClick={(e) => { if (!props.disabled) { e.stopPropagation(); props.onClick() } }}
-                onMouseDown={() => { setPressed(true) }}
-                onMouseUp={() => { setPressed(false) }}
                 onMouseOver={(e) => { onMouseOver(e) }}
-                onMouseLeave={(e) => { setPressed(false); onMouseLeave(e) }}
+                onMouseLeave={(e) => { onMouseLeave(e) }}
                 onContextMenu={(e) => { e.preventDefault(); }}
         >
         </div>

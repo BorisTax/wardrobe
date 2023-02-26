@@ -7,32 +7,11 @@ export const ModelActions = {
     SET_PROJECT: "SET_PROJECT",
     SET_INFORMATION: 'SET_INFORMATION',
     SET_MATERIAL: 'SET_MATERIAL',
-    SET_DETAIL_PROPERTY: 'SET_DETAIL_PROPERTY',
+    SET_WARDROBE_DIMENSIONS: 'SET_WARDROBE_DIMENSIONS',
     LOAD_DETAIL_LIST: 'LOAD_DETAIL_LIST',
     SET_DELETE_CONFIRM: 'SET_DELETE_CONFIRM',
     SET_DETAIL_LIST: 'SET_DETAIL_LIST',
-    SET_DRAW_MODULE: 'SET_DRAW_MODULE',
-    ADD_DETAIL: 'ADD_DETAIL',
-    SET_ACTIVE_TABLE: "SET_ACTIVE_TABLE",
-    SET_COMPLECT_COUNT: "SET_COMPLECT_COUNT",
-    DELETE_ACTIVE_TABLE: "DELETE_ACTIVE_TABLE",
-    DELETE_TABLE_CONFIRM: "DELETE_TABLE_CONFIRM",
-    DELETE_ROW: "DELETE_ROW",
-    DELETE_ROW_CONFIRM: "DELETE_ROW_CONFIRM",
-    ADD_TABLE: "ADD_TABLE",
     UPDATE_STATE: "UPDATE_STATE",
-    deleteRow(listKey, id) {
-        return {
-            type: ModelActions.DELETE_ROW,
-            payload: { listKey, id }
-        }
-    },
-    deleteRowConfirm(listKey, param) {
-        return {
-            type: ModelActions.DELETE_ROW_CONFIRM,
-            payload: { listKey, param }
-        }
-    },
     updateState() {
         return {
             type: ModelActions.UPDATE_STATE
@@ -82,61 +61,22 @@ export const ModelActions = {
             payload: info,
         }
     },
+    setWardrobeDimensions: (dimensions) => {
+        return {
+            type: ModelActions.SET_WARDROBE_DIMENSIONS,
+            payload: dimensions,
+        }
+    },
     setMaterial: (mat) => {
         return {
             type: ModelActions.SET_MATERIAL,
             payload: mat,
         }
     },
-    setActiveTable: (tableId) => {
-        return {
-            type: ModelActions.SET_ACTIVE_TABLE,
-            payload: tableId,
-        }
-    },
-    setComplectCount: (count) => {
-        return {
-            type: ModelActions.SET_COMPLECT_COUNT,
-            payload: count
-        }
-    },
     setDeleteConfirm: (value) => {
         return {
             type: ModelActions.SET_DELETE_CONFIRM,
             payload: value
-        }
-    },
-    setDrawModule: (draw) => {
-        return {
-            type: ModelActions.SET_DRAW_MODULE,
-            payload: draw
-        }
-    },
-    addTable: () => {
-        return {
-            type: ModelActions.ADD_TABLE,
-        }
-    },
-    deleteActiveTable: () => {
-        return {
-            type: ModelActions.DELETE_ACTIVE_TABLE,
-        }
-    },
-    deleteTableConfirm: () => {
-        return {
-            type: ModelActions.DELETE_TABLE_CONFIRM,
-        }
-    },
-    addDetail: (listKey) => {
-        return {
-            type: ModelActions.ADD_DETAIL,
-            payload: { listKey },
-        }
-    },
-    setDetailProperty: (index, key, value, listKey) => {
-        return {
-            type: ModelActions.SET_DETAIL_PROPERTY,
-            payload: { index, key, value, listKey },
         }
     },
     loadDetailList: (listKey) => {

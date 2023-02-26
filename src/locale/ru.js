@@ -114,6 +114,7 @@ export const captions = {
       "title":"Инструменты",
       "createVertical":"Добавить вертикальную деталь",
       "createHorizontal":"Добавить горизонтальную деталь",
+      "createSingleDimension":"Добавить размер для одной детали",
       "rotate":"Повернуть панель",
       "norotate":"Нельзя повернуть при структурном материале"
     },

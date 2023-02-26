@@ -25,4 +25,14 @@ export function updateParallelPanels(panels) {
         }
 }
 
+export function getWardrobeDimensions(panels) {
+    let maxX = 0
+    let maxY = 0
+    for (let p of panels) {
+        if (p.vertical) {
+            maxX = p.rect.last.x > maxX ? p.rect.last.x : maxX
+        }else maxY = p.rect.last.y > maxY ? p.rect.last.y : maxY
+    }
+    return {maxX, maxY}
+}
 

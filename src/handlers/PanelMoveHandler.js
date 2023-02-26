@@ -3,6 +3,7 @@ import { PropertyTypes } from "../components/shapes/PropertyData";
 import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
+import { getWardrobeDimensions } from "../reducers/panels";
 export class PanelMoveHandler extends MouseHandler {
     constructor(state, newPanel, movePoint) {
         super(state);
@@ -56,13 +57,18 @@ export class PanelMoveHandler extends MouseHandler {
 
         p.x = Math.trunc(p.x);
         p.y = Math.trunc(p.y);
-         var { x, y } = this.activeShape.getPosition();
+        var { x, y } = this.activeShape.getPosition();
         var [dx, dy] = [p.x - x, p.y - y];
         let selectedPanels = []
-        for (const panel of this.panels) {
+        let gabaritChanged = false
+        for (const panel of [...this.panels, ...appData.dimensions]) {
             if (!panel.state.selected) continue;
             selectedPanels.push(panel);
-            panel.moveTo(dx, dy, appData.minDist)
+            gabaritChanged = panel.moveTo(dx, dy, appData.minDist)
+        }
+        if(gabaritChanged) {
+            const {maxX, maxY} = getWardrobeDimensions(this.panels)
+            appActions.setWardrobeDimensions({width: maxX, height: maxY})
         }
         this.lastPoint = { ...this.coord };
     }
