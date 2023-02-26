@@ -8,7 +8,7 @@ import ToolButtonBar from './ToolButtonBar';
 const InstrumentsBar=(props)=>{
     const appActions = useActions()
     const captions = useSelector(store => store.captions.toolbars.instruments)
-    const {createHorizontal: hor, createVertical: vert, createSingleDimension: single} = useSelector(store => store.toolButtonsPressed)
+    const {createHorizontal: hor, createVertical: vert, createSingleDimension: single, createTwoPanelDimensionInside: twoInside, createTwoPanelDimensionOutside: twoOutside} = useSelector(store => store.toolButtonsPressed)
     const pressedStyle  = {pressedStyle: "instruments_button_pressed", unpressedStyle: "instruments_button_unpressed"}
     return <ToolBar caption={captions.title}>
         <ToolButtonBar>
@@ -17,6 +17,8 @@ const InstrumentsBar=(props)=>{
         </ToolButtonBar>
         <ToolButtonBar>
             <ToolButton icon={"createSingleDimension"} pressed={single} {...pressedStyle} title={captions.createSingleDimension} onClick={()=>{appActions.createSingleDimension()}}/>
+            <ToolButton icon={"createTwoPanelDimensionInside"} pressed={twoInside} {...pressedStyle} title={captions.createTwoPanelDimensionInside} onClick={()=>{appActions.createTwoPanelDimension({inside: true})}}/>
+            <ToolButton icon={"createTwoPanelDimensionOutside"} pressed={twoOutside} {...pressedStyle} title={captions.createTwoPanelDimensionOutside} onClick={()=>{appActions.createTwoPanelDimension({inside: false})}}/>
         </ToolButtonBar>
         </ToolBar>
 }

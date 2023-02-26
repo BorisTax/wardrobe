@@ -13,7 +13,7 @@ export default class Dimension extends Shape {
         this.offsetPoint = {}
         this.length = 0
         this.selectable = true
-        this.captionShape = new TextShape(this.length, {}, 0, { vertical: TextShape.CENTER, horizontal: TextShape.CENTER })
+        this.captionShape = new TextShape(this.length, {}, vertical?-Math.PI/2:0, { vertical: vertical?TextShape.BOTTOM:TextShape.BOTTOM, horizontal: vertical?TextShape.CENTER:TextShape.CENTER })
         this.captionShape.setFillStyle(Color.BLACK);
 
         this.style = new ShapeStyle(Color.DARK_GRAY, ShapeStyle.DASH, 1);
@@ -25,28 +25,28 @@ export default class Dimension extends Shape {
     drawSelf(ctx, realRect, screenRect, print = false) {
         if (this.hidden) return
         super.drawSelf(ctx, realRect, screenRect)
-        //if (this.state.selected || this.state.highlighted) { this.getStyle().setWidth(2) } else { this.getStyle().setWidth(1) }
         const first = Geometry.realToScreen(this.firstPoint, realRect, screenRect);
         const second = Geometry.realToScreen(this.secondPoint, realRect, screenRect);
         const offsetPoint = Geometry.realToScreen(this.offsetPoint, realRect, screenRect);
-        let screenOffset
-        const middle = { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 }
+        let screenOffsetFirst, screenOffsetSecond
         let arrowSize
         ctx.beginPath()
         if (this.vertical) {
-            screenOffset = offsetPoint.x - middle.x
+            screenOffsetFirst = offsetPoint.x - first.x
+            screenOffsetSecond = offsetPoint.x - second.x
             arrowSize = first.y - second.y
             ctx.moveTo(first.x + 0.5, first.y + 0.5)
-            ctx.lineTo(first.x + 0.5 + screenOffset, first.y + 0.5)
+            ctx.lineTo(first.x + 0.5 + screenOffsetFirst, first.y + 0.5)
             ctx.moveTo(second.x + 0.5, second.y + 0.5)
-            ctx.lineTo(second.x + 0.5 + screenOffset, second.y + 0.5)
+            ctx.lineTo(second.x + 0.5 + screenOffsetSecond, second.y + 0.5)
         } else {
-            screenOffset = offsetPoint.y - middle.y
+            screenOffsetFirst = offsetPoint.y - first.y
+            screenOffsetSecond = offsetPoint.y - second.y
             arrowSize = second.x - first.x
             ctx.moveTo(first.x + 0.5, first.y + 0.5)
-            ctx.lineTo(first.x + 0.5, first.y + 0.5 + screenOffset)
+            ctx.lineTo(first.x + 0.5, first.y + 0.5 + screenOffsetFirst)
             ctx.moveTo(second.x + 0.5, second.y + 0.5)
-            ctx.lineTo(second.x + 0.5, second.y + 0.5 + screenOffset)
+            ctx.lineTo(second.x + 0.5, second.y + 0.5 + screenOffsetSecond)
         }
         ctx.stroke()
         const prevStroke = this.getStyle().getStroke()
@@ -61,14 +61,11 @@ export default class Dimension extends Shape {
         this.refreshStyle(ctx)
     }
     refresh() {
-        const middlePoint = { x: (this.firstPoint.x + this.secondPoint.x) / 2, y: (this.firstPoint.y + this.secondPoint.y) / 2 }
         if (this.vertical) {
-            this.offsetPoint.x = middlePoint.x + this.offset
-            this.offsetPoint.y = middlePoint.y
+            this.offsetPoint.y = this.midPoint.y
             this.length = this.secondPoint.y - this.firstPoint.y
         } else {
-            this.offsetPoint.x = middlePoint.x
-            this.offsetPoint.y = middlePoint.y + this.offset
+            this.offsetPoint.x = this.midPoint.x
             this.length = this.secondPoint.x - this.firstPoint.x
         }
         this.captionShape.setPoint(this.offsetPoint)
@@ -79,7 +76,7 @@ export default class Dimension extends Shape {
         return this.offsetPoint
     }
     moveTo(dx, dy) {
-        if (this.vertical) this.offset += dx; else this.offset += dy;
+        if (this.vertical) this.offsetPoint.x += dx; else this.offsetPoint.y += dy;
         this.refresh()
 
     }
@@ -91,6 +88,11 @@ export default class Dimension extends Shape {
         this.hidden = hidden
     }
     setOffset(offset) {
+        this.offset = offset
+        this.refresh()
+    }
+    setOffsetPoint(offsetPoint,offset) {
+        this.offsetPoint = offsetPoint
         this.offset = offset
         this.refresh()
     }

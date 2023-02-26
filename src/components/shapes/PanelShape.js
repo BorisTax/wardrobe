@@ -22,6 +22,7 @@ export default class PanelShape extends Shape {
         this.jointFromFrontSide = model.jointFromFrontSide || []
         this.parallelFromBack = model.parallelFromBack || []
         this.parallelFromFront = model.parallelFromFront || []
+        this.dimensions = []
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {
@@ -92,7 +93,7 @@ export default class PanelShape extends Shape {
         let newY = y + dy
         if (this.canBeMoved(newX, newY, minDist)) {
             this.setPosition(newX, newY);
-            if (this.singleDimension) this.singleDimension.offset -= dx + dy
+            //if (this.singleDimension) this.singleDimension.offset -= dx + dy
             for (let joint of this.jointFromBackSide) {
                 joint.setLength(joint.getLength() + (dx + dy))
             }

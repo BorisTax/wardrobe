@@ -115,6 +115,8 @@ export const captions = {
       "createVertical":"Добавить вертикальную деталь",
       "createHorizontal":"Добавить горизонтальную деталь",
       "createSingleDimension":"Добавить размер для одной детали",
+      "createTwoPanelDimensionInside":"Добавить размер между деталями изнутри",
+      "createTwoPanelDimensionOutside":"Добавить размер между деталями снаружи",
       "rotate":"Повернуть панель",
       "norotate":"Нельзя повернуть при структурном материале"
     },

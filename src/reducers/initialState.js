@@ -57,6 +57,7 @@ export function getInitialState() {
       createVertical: false,
       createHorizontal: false,
       createSingleDimension: false,
+      createTwoPanelDimension: false,
     },
     information: { order: "", plan: "", currentDate: getNewDate() },
     showLoading: false,

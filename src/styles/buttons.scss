@@ -136,6 +136,14 @@ $icon-url: '../images/icons/';
     background-image: url($icon-url+'single_dimension.svg');
     @include instruments_button();
   }
+  .createTwoPanelDimensionInside{
+    background-image: url($icon-url+'dimension_inside.svg');
+    @include instruments_button();
+  }
+  .createTwoPanelDimensionOutside{
+    background-image: url($icon-url+'dimension_outside.svg');
+    @include instruments_button();
+  }
   .table_move_to{
     background-image: url($icon-url+'table_move_to.png');
     @include instruments_button();

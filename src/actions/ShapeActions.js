@@ -2,6 +2,7 @@ export const ShapeActions = {
     ADD_DIMENSION: 'ADD_DIMENSION',
     CREATE_PANEL: 'CREATE_PANEL',
     CREATE_SINGLE_DIMENSION: 'CREATE_SINGLE_DIMENSION',
+    CREATE_TWO_PANEL_DIMENSION: 'CREATE_TWO_PANEL_DIMENSION',
     MOVE_PANEL: "MOVE_PANEL",
     SELECT_PANEL: 'SELECT_PANEL',
     SET_PROPERTY: 'SET_PROPERTY',
@@ -20,6 +21,12 @@ export const ShapeActions = {
     createSingleDimension: () => {
         return {
             type: ShapeActions.CREATE_SINGLE_DIMENSION,
+        }
+    },
+    createTwoPanelDimension: ({inside}) => {
+        return {
+            type: ShapeActions.CREATE_TWO_PANEL_DIMENSION,
+            payload: {inside}
         }
     },
     movePanel: (panel, movePoint) => {

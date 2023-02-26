@@ -1,5 +1,6 @@
 import { ScreenActions } from "../actions/ScreenActions";
 import { ShapeActions } from "../actions/ShapeActions";
+import DimensionCursor from "../components/shapes/cursors/DimensionCursor";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
@@ -8,6 +9,7 @@ import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
 import { PanelMoveHandler } from "../handlers/PanelMoveHandler";
 import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimensionCreateHandler";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
+import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
 import { updateParallelPanels } from "./panels";
 
@@ -34,7 +36,8 @@ export default function panelReducer(state, action){
                 toolButtonsPressed: {
                     createVertical: action.payload.vertical,
                     createHorizontal: !action.payload.vertical,
-                    createSingleDimension: false
+                    createSingleDimension: false,
+                    createTwoPanelDimension: false,
                 }
             }
             return { result: true, newState: {...newState, mouseHandler: new PanelCreateHandler(newState, true)} };
@@ -45,11 +48,23 @@ export default function panelReducer(state, action){
                 toolButtonsPressed : {
                     createVertical: false,
                     createHorizontal: false,
-                    createSingleDimension: true
-                }//                cursor: new DragCursor(state.curRealPoint), status: Status.CREATE
+                    createSingleDimension: true,
+                    createTwoPanelDimension: false,
+                },cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
             }
             return { result: true, newState: {...newState, mouseHandler: new SinglePanelDimensionCreateHandler(newState)} };
-
+        case ShapeActions.CREATE_TWO_PANEL_DIMENSION:
+            newState = {
+                ...state,
+                toolButtonsPressed : {
+                    createVertical: false,
+                    createHorizontal: false,
+                    createSingleDimension: false,
+                    createTwoPanelDimensionInside: action.payload.inside,
+                    createTwoPanelDimensionOutside: !action.payload.inside,
+                }, cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
+            }
+            return { result: true, newState: {...newState, mouseHandler: new TwoPanelDimensionCreateHandler(newState, action.payload.inside)} };
         case ScreenActions.DELETE_CONFIRM:
             const showConfirm = (state.panels.some(s => s.state.selected)) ? { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ScreenActions.deleteSelectedPanels }] } : {show: false}
             return { result: true, newState: {...state, showConfirm}}

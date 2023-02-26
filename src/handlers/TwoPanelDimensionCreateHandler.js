@@ -2,12 +2,12 @@ import { MouseHandler } from "./MouseHandler";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
-import SinglePanelDimension from "../components/shapes/SinglePanelDimension";
 import TwoPanelDimension from "../components/shapes/TwoPanelDimension";
 import DimensionCursor from "../components/shapes/cursors/DimensionCursor";
-export class SinglePanelDimensionCreateHandler extends MouseHandler {
-    constructor(state) {
+export class TwoPanelDimensionCreateHandler extends MouseHandler {
+    constructor(state, inside) {
         super(state);
+        this.inside = inside
         this.setStatusBar()
     }
     setStatusBar() {
@@ -23,27 +23,29 @@ export class SinglePanelDimensionCreateHandler extends MouseHandler {
     }
     move({ curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.move({ curPoint, viewPortData });
-        appData.cursor.setType(DimensionCursor.ORD)
+        if (this.clickCount < 1) appData.cursor.setType(DimensionCursor.ORD)
         switch (this.clickCount) {
-            case 0: {
+            case 0:
+            case 1: {
                 for (let p of appData.panels) {
                     if (!p.selectable) continue;
-                    if (p.isPointInside(this.coord, viewPortData.pixelRatio) && !p.singleDimension) {
+                    if (p === this.firstPanel) continue
+                    if (this.firstPanel && p.vertical !== this.firstPanel.vertical) continue
+                    if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
                         p.setState({ highlighted: true })
-                        appData.cursor.setType(p.vertical?DimensionCursor.VERT:DimensionCursor.HOR)
+                        appData.cursor.setType(p.vertical ? DimensionCursor.VERT : DimensionCursor.HOR)
                     } else {
                         p.setState({ highlighted: false })
-                        
                     }
                 }
                 break;
             }
-            case 1: {
-                const offset = this.activePanel.vertical ? this.coord.x - this.activePanel.rect.x : this.coord.y - this.activePanel.rect.y
-                const { midPoint } = TwoPanelDimension.getPoints(this.activePanel, this.activePanel)
-                const offsetPoint = this.activePanel.vertical ? { x: midPoint.x + offset, y: midPoint.y } : { x: midPoint.x, y: midPoint.y + offset }
+            case 2: {
+                const { midPoint } = TwoPanelDimension.getPoints(this.firstPanel, this.secondPanel, this.inside)
+                const offset = this.curShape.vertical ? this.coord.x - midPoint.x : this.coord.y - midPoint.y
+                const offsetPoint = this.curShape.vertical ? { x: midPoint.x + offset, y: midPoint.y } : { x: midPoint.x, y: midPoint.y + offset }
                 this.curShape.setOffsetPoint(offsetPoint, offset)
-                appData.cursor.setType(this.curShape.vertical?DimensionCursor.VERT:DimensionCursor.HOR)
+                appData.cursor.setType(this.curShape.vertical ? DimensionCursor.VERT : DimensionCursor.HOR)
                 break;
             }
             default: { }
@@ -63,21 +65,31 @@ export class SinglePanelDimensionCreateHandler extends MouseHandler {
         super.click({ curPoint, viewPortData });
         if (button !== 0) return
         switch (this.clickCount) {
-            case 1: {
+            case 1:
+            case 2: {
                 this.activePanel = null;
                 this.firstPoint = this.coord
                 for (let p of appData.panels) {
                     if (!p.selectable) continue;
-                    if (p.isPointInside(this.coord, viewPortData.pixelRatio) && !p.singleDimension) {
+                    if (p === this.firstPanel) continue
+                    if (this.firstPanel && p.vertical !== this.firstPanel.vertical) continue
+                    if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
                         this.activePanel = p;
-                        this.curShape = new SinglePanelDimension(p)
                     }
                 }
-                if (!this.activePanel) this.clickCount = 0
+
+                if (this.activePanel) {
+                    if (this.clickCount === 1) this.firstPanel = this.activePanel
+                    if (this.clickCount === 2) {
+                        this.secondPanel = this.activePanel
+                        this.curShape = new TwoPanelDimension(this.firstPanel, this.secondPanel, this.inside)
+                    }
+                } else { this.clickCount = 0; this.firstPanel = null }
                 break;
             }
-            case 2: {
-                this.activePanel.singleDimension = this.curShape
+            case 3: {
+                this.firstPanel.dimensions.push(this.curShape)
+                this.secondPanel.dimensions.push(this.curShape)
                 appActions.addDimension(this.curShape)
                 appActions.cancel()
                 break;

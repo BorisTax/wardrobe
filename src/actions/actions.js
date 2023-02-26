@@ -20,6 +20,7 @@ export function getActions(dispatch) {
         cancelMoving: () => dispatch(ScreenActions.cancelMoving()),
         createPanel: (options) => dispatch(ShapeActions.createPanel(options)),
         createSingleDimension: () => dispatch(ShapeActions.createSingleDimension()),
+        createTwoPanelDimension: ({inside}) => dispatch(ShapeActions.createTwoPanelDimension({inside})),
         deleteConfirm: () => dispatch(ScreenActions.deleteConfirm()),
         deleteSelectedPanels: () => dispatch(ScreenActions.deleteSelectedPanels()),
         loadDetailList: (listKey) => dispatch(ModelActions.loadDetailList(listKey)),
