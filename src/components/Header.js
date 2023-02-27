@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
 import ToolBar from './ToolBar';
 import ToolButton from './ToolButton';
-import User from './User';
+//import User from './User';
 
 const Header =  ()=>{
     const captions = useSelector(store => store.captions.help)
@@ -14,7 +14,7 @@ const Header =  ()=>{
                 <div style={{display:"flex", flexWrap:"none", gap: "1em", alignItems:"center", width:"100%"}}>
                     <div className='title'>{title}</div>
                     <ToolButton icon="help" title={captions.title} onClick={()=>{appActions.showHelp(true)}}/>
-                    <User/>
+                    {/* <User/> */}
                 </div>
             </ToolBar>
         </div>

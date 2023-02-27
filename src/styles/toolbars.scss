@@ -58,7 +58,7 @@ $toolbars-shadow-color : rgba(82, 112, 114, 0.555);
   }
 
 @mixin sideBar {
-    position: absolute;
+    -position: absolute;
     display: flex;
     flex-direction: row;
     align-items: stretch;

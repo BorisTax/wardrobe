@@ -17,9 +17,10 @@ export const ModelActions = {
             type: ModelActions.UPDATE_STATE
         }
     },
-    newProject() {
+    newProject(data) {
         return {
-            type: ModelActions.NEW_PROJECT
+            type: ModelActions.NEW_PROJECT,
+            payload: data
         }
     },
     newProjectConfirm() {

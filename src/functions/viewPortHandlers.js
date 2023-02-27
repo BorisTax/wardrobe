@@ -13,6 +13,7 @@ export function pointerMove(e, { mouseHandler, viewPortData, setViewPortData, ap
 }
 export function pointerDown(e, { mouseHandler, viewPortData, setViewPortData, appActions, appData }) {
     const curPoint = getPoint(e)
+    e.preventDefault()
     if (e.pointerType === "touch")
         mouseHandler.touchDown({ pointerId: e.pointerId, curPoint: curPoint, viewPortData, setViewPortData, appActions, appData });
     else
@@ -45,6 +46,7 @@ export function pointerEnter(e, { mouseHandler, viewPortData, setViewPortData, a
 
 export function click(e, { mouseHandler, viewPortData, setViewPortData, appActions, appData }) {
     const curPoint = getPoint(e)
+    e.preventDefault()
     mouseHandler.click({ button: e.button, curPoint, viewPortData, setViewPortData, appActions, appData, keys: { shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey } });
 }
 

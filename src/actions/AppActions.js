@@ -4,6 +4,7 @@ export const AppActions = {
   SHOW_HELP: "SHOW_HELP",
   SHOW_CONFIRM: "SHOW_CONFIRM",
   SHOW_ALERT: "SHOW_ALERT",
+  SHOW_DIALOG: "SHOW_DIALOG",
   setLanguage(captions) {
     return {
       type: AppActions.SET_LANGUAGE,
@@ -40,6 +41,12 @@ export const AppActions = {
     return {
       type: AppActions.SHOW_ALERT,
       payload: { show, message },
+    };
+  },
+  showDialog(show, dialog) {
+    return {
+      type: AppActions.SHOW_DIALOG,
+      payload: { show, dialog },
     };
   },
   blink() {

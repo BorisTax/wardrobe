@@ -22,6 +22,11 @@ body{
   padding:0px 10px 10px 10px;
  }
 
+ .work-container{
+  position: relative;
+  display: flex;
+ }
+
 .viewport-container{
     position:relative;
     width:100%;
@@ -36,7 +41,7 @@ body{
 
 #canvas-container{
   display: flex;
-  justify-content: center;
+  justify-content: stretch;
   position:relative;
   -width:100%;
 }
@@ -110,3 +115,7 @@ body{
   z-index: 100;
 }
 
+.newproject-content{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

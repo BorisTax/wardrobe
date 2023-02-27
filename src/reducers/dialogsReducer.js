@@ -8,6 +8,9 @@ export default function dialogsReducer(state, action){
         case AppActions.SHOW_CONFIRM:
             return { result: true, newState: {...state, showConfirm: action.payload} };
 
+        case AppActions.SHOW_DIALOG:
+            return { result: true, newState: {...state, showDialog: action.payload} };
+
         case AppActions.SHOW_HELP:
                 return { result: true, newState: {...state, showHelp: action.payload} };
 

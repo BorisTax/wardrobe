@@ -21,11 +21,12 @@ export default class TextShape extends Shape {
     this.angle = angle;
     this.fitRect = { width: 1000, height: 1000 };
   }
-  drawSelf(ctx, realRect, screenRect, fontSize) {
+  drawSelf(ctx, realRect, screenRect, fontSize, offset = { x: 0, y: 0 }) {
     super.drawSelf(ctx, realRect, screenRect);
     ctx.save();
 
     let basePoint = { ...this.p0 };
+
     var { width, height } = this.fitRect;
     const fitWidth = Math.max(this.fitRect.width, this.fitRect.height);
     const fitHeight = Math.min(this.fitRect.width, this.fitRect.height);
@@ -72,6 +73,8 @@ export default class TextShape extends Shape {
     });
     ctx.translate(basePoint.x - newPoint.x, basePoint.y - newPoint.y);
     ctx.rotate(this.angle);
+    basePoint.x += offset.x
+    basePoint.y += offset.y
     ctx.fillText(this.text, basePoint.x, basePoint.y);
     ctx.restore();
   }

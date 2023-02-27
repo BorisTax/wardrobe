@@ -10,7 +10,7 @@ import optionReducer from "./optionReducer";
 import languageReducer from "./languageReducer";
 import { userReducer } from "./userReducer";
 
-const initialState = getInitialState()
+const initialState = getInitialState({})
 initialState.mouseHandler = new StatusFreeHandler(initialState)
 export const rootReducer = (state = initialState, action) => {
     let newState = { ...state }

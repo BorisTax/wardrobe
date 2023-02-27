@@ -14,7 +14,7 @@ export default function ProjectBar({disabled}){
     const disTitle = activated?"":captions.disabled
     return <ToolBar caption={captions.title}>
         <ToolButtonBar>
-            <ToolButton icon="new" title={captions.new} onClick={()=>{appActions.new()}} disabled={disabled}/>
+            <ToolButton icon="new" title={captions.new} onClick={()=>{appActions.newProjectConfirm()}} disabled={disabled}/>
             <ToolButton icon="open" title={captions.open + disTitle} onClick={()=>{appActions.open()}} disabled={disabledAll}/>
             <ToolButton icon="save" title={captions.save + disTitle} onClick={()=>{appActions.save()}} disabled={disabledAll}/>
             <ToolButtonSeparator/>

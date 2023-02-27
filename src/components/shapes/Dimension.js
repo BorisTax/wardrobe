@@ -13,7 +13,8 @@ export default class Dimension extends Shape {
         this.offsetPoint = {}
         this.length = 0
         this.selectable = true
-        this.captionShape = new TextShape(this.length, {}, vertical?-Math.PI/2:0, { vertical: vertical?TextShape.BOTTOM:TextShape.BOTTOM, horizontal: vertical?TextShape.CENTER:TextShape.CENTER })
+        this.moveable = true
+        this.captionShape = new TextShape(this.length, {}, vertical ? -Math.PI / 2 : 0, { vertical: vertical ? TextShape.CENTER : TextShape.BOTTOM, horizontal: vertical ? TextShape.CENTER : TextShape.CENTER })
         this.captionShape.setFillStyle(Color.BLACK);
 
         this.style = new ShapeStyle(Color.DARK_GRAY, ShapeStyle.DASH, 1);
@@ -55,8 +56,9 @@ export default class Dimension extends Shape {
         ctx.beginPath()
         drawArrow(ctx, this.vertical, offsetPoint, arrowSize, 5)
         ctx.stroke()
-        this.captionShape.setFitRect({width: 500, height:500, fit: true})
-        this.captionShape.drawSelf(ctx, realRect, screenRect)
+        this.captionShape.setFitRect({ width: 500, height: 500, fit: true })
+        const offset = this.vertical ? { x: 0, y: -10 } : undefined
+        this.captionShape.drawSelf(ctx, realRect, screenRect, null, offset)
         this.getStyle().setStroke(prevStroke)
         this.refreshStyle(ctx)
     }
@@ -91,7 +93,7 @@ export default class Dimension extends Shape {
         this.offset = offset
         this.refresh()
     }
-    setOffsetPoint(offsetPoint,offset) {
+    setOffsetPoint(offsetPoint, offset) {
         this.offsetPoint = offsetPoint
         this.offset = offset
         this.refresh()

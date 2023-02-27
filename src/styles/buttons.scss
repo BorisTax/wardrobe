@@ -116,6 +116,13 @@ $icon-url: '../images/icons/';
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }
+  @mixin move_button {
+    width: 20px;
+    height:20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:auto;
+  }
   .instruments_button_pressed {
     @include  instruments_button;
     border-style: inset;
@@ -131,6 +138,35 @@ $icon-url: '../images/icons/';
   .createPanelHorizontal{
     background: url($icon-url+'horizontal.svg');
     @include instruments_button();
+  }
+  .moveButtons{
+    @include instruments_button();
+    display: grid;
+    grid-template-columns: repeat(3, fit-content);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    align-items: center;
+  }
+  .moveLeft{
+    background-image: url($icon-url+'moveLeft.svg');
+    grid-area: 1 / 1 / 3 / 2;
+    @include move_button();
+  }
+  .moveUp{
+    background-image: url($icon-url+'moveUp.svg');
+    grid-area: 1 / 2 / 2 / 3;
+    @include move_button();
+  }
+  .moveDown{
+    background-image: url($icon-url+'moveDown.svg');
+    grid-area: 2 / 2 / 3 / 3;
+    @include move_button();
+  }
+  .moveRight{
+    background-image: url($icon-url+'moveRight.svg');
+    grid-area: 1 / 3 / 3 / 4;
+    @include move_button();
   }
   .createSingleDimension{
     background-image: url($icon-url+'single_dimension.svg');
