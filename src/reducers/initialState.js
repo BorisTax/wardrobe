@@ -46,7 +46,7 @@ export function getInitialState(data) {
     panels,
     deleteConfirm: true,
     wardrobe,
-    minDist: 100,
+    panelMargin: 0,
     toolButtonsPressed: {
       createVertical: false,
       createHorizontal: false,

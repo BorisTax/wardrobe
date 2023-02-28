@@ -16,16 +16,16 @@ export function updateParallelPanels(panels) {
             if (!(source.vertical === target.vertical)) continue
             if (isPanelIntersect(source, target)) continue
             if (source.vertical) {
-                if (target.rect.x + 16 < source.rect.x) source.parallelFromBack.push(target)
-                if (target.rect.x > source.rect.x + 16) source.parallelFromFront.push(target)
+                if (target.rect.x + target.thickness <= source.rect.x) source.parallelFromBack.push(target)
+                if (target.rect.x >= source.rect.x + source.thickness) source.parallelFromFront.push(target)
             } else {
-                if (target.rect.y + 16 < source.rect.y) source.parallelFromBack.push(target)
-                if (target.rect.y > source.rect.y + 16) source.parallelFromFront.push(target)
+                if (target.rect.y + target.thickness <= source.rect.y) source.parallelFromBack.push(target)
+                if (target.rect.y >= source.rect.y + source.thickness) source.parallelFromFront.push(target)
             }
         }
 }
 
-export function getWardrobeDimensions(panels) {
+export function getWardrobeDimensions({panels}) {
     let maxX = 0
     let maxY = 0
     for (let p of panels) {
@@ -34,5 +34,9 @@ export function getWardrobeDimensions(panels) {
         }else maxY = p.rect.last.y > maxY ? p.rect.last.y : maxY
     }
     return {maxX, maxY}
+}
+export function setWardrobeDimensions(appData, appActions) {
+    const {maxX, maxY} = getWardrobeDimensions(appData)
+    appActions.setWardrobeDimensions({width: maxX, height: maxY})
 }
 

@@ -48,7 +48,7 @@ export class PanelCreateHandler extends MouseHandler {
 
         p.x = Math.trunc(p.x);
         p.y = Math.trunc(p.y);
-        if (this.activeShape.canBePlaced(p.x, p.y, appData.minDist, appData.panels, appData.wardrobe)) {
+        if (this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)) {
             this.activeShape.findDimensions(p.x, p.y, appData.panels, appData.wardrobe)
             this.activeShape.setHidden(false)
 
