@@ -157,7 +157,7 @@ function resize(viewPortData, setViewPortData, canvas) {
   const wHeight = window.innerHeight;
   const cont = document.getElementById("canvas-container")
   const style = getComputedStyle(cont)
-  const sw = Number.parseInt(style.width)*0.9;
+  const sw = Number.parseInt(style.width);
   let sh =
     window.innerHeight <= window.innerWidth
       ? wHeight * 0.8 

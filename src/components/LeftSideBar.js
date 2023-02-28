@@ -3,11 +3,9 @@ import { useSelector } from "react-redux";
 import { Status } from "../reducers/functions";
 import ProjectBar from "./ProjectBar";
 import InstrumentsBar from "./InstrumentsBar";
-import InformationBar from "./InformationBar";
-import SettingsBar from "./SettingsBar";
-import PropertyBar from "./PropertyBar";
+import OperationsBar from "./OperationsBar";
 
-export default function LeftSideBar(props) {
+export default function LeftSideBar() {
   const appData = useSelector(store => store)
   const disabled = (appData.status === Status.MEASURE || appData.status === Status.PAN)
   return (
@@ -15,13 +13,7 @@ export default function LeftSideBar(props) {
       <div className="sidebar-content">
         <ProjectBar disabled={disabled} />
         <InstrumentsBar/>
-        <InformationBar disabled={disabled} />
-        <PropertyBar
-        />
-        <SettingsBar
-          disabled={disabled}
-          settings={{deleteConfirm: appData.deleteConfirm }}
-        />
+        <OperationsBar/>
         </div>
     </div>
   );

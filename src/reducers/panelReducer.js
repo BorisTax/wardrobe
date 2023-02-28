@@ -31,7 +31,7 @@ export default function panelReducer(state, action) {
             state.panels.forEach(p => { p.setState({ selected: false }) })
             state.selectedPanels = new Set()
             var newState = {
-                ...state, curShape: new PanelShape({ ...action.payload, selectable: true }),
+                ...state, curShape: new PanelShape({ ...action.payload, selectable: true, wardrobe: state.wardrobe }),
                 cursor: new DragCursor(state.curRealPoint),
                 status: Status.CREATE,
                 toolButtonsPressed: {

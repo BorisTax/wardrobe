@@ -97,7 +97,9 @@ export default class PanelShape extends Shape {
         if (this.vertical) dy = 0; else dx = 0
         let newX = x + dx
         let newY = y + dy
-        if (this.isMoveAvailable({ newX, newY, dx, dy })) {
+        let result
+        ({ result, newX, newY, dx, dy } = this.isMoveAvailable({ newX, newY, dx, dy }))
+        if (result) {
             this.setPosition(newX, newY);
             for (let joint of this.jointFromBackSide) {
                 joint.setLength(joint.getLength() + (dx + dy))
@@ -112,27 +114,69 @@ export default class PanelShape extends Shape {
         } else return false
     }
     isMoveAvailable({ newX: x, newY: y, dx, dy }) {
-        if (this.state.fixed) return false
+        if (this.state.fixed) return { result: false }
         for (let joint of this.jointFromBackSide) {
-            if (joint.getLength() + (dx + dy) < joint.minLength) return false
+
+            if (joint.getLength() + (dx + dy) < joint.minLength) return { result: false }
         }
         for (let joint of this.jointFromFrontSide) {
-            if (joint.getLength() - (dx + dy) < joint.minLength) return false
+            if (joint.getLength() - (dx + dy) < joint.minLength) return { result: false }
         }
-        for (let par of this.parallelFromBack) {
-            const parPos = par.getPosition();
-            if ((((x - parPos.x - this.thickness) < this.panelMargin) && this.vertical) || (((y - parPos.y - this.thickness) < this.panelMargin) && !this.vertical)) {
-                return false
-            }
+
+        const { nearestFromBack, nearestFromFront } = this.getNearest()
+        let par = nearestFromBack
+        let margin = Math.max(this.panelMargin, par.panelMargin)
+        if (this.vertical) {
+            const minX = par.rect.x + par.thickness + margin
+            const minDX = minX - x
+            if (x < minX) return { result: true, newX: minX, newY: y, dx: dx + minDX, dy }
+        } else {
+            const minY = par.rect.y + par.thickness + margin
+            const minDY = minY - y
+            if (y < minY) return { result: true, newX: x, newY: minY, dx, dy: dy + minDY }
         }
-        for (let par of this.parallelFromFront) {
-            const parPos = par.getPosition();
-            if ((((parPos.x - x - this.thickness) < this.panelMargin) && this.vertical) || (((parPos.y - y - this.thickness) < this.panelMargin) && !this.vertical)) {
-                return false
-            }
+        par = nearestFromFront
+        margin = Math.max(this.panelMargin, par.panelMargin)
+        if (this.vertical) {
+            const minX = par.rect.x - par.thickness - margin
+            const minDX = x - minX
+            if (minX < x) return { result: true, newX: minX, newY: y, dx: dx - minDX, dy }
+        } else {
+            const minY = par.rect.y - par.thickness - margin
+            const minDY = y - minY
+            if (minY < y) return { result: true, newX: x, newY: minY, dx, dy: dy - minDY }
         }
-        return true
+        return { result: true, newX: x, newY: y, dx, dy }
     }
+
+    getNearest() {
+        let nearestFromBack, nearestFromFront
+        let maxX = 0, maxY = 0
+        for (let par of this.parallelFromBack) {
+            if ((par.rect.x > maxX) && this.vertical) {
+                nearestFromBack = par
+                maxX = par.rect.x
+            }
+            if ((par.rect.y > maxY) && !this.vertical) {
+                nearestFromBack = par
+                maxY = par.rect.y
+            }
+        }
+        maxX = 1000000
+        maxY = 1000000
+        for (let par of this.parallelFromFront) {
+            if ((par.rect.x < maxX) && this.vertical) {
+                nearestFromFront = par
+                maxX = par.rect.x
+            }
+            if ((par.rect.y < maxY) && !this.vertical) {
+                nearestFromFront = par
+                maxY = par.rect.y
+            }
+        }
+        return { nearestFromBack, nearestFromFront }
+    }
+
     canBePlaced(x, y, panels, wardrobe) {
         if (x < this.thickness || x > wardrobe.width - this.thickness || y < 46 || y > wardrobe.height - this.thickness) return false
         this.parallelFromBack = new Set()

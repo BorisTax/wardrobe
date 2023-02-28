@@ -124,12 +124,16 @@ export const captions = {
       "createSingleDimension": "Добавить размер для одной детали",
       "createTwoPanelDimensionInside": "Добавить размер между деталями изнутри",
       "createTwoPanelDimensionOutside": "Добавить размер между деталями снаружи",
+
+      "rotate": "Повернуть панель",
+      "norotate": "Нельзя повернуть при структурном материале"
+    },
+    "operations":{
+      "title": "Операции",
       "moveLeft": "Двигать влево",
       "moveRight": "Двигать вправо",
       "moveUp": "Двигать вверх",
       "moveDown": "Двигать вниз",
-      "rotate": "Повернуть панель",
-      "norotate": "Нельзя повернуть при структурном материале"
     },
     "property": {
       "title": "Свойства детали",

@@ -5,7 +5,7 @@ import { setWardrobeDimensions } from '../reducers/panels';
 import ToolButton from './ToolButton';
 
 export default function MoveButtonsPanel() {
-    const captions = useSelector(store => store.captions.toolbars.instruments)
+    const captions = useSelector(store => store.captions.toolbars.operations)
     const update = useActions().updateState
     const appData = useSelector(store => store)
     const appActions = useActions()

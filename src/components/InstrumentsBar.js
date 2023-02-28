@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
-import MoveButtonsPanel from './MoveButtonsPanel';
 import ToolBar from './ToolBar';
 import ToolButton from './ToolButton';
 import ToolButtonBar from './ToolButtonBar';
@@ -15,7 +14,6 @@ export default function InstrumentsBar(){
         <ToolButtonBar>
             <ToolButton icon={"createPanelVertical"} pressed={vert} {...pressedStyle} title={captions.createVertical} onClick={()=>{appActions.createPanel({vertical: true})}}/>
             <ToolButton icon={"createPanelHorizontal"} pressed={hor} {...pressedStyle} title={captions.createHorizontal} onClick={()=>{appActions.createPanel({vertical: false})}}/>
-            <MoveButtonsPanel/>
         </ToolButtonBar>
         <ToolButtonBar>
             <ToolButton icon={"createSingleDimension"} pressed={single} {...pressedStyle} title={captions.createSingleDimension} onClick={()=>{appActions.createSingleDimension()}}/>
