@@ -17,7 +17,7 @@ export default function panelReducer(state, action){
     switch (action.type){
         case ShapeActions.ADD_DIMENSION:
             const dimension = action.payload
-            state.dimensions.push(dimension);
+            state.dimensions.add(dimension);
 
             return { result: true, newState: {...state, status: Status.FREE} };
 
@@ -30,7 +30,7 @@ export default function panelReducer(state, action){
         case ShapeActions.CREATE_PANEL:
             state.panels.forEach(p => { p.state.selected = false })
             var newState = {
-                ...state, curShape: new PanelShape({ ...action.payload, selectable: true, hidden: true}),
+                ...state, curShape: new PanelShape({ ...action.payload, selectable: true}),
                 cursor: new DragCursor(state.curRealPoint), 
                 status: Status.CREATE,
                 toolButtonsPressed: {
@@ -77,7 +77,7 @@ export default function panelReducer(state, action){
             newState = {
                 ...state,
                 panels,
-                selectedPanels: [],
+                selectedPanels: new Set(),
                 mouseHandler: new StatusFreeHandler(state),
                 cursor: new SelectCursor()
             };

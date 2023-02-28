@@ -6,7 +6,8 @@ export default class Shape {
     constructor() {
         this.style = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID);
         this.selectedStyle = new ShapeStyle(Color.SELECTED, ShapeStyle.SOLID);
-        this.highlightedStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 2)
+        this.highlightedStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 2);
+        this.errorStyle = new ShapeStyle(Color.RED, ShapeStyle.SOLID)
         this.defaultStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 1)
         this.state = { selected: false, inSelection: false, underCursor: false, highlighted: false };
         this.properties = [];
@@ -120,6 +121,7 @@ export default class Shape {
             this.setStyle(this.defaultStyle);
         }
         if (this.state.highlighted) this.setStyle(this.highlightedStyle);
+        if (this.state.error) this.setStyle(this.errorStyle);
     }
     getState() {
         return this.state;

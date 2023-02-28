@@ -45,15 +45,16 @@ export class PanelCreateHandler extends MouseHandler {
         let p = Geometry.screenToReal(curPoint.x, curPoint.y, viewPortData.viewPortWidth, viewPortData.viewPortHeight, viewPortData.topLeft, viewPortData.bottomRight);
         p.x = p.x - this.movePoint.dx;
         p.y = p.y + this.movePoint.dy;
-
         p.x = Math.trunc(p.x);
         p.y = Math.trunc(p.y);
-        if (this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)) {
+        this.canBePlaced = this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)
+        if (this.canBePlaced) {
             this.activeShape.findDimensions(p.x, p.y, appData.panels, appData.wardrobe)
-            this.activeShape.setHidden(false)
-
+            if (this.activeShape.model.length < this.activeShape.minLength) this.canBePlaced = false; else this.activeShape.setHidden(false)
         }
-        else this.activeShape.setHidden(true)
+        if (!this.canBePlaced) {
+            this.activeShape.setHidden(true)
+        }
         this.lastPoint = { ...this.coord };
     }
 
@@ -61,10 +62,11 @@ export class PanelCreateHandler extends MouseHandler {
         super.click({ button, curPoint, viewPortData })
         if (button !== 0) return
         appData.curShape.state.selected = false;
-        if (appData.curShape.jointToBack) appData.curShape.jointToBack.jointFromBackSide.push(appData.curShape)
-        if (appData.curShape.jointToFront) appData.curShape.jointToFront.jointFromFrontSide.push(appData.curShape)
-        
-        appActions.addShape(appData.curShape)
+        if (this.canBePlaced) {
+            if (appData.curShape.jointToBack) appData.curShape.jointToBack.jointFromBackSide.add(appData.curShape)
+            if (appData.curShape.jointToFront) appData.curShape.jointToFront.jointFromFrontSide.add(appData.curShape)
+            appActions.addShape(appData.curShape)
+        }
         this.drag = false;
         appActions.cancel();
     }

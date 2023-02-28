@@ -25,14 +25,14 @@ function createNewState({ wardrobe = { width: 2400, height: 2200, depth: 600 } }
     new PanelShape({ id: 2, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: 0, y: 16 + leg }, moveable: false, gabarit: true  }),
     new PanelShape({ id: 3, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: wardrobe.width - 16, y: 16 + leg }, selectable: true, gabarit: true }),
   ]
-  panels[0].jointFromBackSide = [panels[2], panels[3]]
-  panels[0].parallelFromBack = [panels[1]]
-  panels[1].jointFromFrontSide = [panels[2], panels[3]]
-  panels[1].parallelFromFront = [panels[0]]
-  panels[2].jointFromFrontSide = [panels[0], panels[1]]
-  panels[2].parallelFromFront = [panels[3]]
-  panels[3].jointFromBackSide = [panels[0], panels[1]]
-  panels[3].parallelFromBack = [panels[2]]
+  panels[0].jointFromBackSide = new Set([panels[2], panels[3]])
+  panels[0].parallelFromBack = new Set([panels[1]])
+  panels[1].jointFromFrontSide = new Set([panels[2], panels[3]])
+  panels[1].parallelFromFront = new Set([panels[0]])
+  panels[2].jointFromFrontSide = new Set([panels[0], panels[1]])
+  panels[2].parallelFromFront = new Set([panels[3]])
+  panels[3].jointFromBackSide = new Set([panels[0], panels[1]])
+  panels[3].parallelFromBack = new Set([panels[2]])
   return { wardrobe, panels }
 }
 export function getInitialState(data) {
@@ -41,8 +41,8 @@ export function getInitialState(data) {
     cursor: new SelectCursor({ x: 0, y: 0 }),
     curShape: null,
     prevStatus: Status.FREE,
-    selectedPanels: [],
-    dimensions: [],
+    selectedPanels: new Set(),
+    dimensions: new Set(),
     panels,
     deleteConfirm: true,
     wardrobe,

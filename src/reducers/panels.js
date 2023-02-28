@@ -16,11 +16,11 @@ export function updateParallelPanels(panels) {
             if (!(source.vertical === target.vertical)) continue
             if (isPanelIntersect(source, target)) continue
             if (source.vertical) {
-                if (target.rect.x + target.thickness <= source.rect.x) source.parallelFromBack.push(target)
-                if (target.rect.x >= source.rect.x + source.thickness) source.parallelFromFront.push(target)
+                if (target.rect.x + target.thickness <= source.rect.x) source.parallelFromBack.add(target)
+                if (target.rect.x >= source.rect.x + source.thickness) source.parallelFromFront.add(target)
             } else {
-                if (target.rect.y + target.thickness <= source.rect.y) source.parallelFromBack.push(target)
-                if (target.rect.y >= source.rect.y + source.thickness) source.parallelFromFront.push(target)
+                if (target.rect.y + target.thickness <= source.rect.y) source.parallelFromBack.add(target)
+                if (target.rect.y >= source.rect.y + source.thickness) source.parallelFromFront.add(target)
             }
         }
 }

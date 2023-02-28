@@ -59,10 +59,10 @@ export class PanelMoveHandler extends MouseHandler {
         p.y = Math.trunc(p.y);
         var { x, y } = this.activeShape.getPosition();
         var [dx, dy] = [p.x - x, p.y - y];
-        let selectedPanels = []
+        //let selectedPanels = new Set()
         for (const panel of [...this.panels, ...appData.dimensions]) {
             if (!panel.state.selected) continue;
-            selectedPanels.push(panel);
+            //selectedPanels.add(panel);
             panel.moveTo(dx, dy, () => { setWardrobeDimensions(appData, appActions) })
         }
         this.lastPoint = { ...this.coord };

@@ -11,6 +11,7 @@ export default class PanelShape extends Shape {
         this.panelMargin = model.panelMargin || 0
         if (!model.active) this.model.active = false
         this.vertical = model.vertical
+        this.minLength = model.minLength || 282
         this.selectable = model.selectable === undefined ? true : model.selectable
         this.moveable = model.moveable === undefined ? true : model.moveable
         this.hidden = model.hidden
@@ -21,11 +22,11 @@ export default class PanelShape extends Shape {
         const last = { x: position.x + width, y: position.y + height }
         this.rect = { ...position, last, width, height }
         this.setStyle(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID));
-        this.jointFromBackSide = model.jointFromBackSide || []
-        this.jointFromFrontSide = model.jointFromFrontSide || []
-        this.parallelFromBack = model.parallelFromBack || []
-        this.parallelFromFront = model.parallelFromFront || []
-        this.dimensions = []
+        this.jointFromBackSide = model.jointFromBackSide || new Set()
+        this.jointFromFrontSide = model.jointFromFrontSide || new Set()
+        this.parallelFromBack = model.parallelFromBack || new Set()
+        this.parallelFromFront = model.parallelFromFront || new Set()
+        this.dimensions = new Set()
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {
@@ -94,7 +95,7 @@ export default class PanelShape extends Shape {
         if (this.vertical) dy = 0; else dx = 0
         let newX = x + dx
         let newY = y + dy
-        if (this.isMoveAvailable(newX, newY)) {
+        if (this.isMoveAvailable({newX, newY, dx, dy})) {
             this.setPosition(newX, newY);
             for (let joint of this.jointFromBackSide) {
                 joint.setLength(joint.getLength() + (dx + dy))
@@ -105,10 +106,17 @@ export default class PanelShape extends Shape {
                 joint.setPosition(jpos.x + dx, jpos.y + dy)
             }
             if (this.gabarit) onGabaritChange() //to recalculate wardrobe size
-        }
+            return true
+        } else return false
     }
-    isMoveAvailable(x, y) {
+    isMoveAvailable({newX: x, newY: y, dx, dy}) {
         if (!this.moveable) return false
+        for (let joint of this.jointFromBackSide) {
+            if(joint.getLength() + (dx + dy) < joint.minLength) return false
+        }
+        for (let joint of this.jointFromFrontSide) {
+            if(joint.getLength() - (dx + dy) < joint.minLength) return false
+        }
         for (let par of this.parallelFromBack) {
             const parPos = par.getPosition();
             if ((((x - parPos.x - this.thickness) < this.panelMargin) && this.vertical) || (((y - parPos.y - this.thickness) < this.panelMargin) && !this.vertical)) {
@@ -125,8 +133,8 @@ export default class PanelShape extends Shape {
     }
     canBePlaced(x, y, panels, wardrobe) {
         if (x < this.thickness || x > wardrobe.width - this.thickness || y < 46 || y > wardrobe.height - this.thickness) return false
-        this.parallelFromBack = []
-        this.parallelFromFront = []
+        this.parallelFromBack = new Set()
+        this.parallelFromFront = new Set()
         for (let panel of panels) {
             if (!(panel.vertical === this.vertical)) continue
             if (isPanelIntersect(this, panel)) continue
@@ -134,27 +142,23 @@ export default class PanelShape extends Shape {
             if (this.vertical) {
                 if (x >= panel.rect.x){
                     if (x - (panel.rect.x + panel.thickness) < margin) return false
-                    if (panel.rect.x + this.thickness <= x) this.parallelFromBack.push(panel)
+                    if (panel.rect.x + this.thickness <= x) this.parallelFromBack.add(panel)
                 }
                 if (x < panel.rect.x){
                     if ((panel.rect.x - (x + this.thickness) < margin)) return false
-                    if (panel.rect.x >=x) this.parallelFromFront.push(panel)
+                    if (panel.rect.x >=x) this.parallelFromFront.add(panel)
                 }
             } else {
                 if (y >= panel.rect.y){
                     if (y - (panel.rect.y + panel.thickness) < margin) return false
-                    if (panel.rect.y + this.thickness <= y) this.parallelFromBack.push(panel)
+                    if (panel.rect.y + this.thickness <= y) this.parallelFromBack.add(panel)
                 }
                 if (y < panel.rect.y){
                     if ((panel.rect.y - (y + this.thickness) < margin)) return false
-                    if (panel.rect.y >= y) this.parallelFromFront.push(panel)
+                    if (panel.rect.y >= y) this.parallelFromFront.add(panel)
                 }
-
-                //if (panel.rect.y + this.thickness < y) this.parallelFromBack.push(panel)
-                //if (panel.rect.y > y) this.parallelFromFront.push(panel)
             }
         }
-        //for(let panels of this.pa)
         return true
     }
     findDimensions(x, y, panels, wardrobe) {
@@ -166,10 +170,10 @@ export default class PanelShape extends Shape {
             if (panel === this) continue
             if (this.vertical === panel.vertical) continue
             if (this.vertical) {
-                if ((x - panel.rect.x) * (x - panel.rect.x - panel.rect.width) > 0) continue //if panels not intersect
-                if (panel.rect.y + this.thickness < y) {
-                    if (panel.rect.y + this.thickness >= minY) {
-                        minY = panel.rect.y + this.thickness
+                if ((x - panel.rect.x) * (x - panel.rect.last.x) > 0) continue //if panels not intersect
+                if (panel.rect.y <= y) {
+                    if (panel.rect.y + panel.thickness >= minY) {
+                        minY = panel.rect.y + panel.thickness
                         this.jointToFront = panel
                     }
                 }
@@ -180,10 +184,10 @@ export default class PanelShape extends Shape {
                     }
                 }
             } else {
-                if ((y - panel.rect.y) * (y - panel.rect.y - panel.rect.height) > 0) continue //if panels not intersect
-                if (panel.rect.x + this.thickness < x) {
-                    if (panel.rect.x + this.thickness >= minX) {
-                        minX = panel.rect.x + this.thickness
+                if ((y - panel.rect.y) * (y - panel.rect.last.y) > 0) continue //if panels not intersect
+                if (panel.rect.x <= x) {
+                    if (panel.rect.x + panel.thickness >= minX) {
+                        minX = panel.rect.x + panel.thickness
                         this.jointToFront = panel
                     }
                 }

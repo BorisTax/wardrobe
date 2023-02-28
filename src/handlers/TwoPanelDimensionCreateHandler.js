@@ -88,8 +88,8 @@ export class TwoPanelDimensionCreateHandler extends MouseHandler {
                 break;
             }
             case 3: {
-                this.firstPanel.dimensions.push(this.curShape)
-                this.secondPanel.dimensions.push(this.curShape)
+                this.firstPanel.dimensions.add(this.curShape)
+                this.secondPanel.dimensions.add(this.curShape)
                 appActions.addDimension(this.curShape)
                 appActions.cancel()
                 break;

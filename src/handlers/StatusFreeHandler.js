@@ -59,7 +59,7 @@ export class StatusFreeHandler extends MouseHandler {
             if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
                 this.activeShape = p;
             } else {
-                p.setState({ selected: false })
+                //p.setState({ selected: false })
             }
         }
         this.drag = false;
@@ -83,10 +83,19 @@ export class StatusFreeHandler extends MouseHandler {
         for (let p of [...appData.panels, ...appData.dimensions]) {
             p.setState({ selected: false })
             if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
-                if (keys.shiftKey) p.setState({ selected: !p.state.selected }); else p.setState({ selected: true })
+                if (keys.shiftKey) {
+                    p.setState({ selected: !p.state.selected });
+                    if(!p.state.selected) appData.selectedPanels.delete(p)
+                } else {
+                    p.setState({ selected: true })
+                    appData.selectedPanels.add(p)
+                }
                 clickOnPanel = true
             } else {
-                if (!keys.shiftKey) p.setState({ selected: false })
+                if (!keys.shiftKey) {
+                    p.setState({ selected: false })
+                    appData.selectedPanels.delete(p)
+                }
             }
         }
         if (clickOnPanel) return appActions.updateState();

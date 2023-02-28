@@ -9,8 +9,10 @@ export default function MoveButtonsPanel() {
     const update = useActions().updateState
     const appData = useSelector(store => store)
     const appActions = useActions()
-    const panel = appData.selectedPanels[0]
+    const panels = []
+    appData.selectedPanels.forEach(p => panels.push(p))
     const enabledButtons = { left: false, right: false, up: false, down: false }
+    const panel = panels[0]
     if (panel) {
         enabledButtons.left = panel.vertical
         enabledButtons.right = panel.vertical

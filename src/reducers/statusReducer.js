@@ -48,7 +48,7 @@ export default function statusReducer(state, action){
             return {result: true,
                 newState: {...state,
                 status: Status.FREE,
-                selectedPanels: [],
+                selectedPanels: new Set(),
                 curShape: null,
                 cursor: new SelectCursor(state.curRealPoint)}
             }
@@ -102,7 +102,7 @@ export default function statusReducer(state, action){
             }};
 
         case ModelActions.UPDATE_STATE:
-            return { result: true, newState: {...state, selectedPanels: state.panels.filter(panel => panel.state.selected)} }         
+            return { result: true, newState: {...state } }         
 
         default: {
             return {result: false, newState: state}
