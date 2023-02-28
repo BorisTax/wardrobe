@@ -5,6 +5,7 @@ export const ShapeActions = {
     CREATE_TWO_PANEL_DIMENSION: 'CREATE_TWO_PANEL_DIMENSION',
     MOVE_PANEL: "MOVE_PANEL",
     SELECT_PANEL: 'SELECT_PANEL',
+    SET_PANEL_STATE: 'SET_PANEL_STATE',
     SET_PROPERTY: 'SET_PROPERTY',
     addDimension: (dimension) => {
         return {
@@ -34,6 +35,12 @@ export const ShapeActions = {
             type: ShapeActions.MOVE_PANEL,
             payload: { panel, movePoint }
         };
+    },
+    setPanelState: (state) => {
+        return {
+            type: ShapeActions.SET_PANEL_STATE,
+            payload: state,
+        }
     },
     setProperty: (prop) => {
         return {

@@ -113,7 +113,7 @@ export default class TableLayoutShape extends Shape {
         let list = [];
         return list;
     }
-    isPointInside(p, inner = false) {
+    isUnderCursor(p, inner = false) {
         if (!inner)
             return (p.x >= this.outerRect.model.topLeft.x) && (p.x <= this.outerRect.model.topLeft.x + this.outerRect.model.width) && (p.y <= this.outerRect.model.topLeft.y) && (p.y >= this.outerRect.model.topLeft.y - this.outerRect.model.height);
         else
@@ -135,7 +135,7 @@ export default class TableLayoutShape extends Shape {
     getDistance(point) {
 
     }
-    isInRect(topLeft, bottomRight) {
+    isInSelectionRect(topLeft, bottomRight) {
         return { cross: false, full: false };
     }
     toString() {

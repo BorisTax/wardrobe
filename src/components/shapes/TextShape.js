@@ -126,7 +126,7 @@ export default class TextShape extends Shape {
   getDistance(point) {
     return null;
   }
-  isInRect(topLeft, bottomRight) {
+  isInSelectionRect(topLeft, bottomRight) {
     return { cross: false, full: false };
   }
   toString() {

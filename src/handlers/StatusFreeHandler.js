@@ -25,14 +25,14 @@ export class StatusFreeHandler extends MouseHandler {
         if (this.drag) {
             if (!keys.shiftKey) appData.panels.forEach(p => p.state.selected = false)
             this.activeShape.state.selected = true
-            if (this.activeShape.moveable) appActions.movePanel(this.activeShape, this.dragPos);
+            if (!this.activeShape.state.fixed) appActions.movePanel(this.activeShape, this.dragPos);
             return;
         } else {
             this.activeShape = null;
             for (let p of [...appData.panels, ...appData.dimensions]) {
-                if (!p.selectable) continue;
-                if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
-                    if (p.moveable) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
+                if (!p.state.selectable) continue;
+                if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
+                    if (!p.state.fixed) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
                     p.setState({ highlighted: true })
                     this.activeShape = p;
                 } else {
@@ -55,8 +55,8 @@ export class StatusFreeHandler extends MouseHandler {
         if (button !== 0) return
         this.activeShape = null;
         for (let p of [...appData.panels, ...appData.dimensions]) {
-            if (!p.selectable) continue;
-            if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
+            if (!p.state.selectable) continue;
+            if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 this.activeShape = p;
             } else {
                 //p.setState({ selected: false })
@@ -75,14 +75,9 @@ export class StatusFreeHandler extends MouseHandler {
     click({ button, curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.click({ curPoint, viewPortData });
         if (button !== 0) return
-        if (this.avoidClick === true) {
-            this.avoidClick = false
-            return
-        }
-        let clickOnPanel = false;
         for (let p of [...appData.panels, ...appData.dimensions]) {
-            p.setState({ selected: false })
-            if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
+            //p.setState({ selected: false })
+            if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 if (keys.shiftKey) {
                     p.setState({ selected: !p.state.selected });
                     if(!p.state.selected) appData.selectedPanels.delete(p)
@@ -90,7 +85,6 @@ export class StatusFreeHandler extends MouseHandler {
                     p.setState({ selected: true })
                     appData.selectedPanels.add(p)
                 }
-                clickOnPanel = true
             } else {
                 if (!keys.shiftKey) {
                     p.setState({ selected: false })
@@ -98,7 +92,6 @@ export class StatusFreeHandler extends MouseHandler {
                 }
             }
         }
-        if (clickOnPanel) return appActions.updateState();
         appActions.updateState()
     }
     doubleClick({ button, curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {

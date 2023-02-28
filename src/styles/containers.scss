@@ -119,3 +119,9 @@ body{
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+.detailPropertyContent{
+  display: grid;
+  column-gap: 1em;
+  -ms-grid-column-align: end;
+  grid-template-columns: fit-content(100%) 1fr;
+}

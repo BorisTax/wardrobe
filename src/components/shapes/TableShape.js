@@ -102,13 +102,13 @@ export default class TableShape extends Shape {
     refreshModel() {
     }
 
-    isPointInside(p) {
+    isUnderCursor(p) {
         return (p.x >= this.model.topLeft.x) && (p.x <= this.model.topLeft.x + this.model.length) && (p.y <= this.model.topLeft.y) && (p.y >= this.model.topLeft.y - this.model.width);
     }
     getDistance(point) {
 
     }
-    isInRect(topLeft, bottomRight) {
+    isInSelectionRect(topLeft, bottomRight) {
         return { cross: false, full: false };
     }
     toString() {

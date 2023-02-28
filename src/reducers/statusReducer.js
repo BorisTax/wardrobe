@@ -102,7 +102,9 @@ export default function statusReducer(state, action){
             }};
 
         case ModelActions.UPDATE_STATE:
-            return { result: true, newState: {...state } }         
+            const selectedPanels = new Set()
+            state.panels.forEach(p => {if(p.state.selected) selectedPanels.add(p)})
+            return { result: true, newState: {...state, selectedPanels } }         
 
         default: {
             return {result: false, newState: state}

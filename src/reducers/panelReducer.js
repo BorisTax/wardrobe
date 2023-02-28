@@ -13,25 +13,26 @@ import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCre
 import { Status } from "./functions";
 import { updateParallelPanels } from "./panels";
 
-export default function panelReducer(state, action){
-    switch (action.type){
+export default function panelReducer(state, action) {
+    switch (action.type) {
         case ShapeActions.ADD_DIMENSION:
             const dimension = action.payload
             state.dimensions.add(dimension);
 
-            return { result: true, newState: {...state, status: Status.FREE} };
+            return { result: true, newState: { ...state, status: Status.FREE } };
 
         case ScreenActions.ADD_PANEL:
             const panel = action.payload
             state.panels.push(panel);
             updateParallelPanels(state.panels)
-            return { result: true, newState: {...state, status: Status.FREE} };
+            return { result: true, newState: { ...state, status: Status.FREE } };
 
         case ShapeActions.CREATE_PANEL:
-            state.panels.forEach(p => { p.state.selected = false })
+            state.panels.forEach(p => { p.setState({ selected: false }) })
+            state.selectedPanels = new Set()
             var newState = {
-                ...state, curShape: new PanelShape({ ...action.payload, selectable: true}),
-                cursor: new DragCursor(state.curRealPoint), 
+                ...state, curShape: new PanelShape({ ...action.payload, selectable: true }),
+                cursor: new DragCursor(state.curRealPoint),
                 status: Status.CREATE,
                 toolButtonsPressed: {
                     createVertical: action.payload.vertical,
@@ -40,23 +41,23 @@ export default function panelReducer(state, action){
                     createTwoPanelDimension: false,
                 }
             }
-            return { result: true, newState: {...newState, mouseHandler: new PanelCreateHandler(newState, true)} };
+            return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
 
         case ShapeActions.CREATE_SINGLE_DIMENSION:
             newState = {
                 ...state,
-                toolButtonsPressed : {
+                toolButtonsPressed: {
                     createVertical: false,
                     createHorizontal: false,
                     createSingleDimension: true,
                     createTwoPanelDimension: false,
-                },cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
+                }, cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
             }
-            return { result: true, newState: {...newState, mouseHandler: new SinglePanelDimensionCreateHandler(newState)} };
+            return { result: true, newState: { ...newState, mouseHandler: new SinglePanelDimensionCreateHandler(newState) } };
         case ShapeActions.CREATE_TWO_PANEL_DIMENSION:
             newState = {
                 ...state,
-                toolButtonsPressed : {
+                toolButtonsPressed: {
                     createVertical: false,
                     createHorizontal: false,
                     createSingleDimension: false,
@@ -64,10 +65,10 @@ export default function panelReducer(state, action){
                     createTwoPanelDimensionOutside: !action.payload.inside,
                 }, cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
             }
-            return { result: true, newState: {...newState, mouseHandler: new TwoPanelDimensionCreateHandler(newState, action.payload.inside)} };
+            return { result: true, newState: { ...newState, mouseHandler: new TwoPanelDimensionCreateHandler(newState, action.payload.inside) } };
         case ScreenActions.DELETE_CONFIRM:
-            const showConfirm = (state.panels.some(s => s.state.selected)) ? { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ScreenActions.deleteSelectedPanels }] } : {show: false}
-            return { result: true, newState: {...state, showConfirm}}
+            const showConfirm = (state.panels.some(s => s.state.selected)) ? { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ScreenActions.deleteSelectedPanels }] } : { show: false }
+            return { result: true, newState: { ...state, showConfirm } }
 
         case ScreenActions.DELETE_SELECTED_PANELS:
             const panels = state.panels.filter((p) => {
@@ -81,24 +82,30 @@ export default function panelReducer(state, action){
                 mouseHandler: new StatusFreeHandler(state),
                 cursor: new SelectCursor()
             };
-            return { result: true, newState: {...newState, detailList: { ...newState.detailList }} };
+            return { result: true, newState: { ...newState, detailList: { ...newState.detailList } } };
 
         case ShapeActions.MOVE_PANEL:
             newState = {
                 ...state, curShape: action.payload.panel,
                 cursor: new ResizeCursor(state.curRealPoint, action.payload.panel.vertical),
             }
-            return {result: true, 
-                newState: {...newState,
-                mouseHandler: new PanelMoveHandler(newState, false, action.payload.movePoint)}
+            return {
+                result: true,
+                newState: {
+                    ...newState,
+                    mouseHandler: new PanelMoveHandler(newState, false, action.payload.movePoint)
+                }
             };
 
-           
+        case ShapeActions.SET_PANEL_STATE:
+            state.selectedPanels.forEach(p => p.setState(action.payload))
+            return { result: true, newState: { ...state} };
+
         case ScreenActions.SELECT_PANEL:
-            return { result: true, newState: {...state, selectedPanels: action.payload} };
+            return { result: true, newState: { ...state, selectedPanels: action.payload } };
 
         default: {
-            return {result: false, newState: state}
+            return { result: false, newState: state }
         }
     }
 }

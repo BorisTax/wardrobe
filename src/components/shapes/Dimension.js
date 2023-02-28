@@ -12,8 +12,8 @@ export default class Dimension extends Shape {
         this.secondPoint = secondPoint
         this.offsetPoint = {}
         this.length = 0
-        this.selectable = true
-        this.moveable = true
+        this.state.selectable = true
+        this.state.fixed = false
         this.captionShape = new TextShape(this.length, {}, vertical ? -Math.PI / 2 : 0, { vertical: vertical ? TextShape.CENTER : TextShape.BOTTOM, horizontal: vertical ? TextShape.CENTER : TextShape.CENTER })
         this.captionShape.setFillStyle(Color.BLACK);
 
@@ -109,15 +109,15 @@ export default class Dimension extends Shape {
         this.refreshModel();
     }
 
-    isPointInside(p, pixelRatio) {
+    isUnderCursor(p, pixelRatio) {
         const mult = 2
         return this.vertical ?
             (p.x >= this.offsetPoint.x - pixelRatio * mult) && (p.x <= this.offsetPoint.x + pixelRatio * mult) && (p.y <= this.secondPoint.y) && (p.y >= this.firstPoint.y) :
             (p.y >= this.offsetPoint.y - pixelRatio * mult) && (p.y <= this.offsetPoint.y + pixelRatio * mult) && (p.x <= this.secondPoint.x) && (p.x >= this.firstPoint.x);
     }
 
-    isInRect({ topLeft, bottomRight }) {
-        const inRect = [Geometry.pointInRect(this.rect, topLeft, bottomRight),
+    isInSelectionRect({ topLeft, bottomRight }) {
+        const inRect = [Geometry.pointInRect(this.offsetPoint, topLeft, bottomRight),
         Geometry.pointInRect(this.rect.last, topLeft, bottomRight)];
         const full = inRect.every(i => i === true);
         const cross = Intersection.RectangleRectangle(topLeft, bottomRight, this.rect, this.rect.last).length > 0;

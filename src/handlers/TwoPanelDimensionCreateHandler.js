@@ -28,10 +28,10 @@ export class TwoPanelDimensionCreateHandler extends MouseHandler {
             case 0:
             case 1: {
                 for (let p of appData.panels) {
-                    if (!p.selectable) continue;
+                    if (!p.state.selectable) continue;
                     if (p === this.firstPanel) continue
                     if (this.firstPanel && p.vertical !== this.firstPanel.vertical) continue
-                    if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
+                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                         p.setState({ highlighted: true })
                         appData.cursor.setType(p.vertical ? DimensionCursor.VERT : DimensionCursor.HOR)
                     } else {
@@ -70,10 +70,10 @@ export class TwoPanelDimensionCreateHandler extends MouseHandler {
                 this.activePanel = null;
                 this.firstPoint = this.coord
                 for (let p of appData.panels) {
-                    if (!p.selectable) continue;
+                    if (!p.state.selectable) continue;
                     if (p === this.firstPanel) continue
                     if (this.firstPanel && p.vertical !== this.firstPanel.vertical) continue
-                    if (p.isPointInside(this.coord, viewPortData.pixelRatio)) {
+                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                         this.activePanel = p;
                     }
                 }

@@ -58,7 +58,7 @@ export default class RectangleShape extends Shape{
         Geometry.PointToLineDistance(point,bottom),
         Geometry.PointToLineDistance(point,right));
     }
-    isInRect(topLeft,bottomRight){
+    isInSelectionRect(topLeft,bottomRight){
         const inRect=[Geometry.pointInRect(this.model.topLeft,topLeft,bottomRight),
                         Geometry.pointInRect(this.model.bottomRight,topLeft,bottomRight)];
         const full=inRect.every(i=>i===true);

@@ -8,19 +8,21 @@ export default class PanelShape extends Shape {
         super();
         this.model = { ...model };
         this.gabarit = model.gabarit //габаритная деталь
+        this.model.width = model.gabarit ? model.wardrobe.depth : model.wardrobe.depth - 100
         this.panelMargin = model.panelMargin || 0
         if (!model.active) this.model.active = false
         this.vertical = model.vertical
+        this.model.name = model.name || (this.vertical ? "Стойка" : "Полка")
         this.minLength = model.minLength || 282
-        this.selectable = model.selectable === undefined ? true : model.selectable
-        this.moveable = model.moveable === undefined ? true : model.moveable
-        this.hidden = model.hidden
+        this.state.selectable = model.selectable === undefined ? true : model.selectable
+        this.state.fixed = model.fixed === undefined ? false : model.fixed
+        this.state.hidden = model.hidden
         this.thickness = model.thickness || 16
         const position = model.position || { x: 0, y: 0 }
-        const width = model.vertical ? this.thickness : model.length
-        const height = model.vertical ? model.length : this.thickness
-        const last = { x: position.x + width, y: position.y + height }
-        this.rect = { ...position, last, width, height }
+        const w = model.vertical ? this.thickness : model.length
+        const h = model.vertical ? model.length : this.thickness
+        const last = { x: position.x + w, y: position.y + h }
+        this.rect = { ...position, last, w, h }
         this.setStyle(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID));
         this.jointFromBackSide = model.jointFromBackSide || new Set()
         this.jointFromFrontSide = model.jointFromFrontSide || new Set()
@@ -66,7 +68,7 @@ export default class PanelShape extends Shape {
         return this.rect
     }
     setHidden(hidden) {
-        this.hidden = hidden
+        this.state.hidden = hidden
     }
     setLength(length) {
         this.model.length = length
@@ -83,7 +85,7 @@ export default class PanelShape extends Shape {
         this.refreshModel();
     }
 
-    isPointInside(p, pixelRatio) {
+    isUnderCursor(p, pixelRatio) {
         const mult = 2
         return (p.x >= this.rect.x - pixelRatio * mult) && (p.x <= this.rect.x + this.rect.width + pixelRatio * mult) && (p.y >= this.rect.y - pixelRatio * mult) && (p.y <= this.rect.y + this.rect.height + pixelRatio * mult);
     }
@@ -95,7 +97,7 @@ export default class PanelShape extends Shape {
         if (this.vertical) dy = 0; else dx = 0
         let newX = x + dx
         let newY = y + dy
-        if (this.isMoveAvailable({newX, newY, dx, dy})) {
+        if (this.isMoveAvailable({ newX, newY, dx, dy })) {
             this.setPosition(newX, newY);
             for (let joint of this.jointFromBackSide) {
                 joint.setLength(joint.getLength() + (dx + dy))
@@ -109,13 +111,13 @@ export default class PanelShape extends Shape {
             return true
         } else return false
     }
-    isMoveAvailable({newX: x, newY: y, dx, dy}) {
-        if (!this.moveable) return false
+    isMoveAvailable({ newX: x, newY: y, dx, dy }) {
+        if (this.state.fixed) return false
         for (let joint of this.jointFromBackSide) {
-            if(joint.getLength() + (dx + dy) < joint.minLength) return false
+            if (joint.getLength() + (dx + dy) < joint.minLength) return false
         }
         for (let joint of this.jointFromFrontSide) {
-            if(joint.getLength() - (dx + dy) < joint.minLength) return false
+            if (joint.getLength() - (dx + dy) < joint.minLength) return false
         }
         for (let par of this.parallelFromBack) {
             const parPos = par.getPosition();
@@ -140,20 +142,20 @@ export default class PanelShape extends Shape {
             if (isPanelIntersect(this, panel)) continue
             const margin = Math.max(this.panelMargin, panel.panelMargin)
             if (this.vertical) {
-                if (x >= panel.rect.x){
+                if (x >= panel.rect.x) {
                     if (x - (panel.rect.x + panel.thickness) < margin) return false
                     if (panel.rect.x + this.thickness <= x) this.parallelFromBack.add(panel)
                 }
-                if (x < panel.rect.x){
+                if (x < panel.rect.x) {
                     if ((panel.rect.x - (x + this.thickness) < margin)) return false
-                    if (panel.rect.x >=x) this.parallelFromFront.add(panel)
+                    if (panel.rect.x >= x) this.parallelFromFront.add(panel)
                 }
             } else {
-                if (y >= panel.rect.y){
+                if (y >= panel.rect.y) {
                     if (y - (panel.rect.y + panel.thickness) < margin) return false
                     if (panel.rect.y + this.thickness <= y) this.parallelFromBack.add(panel)
                 }
-                if (y < panel.rect.y){
+                if (y < panel.rect.y) {
                     if ((panel.rect.y - (y + this.thickness) < margin)) return false
                     if (panel.rect.y >= y) this.parallelFromFront.add(panel)
                 }
@@ -203,7 +205,7 @@ export default class PanelShape extends Shape {
         this.rect = this.vertical ? { x, y: minY } : { x: minX, y }
         this.refresh()
     }
-    isInRect({ topLeft, bottomRight }) {
+    isInSelectionRect({ topLeft, bottomRight }) {
         const inRect = [Geometry.pointInRect(this.rect, topLeft, bottomRight),
         Geometry.pointInRect(this.rect.last, topLeft, bottomRight)];
         const full = inRect.every(i => i === true);
