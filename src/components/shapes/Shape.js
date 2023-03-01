@@ -2,7 +2,8 @@ import { Color } from '../colors';
 import ShapeStyle from './ShapeStyle';
 import { PropertyTypes, RegExp } from "./PropertyData";
 export default class Shape {
-
+    static PANEL = "PANEL"
+    static DIMENSION = "DIMENSION"
     constructor() {
         this.style = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID);
         this.selectedStyle = new ShapeStyle(Color.SELECTED, ShapeStyle.SOLID);
@@ -44,7 +45,7 @@ export default class Shape {
     }
     refreshStyle(ctx) {
         ctx.strokeStyle = this.getStyle().getColor();
-        ctx.fillStyle = this.fillStyle;
+        ctx.fillStyle = this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());
         ctx.lineWidth = this.getStyle().getWidth();
     }
@@ -115,10 +116,11 @@ export default class Shape {
         this.state = { ...this.state, ...state };
         if (this.state.selected === true) {
             this.setStyle(this.selectedStyle);
-            if (this.state.highlighted) this.setStyle(this.highlightedStyle)
+            
             return;
         } else {
             this.setStyle(this.defaultStyle);
+            if (this.state.highlighted) this.setStyle(this.highlightedStyle)
         }
         if (this.state.highlighted) this.setStyle(this.highlightedStyle);
         if (this.state.error) this.setStyle(this.errorStyle);

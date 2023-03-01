@@ -4,6 +4,7 @@ import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import { setWardrobeDimensions } from "../reducers/panels";
+import Shape from "../components/shapes/Shape";
 export class PanelMoveHandler extends MouseHandler {
     constructor(state, newPanel, movePoint) {
         super(state);
@@ -60,10 +61,11 @@ export class PanelMoveHandler extends MouseHandler {
         var { x, y } = this.activeShape.getPosition();
         var [dx, dy] = [p.x - x, p.y - y];
         //let selectedPanels = new Set()
-        for (const panel of [...this.panels, ...appData.dimensions]) {
-            if (!panel.state.selected) continue;
+        for (const shape of [...this.panels, ...appData.dimensions]) {
+            if (!appData.selectedPanels.has(shape)) continue;
             //selectedPanels.add(panel);
-            panel.moveTo(dx, dy, () => { setWardrobeDimensions(appData, appActions) })
+            if (shape.type === Shape.PANEL) shape.moveTo(dx, dy, () => { setWardrobeDimensions(appData, appActions) });
+            if (shape.type === Shape.DIMENSION) shape.moveTo(dx, dy, appData.wardrobe)
         }
         this.lastPoint = { ...this.coord };
     }
@@ -76,7 +78,7 @@ export class PanelMoveHandler extends MouseHandler {
             appActions.addShape(appData.curShape)
         }
         this.drag = false;
-        appActions.cancelMoving();
+        appActions.cancel();
     }
 
     touchMove({ pointerId, curPoint, viewPortData, setViewPortData, appActions, appData }) {

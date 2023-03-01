@@ -5,6 +5,7 @@ import ShapeStyle from './ShapeStyle';
 import { Color } from '../colors';
 import TextShape from './TextShape';
 export default class Dimension extends Shape {
+    type = Shape.DIMENSION
     constructor({ vertical, firstPoint, secondPoint }) {
         super();
         this.vertical = vertical
@@ -57,6 +58,9 @@ export default class Dimension extends Shape {
         drawArrow(ctx, this.vertical, offsetPoint, arrowSize, 5)
         ctx.stroke()
         this.captionShape.setFitRect({ width: 500, height: 500, fit: true })
+        this.captionShape.getStyle().setWidth(this.style.width)
+        this.captionShape.getStyle().setColor(this.style.color)
+        this.captionShape.refreshStyle(ctx)
         const offset = this.vertical ? { x: 0, y: -10 } : undefined
         this.captionShape.drawSelf(ctx, realRect, screenRect, null, offset)
         this.getStyle().setStroke(prevStroke)
@@ -77,8 +81,9 @@ export default class Dimension extends Shape {
     getPosition() {
         return this.offsetPoint
     }
-    moveTo(dx, dy) {
-        if (this.vertical) this.offsetPoint.x += dx; else this.offsetPoint.y += dy;
+    moveTo(dx, dy, wardrobe) {
+        const point = { x: this.vertical ? this.offsetPoint.x + dx : this.offsetPoint.x, y: this.vertical ? this.offsetPoint.y : this.offsetPoint.y + dy }
+        if (this.vertical) this.setOffsetPoint(point, wardrobe)
         this.refresh()
 
     }
@@ -89,17 +94,14 @@ export default class Dimension extends Shape {
     setHidden(hidden) {
         this.hidden = hidden
     }
-    setOffset(offset) {
-        this.offset = offset
-        this.refresh()
-    }
-    setOffsetPoint(offsetPoint, offset) {
+    setOffsetPoint(offsetPoint, wardrobe) {
+        const max = 500
         this.offsetPoint = offsetPoint
-        this.offset = offset
+        if (this.offsetPoint.x < -max) this.offsetPoint.x = -max
+        if (this.offsetPoint.x > wardrobe.width + max) this.offsetPoint.x = wardrobe.width + max
+        if (this.offsetPoint.y < -max) this.offsetPoint.y = -max
+        if (this.offsetPoint.y > wardrobe.height + max) this.offsetPoint.y = wardrobe.height + max
         this.refresh()
-    }
-    getOffset() {
-        return this.offset
     }
     getId() {
         return this.model.id;

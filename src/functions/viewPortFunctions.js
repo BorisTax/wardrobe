@@ -88,11 +88,13 @@ export function setDimensions(width, height, realWidth, viewPortData) {
   };
 }
 
-export function zoomToRect(rect, viewPortData) {
-  const newViewPortData = setDimensions(viewPortData.viewPortWidth, viewPortData.viewPortHeight, 6500, viewPortData);
+export function zoomToRect({topLeft, bottomRight}, viewPortData) {
+  const realWidth = 3000 / (viewPortData.viewPortHeight / viewPortData.viewPortWidth)
+  
+  const newViewPortData = setDimensions(viewPortData.viewPortWidth, viewPortData.viewPortHeight, realWidth, viewPortData);
   const point = {
-    x: (rect.topLeft.x + rect.bottomRight.x) / 2,
-    y: (rect.topLeft.y + rect.bottomRight.y) / 2,
+    x: (topLeft.x + bottomRight.x) / 2,
+    y: (topLeft.y + bottomRight.y) / 2,
   };
   let viewPortWidth = newViewPortData.realWidth - (newViewPortData.marginLeft + newViewPortData.marginRight) * newViewPortData.pixelRatio;
   let viewPortHeight = newViewPortData.realHeight - (newViewPortData.marginTop + newViewPortData.marginBottom) * newViewPortData.pixelRatio;

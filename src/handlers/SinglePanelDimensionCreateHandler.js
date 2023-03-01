@@ -42,7 +42,7 @@ export class SinglePanelDimensionCreateHandler extends MouseHandler {
                 const offset = this.activePanel.vertical ? this.coord.x - this.activePanel.rect.x : this.coord.y - this.activePanel.rect.y
                 const { midPoint } = TwoPanelDimension.getPoints(this.activePanel, this.activePanel)
                 const offsetPoint = this.activePanel.vertical ? { x: midPoint.x + offset, y: midPoint.y } : { x: midPoint.x, y: midPoint.y + offset }
-                this.curShape.setOffsetPoint(offsetPoint, offset)
+                this.curShape.setOffsetPoint(offsetPoint, appData.wardrobe)
                 appData.cursor.setType(this.curShape.vertical?DimensionCursor.VERT:DimensionCursor.HOR)
                 break;
             }

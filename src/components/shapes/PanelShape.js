@@ -4,6 +4,7 @@ import ShapeStyle from './ShapeStyle';
 import { Color } from '../colors';
 import { isPanelIntersect } from '../../reducers/panels';
 export default class PanelShape extends Shape {
+    type = Shape.PANEL
     constructor(model) {
         super();
         this.model = { ...model };
@@ -32,7 +33,7 @@ export default class PanelShape extends Shape {
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {
-        if (this.hidden) return
+        if (this.state.hidden) return
         super.drawSelf(ctx, realRect, screenRect)
         if (this.state.selected || this.state.highlighted) { this.getStyle().setWidth(2) } else { this.getStyle().setWidth(1) }
         const topLeft = Geometry.realToScreen(this.rect, realRect, screenRect);
@@ -95,6 +96,8 @@ export default class PanelShape extends Shape {
     moveTo(dx, dy, onGabaritChange = () => { }) {
         const { x, y } = this.getPosition();
         if (this.vertical) dy = 0; else dx = 0
+        if (Math.abs(dx) > 20) dx = Math.sign(dx) * 20
+        if (Math.abs(dy) > 20) dy = Math.sign(dy) * 20
         let newX = x + dx
         let newY = y + dy
         let result
@@ -115,58 +118,58 @@ export default class PanelShape extends Shape {
     }
     isMoveAvailable({ newX: x, newY: y, dx, dy }) {
         if (this.state.fixed) return { result: false }
-        let result
-        result = this.snapToNearest({ newX: x, newY: y, dx, dy })
-        if(result.result === true) return {...result}
-        result = this.snapToMinJointLength({ newX: x, newY: y, dx, dy })
-        if(result.result === true) return {...result}
-
-
+        const resultNear = this.snapToNearest({ newX: x, newY: y, dx, dy })
+        if (resultNear.result === true) return { ...resultNear }
+        const resultJoint = this.snapToMinJointLength({ newX: x, newY: y, dx, dy })
+        if (resultJoint.result === true) return { ...resultJoint }
 
         return { result: true, newX: x, newY: y, dx, dy }
     }
 
-    snapToMinJointLength({ newX: x, newY: y, dx, dy }){
+    snapToMinJointLength({ newX: x, newY: y, dx, dy }) {
         for (let joint of this.jointFromBackSide) {
             const delta = (joint.getLength() + dx + dy) - joint.minLength
             if (delta < 0)
                 if (this.vertical) return { result: true, newX: x - delta, newY: y, dx: dx - delta, dy }
-                                else return { result: true, newX: x, newY: y - delta, dx, dy: dy - delta }
+                else return { result: true, newX: x, newY: y - delta, dx, dy: dy - delta }
         }
         for (let joint of this.jointFromFrontSide) {
             const delta = (joint.getLength() - dx - dy) - joint.minLength
             if (delta < 0) if (this.vertical) return { result: true, newX: x + delta, newY: y, dx: dx + delta, dy }
-                            else return { result: true, newX: x, newY: y + delta, dx, dy: dy + delta }
+            else return { result: true, newX: x, newY: y + delta, dx, dy: dy + delta }
         }
-        return {result: false, newX: x, newY: y, dx, dy }
+        return { result: false, newX: x, newY: y, dx, dy }
     }
 
-    snapToNearest({ newX: x, newY: y, dx, dy }){
+    snapToNearest({ newX: x, newY: y, dx, dy }) {
         const { nearestFromBack, nearestFromFront } = this.getNearest()
-        let par = nearestFromBack
-        let margin = Math.max(this.panelMargin, par.panelMargin)
-        if (this.vertical) {
-            const minX = par.rect.x + par.thickness + margin
-            const minDX = minX - x
-            if (x < minX) return { result: true, newX: minX, newY: y, dx: dx + minDX, dy }
-        } else {
-            const minY = par.rect.y + par.thickness + margin
-            const minDY = minY - y
-            if (y < minY) return { result: true, newX: x, newY: minY, dx, dy: dy + minDY }
+        let near = nearestFromBack
+        if (near) {
+            const margin = Math.max(this.panelMargin, near.panelMargin)
+            if (this.vertical) {
+                const minX = near.rect.x + near.thickness + margin
+                const minDX = minX - x
+                if (x < minX) return { result: true, newX: minX, newY: y, dx: dx + minDX, dy }
+            } else {
+                const minY = near.rect.y + near.thickness + margin
+                const minDY = minY - y
+                if (y < minY) return { result: true, newX: x, newY: minY, dx, dy: dy + minDY }
+            }
         }
-        par = nearestFromFront
-        margin = Math.max(this.panelMargin, par.panelMargin)
-        if (this.vertical) {
-            const minX = par.rect.x - par.thickness - margin
-            const minDX = x - minX
-            if (minX < x) return { result: true, newX: minX, newY: y, dx: dx - minDX, dy }
-        } else {
-            const minY = par.rect.y - par.thickness - margin
-            const minDY = y - minY
-            if (minY < y) return { result: true, newX: x, newY: minY, dx, dy: dy - minDY }
+        near = nearestFromFront
+        if (near) {
+            const margin = Math.max(this.panelMargin, near.panelMargin)
+            if (this.vertical) {
+                const minX = near.rect.x - near.thickness - margin
+                const minDX = x - minX
+                if (minX < x) return { result: true, newX: minX, newY: y, dx: dx - minDX, dy }
+            } else {
+                const minY = near.rect.y - near.thickness - margin
+                const minDY = y - minY
+                if (minY < y) return { result: true, newX: x, newY: minY, dx, dy: dy - minDY }
+            }
         }
-
-        return {result: false, newX: x, newY: y, dx, dy }
+        return { result: false, newX: x, newY: y, dx, dy }
     }
 
     getNearest() {

@@ -44,7 +44,7 @@ export class TwoPanelDimensionCreateHandler extends MouseHandler {
                 const { midPoint } = TwoPanelDimension.getPoints(this.firstPanel, this.secondPanel, this.inside)
                 const offset = this.curShape.vertical ? this.coord.x - midPoint.x : this.coord.y - midPoint.y
                 const offsetPoint = this.curShape.vertical ? { x: midPoint.x + offset, y: midPoint.y } : { x: midPoint.x, y: midPoint.y + offset }
-                this.curShape.setOffsetPoint(offsetPoint, offset)
+                this.curShape.setOffsetPoint(offsetPoint, appData.wardrobe)
                 appData.cursor.setType(this.curShape.vertical ? DimensionCursor.VERT : DimensionCursor.HOR)
                 break;
             }

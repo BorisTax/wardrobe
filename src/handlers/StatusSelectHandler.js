@@ -32,6 +32,7 @@ export class StatusSelectHandler extends MouseHandler {
         this.curShape.setCorners({ x: this.x0, y: this.y0 }, this.coord)
         this.selectPanels({ topLeft: this.curShape.model.topLeft, bottomRight: this.curShape.model.bottomRight },
             appData.panels,
+            appData.selectedPanels,
             crossSelect
         );
     }
@@ -47,29 +48,28 @@ export class StatusSelectHandler extends MouseHandler {
         for (let p of [...appData.panels, ...appData.dimensions]) {
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 if (keys.shiftKey) {
-                    p.setState({ selected: !p.state.selected });
-                    if (!p.state.selected) appData.selectedPanels.delete(p)
+                    if(appData.selectedPanels.has(p)) appData.selectedPanels.delete(p);
+                            else appData.selectedPanels.add(p)
                 } else {
-                    p.setState({ selected: true })
                     appData.selectedPanels.add(p)
                 }
             } else {
                 if (!keys.shiftKey && !this.isSelectedPanels) {
-                    p.setState({ selected: false })
                     appData.selectedPanels.delete(p)
                 }
             }
         }
+        this.isSelectedPanels = appData.selectedPanels.size > 0
         if (button === 0) appActions.stopSelection(this.isSelectedPanels);
         appActions.updateState()
     }
-    selectPanels(rect, panels, crossSelect) {
+    selectPanels(rect, panels, selectedPanels, crossSelect) {
         this.isSelectedPanels = false
         for (let p of panels) {
-            p.setState({ selected: false });
+            selectedPanels.delete(p)
             const { full, cross } = p.isInSelectionRect(rect)
-            if (full) { p.setState({ selected: true }); this.isSelectedPanels = true }
-            if (cross && crossSelect) { p.setState({ selected: true }); this.isSelectedPanels = true }
+            if (full) { selectedPanels.add(p); this.isSelectedPanels = true }
+            if (cross && crossSelect) { selectedPanels.add(p); this.isSelectedPanels = true }
         }
     }
 

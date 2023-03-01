@@ -10,12 +10,14 @@ export function paint(ctx, viewPortData, appData) {
     const { topLeft, bottomRight, viewPortWidth, viewPortHeight, marginRight, marginTop, marginLeft, marginBottom } = viewPortData;
     const realRect = getRealRect(topLeft, bottomRight)
     const screenRect = getScreenRect(viewPortWidth, viewPortHeight)
+    
     for (let dimension of appData.dimensions) {
         dimension.drawSelf(ctx, realRect, screenRect);
     }
     let curShape = appData.mouseHandler.curShape;
     if (curShape != null) curShape.drawSelf(ctx, realRect, screenRect);
     for (let shape of appData.panels) {
+        shape.setState({selected: appData.selectedPanels.has(shape)})
         shape.drawSelf(ctx, realRect, screenRect);
     }
 

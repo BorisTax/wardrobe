@@ -3,6 +3,7 @@ import { PropertyTypes } from "../components/shapes/PropertyData";
 import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
+import DragCursor from "../components/shapes/cursors/DragCursor";
 export class PanelCreateHandler extends MouseHandler {
     constructor(state) {
         super(state);
@@ -50,11 +51,11 @@ export class PanelCreateHandler extends MouseHandler {
         this.canBePlaced = this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)
         if (this.canBePlaced) {
             this.activeShape.findDimensions(p.x, p.y, appData.panels, appData.wardrobe)
-            if (this.activeShape.model.length < this.activeShape.minLength) this.canBePlaced = false; else this.activeShape.setHidden(false)
+            this.canBePlaced = (this.activeShape.model.length >= this.activeShape.minLength)
         }
-        if (!this.canBePlaced) {
-            this.activeShape.setHidden(true)
-        }
+        console.log(this.canBePlaced)
+        this.activeShape.setHidden(!this.canBePlaced)
+        appData.cursor.setType(this.canBePlaced?DragCursor.DRAG:DragCursor.NODRAG)
         this.lastPoint = { ...this.coord };
     }
 

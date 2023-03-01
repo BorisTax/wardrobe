@@ -5,7 +5,7 @@ import { addWindowListeners, zoomToRect } from '../functions/viewPortFunctions.j
 import useEvents from '../customHooks/useEvents.js';
 import useDoubleClick from '../customHooks/useDoubleClick.js';
 
-export default function ViewPort({ viewPortData, setViewPortData, appActions, appData, eventHandlers }){
+export default function ViewPort({ viewPortData, setViewPortData, appActions, appData, eventHandlers }) {
     const events = useEvents(appData.isMobile, eventHandlers)
     const refCanvas = useRef()
     useEffect(() => {
@@ -20,14 +20,14 @@ export default function ViewPort({ viewPortData, setViewPortData, appActions, ap
         })
         addWindowListeners(viewPortData, setViewPortData, appActions, refCanvas.current)
     }, [])
-    useEffect(()=>{
-        setViewPortData((prevData) => zoomToRect({topLeft:{x: -500, y: appData.wardrobe.height+1000}, bottomRight: {x: appData.wardrobe.width, y: -1000}}, prevData));
+    useEffect(() => {
+        setViewPortData((prevData) => zoomToRect({ topLeft: { x: -1000, y: appData.wardrobe.height + 1000 }, bottomRight: { x: appData.wardrobe.width, y: -1000 } }, prevData));
     }, [appData.resetView])
     const doubleClick = useDoubleClick(eventHandlers, (e) => eventHandlers.onDoubleClick(e))
     return <ToolBar id={"canvas-container"} noTitle={true} wide={false}>
         <canvas ref={refCanvas} id="canvas" style={{ width: `${viewPortData.viewPortWidth}px`, height: `${viewPortData.viewPortHeight}px`, cursor: 'none' }} width={viewPortData.viewPortWidth} height={viewPortData.viewPortHeight}
             {...events}
-            onClick={ doubleClick }
+            onClick={doubleClick}
             onDoubleClick={(e) => { eventHandlers.onDoubleClick(e) }}
             onContextMenu={(e) => { e.preventDefault() }}
         >
