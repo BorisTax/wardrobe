@@ -88,34 +88,17 @@ export function setDimensions(width, height, realWidth, viewPortData) {
   };
 }
 
-export function zoomToTable(tableRect, viewPortData) {
-  const newViewPortData = setDimensions(
-    viewPortData.viewPortWidth,
-    viewPortData.viewPortHeight,
-    3500,
-    viewPortData
-  );
+export function zoomToRect(rect, viewPortData) {
+  const newViewPortData = setDimensions(viewPortData.viewPortWidth, viewPortData.viewPortHeight, 6500, viewPortData);
   const point = {
-    x: (tableRect.topLeft.x + tableRect.bottomRight.x) / 2,
-    y: (tableRect.topLeft.y + tableRect.bottomRight.y) / 2,
+    x: (rect.topLeft.x + rect.bottomRight.x) / 2,
+    y: (rect.topLeft.y + rect.bottomRight.y) / 2,
   };
-  let viewPortWidth =
-    newViewPortData.realWidth -
-    (newViewPortData.marginLeft + newViewPortData.marginRight) *
-      newViewPortData.pixelRatio;
-  let viewPortHeight =
-    newViewPortData.realHeight -
-    (newViewPortData.marginTop + newViewPortData.marginBottom) *
-      newViewPortData.pixelRatio;
+  let viewPortWidth = newViewPortData.realWidth - (newViewPortData.marginLeft + newViewPortData.marginRight) * newViewPortData.pixelRatio;
+  let viewPortHeight = newViewPortData.realHeight - (newViewPortData.marginTop + newViewPortData.marginBottom) * newViewPortData.pixelRatio;
   const tl = {
-    x:
-      point.x -
-      viewPortWidth / 2 -
-      newViewPortData.marginLeft * newViewPortData.pixelRatio,
-    y:
-      point.y +
-      viewPortHeight / 2 +
-      newViewPortData.marginTop * newViewPortData.pixelRatio,
+    x: point.x - viewPortWidth / 2 - newViewPortData.marginLeft * newViewPortData.pixelRatio,
+    y: point.y + viewPortHeight / 2 + newViewPortData.marginTop * newViewPortData.pixelRatio,
   };
   const br = {};
   br.x = tl.x + newViewPortData.realWidth;
@@ -123,17 +106,17 @@ export function zoomToTable(tableRect, viewPortData) {
   return { ...newViewPortData, topLeft: tl, bottomRight: br };
 }
 
-export function addWindowListeners(
-  viewPortData,
-  setViewPortData,
-  appActions,
-  canvas
-) {
+export function addWindowListeners(viewPortData, setViewPortData, appActions, canvas) {
   document.getElementById("spinner").style.display = "none";
   const { sw, sh } = resize(viewPortData, setViewPortData, canvas);
-  setViewPortData((prevData) => setDimensions(sw, sh, 4000, prevData));
-  setViewPortData((prevData) => scale(1, { x: 1300, y: -600 }, prevData));
+  setViewPortData((prevData) => setDimensions(sw, sh, 10000, prevData));
+  //setViewPortData((prevData) => scale(2, { x: 0, y: 0 }, prevData));
+  
+
   document.body.oncontextmenu = () => true;
+  document.addEventListener("load", () => {
+  ///zoomToTable({topLeft:{x: 0, y: 2400}, bottomRight: {x: 3000, y: 0}}, viewPortData)
+  });
   window.addEventListener("resize", () => {
     resize(viewPortData, setViewPortData, canvas);
   });
@@ -160,11 +143,11 @@ function resize(viewPortData, setViewPortData, canvas) {
   const sw = Number.parseInt(style.width);
   let sh =
     window.innerHeight <= window.innerWidth
-      ? wHeight * 0.8 
+      ? wHeight * 0.8
       : sw
-        setViewPortData((prevData) =>
-          setDimensions(sw, sh, prevData.realWidth, prevData)
-        );
+  setViewPortData((prevData) =>
+    setDimensions(sw, sh, prevData.realWidth, prevData)
+  );
   canvas.width = sw;
   canvas.height = sh;
   canvas.style.width = sw + "px";

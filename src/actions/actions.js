@@ -30,6 +30,7 @@ export function getActions(dispatch) {
         newProjectConfirm: () => dispatch(ModelActions.newProjectConfirm()),
         newProject: (data) => dispatch(ModelActions.newProject(data)),
         print: ({ save }) => dispatch(ScreenActions.print({ save })),
+        resetView: () => dispatch(ScreenActions.resetView()),
         requestLanguage: (lang) => dispatch(AppActions.requestLanguage(lang)),
         save: () => dispatch(ModelActions.saveProject()),
         setCursor: (cursor) => dispatch(ScreenActions.setCursor(cursor)),

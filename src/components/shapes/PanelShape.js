@@ -115,14 +115,33 @@ export default class PanelShape extends Shape {
     }
     isMoveAvailable({ newX: x, newY: y, dx, dy }) {
         if (this.state.fixed) return { result: false }
-        for (let joint of this.jointFromBackSide) {
+        let result
+        result = this.snapToNearest({ newX: x, newY: y, dx, dy })
+        if(result.result === true) return {...result}
+        result = this.snapToMinJointLength({ newX: x, newY: y, dx, dy })
+        if(result.result === true) return {...result}
 
-            if (joint.getLength() + (dx + dy) < joint.minLength) return { result: false }
+
+
+        return { result: true, newX: x, newY: y, dx, dy }
+    }
+
+    snapToMinJointLength({ newX: x, newY: y, dx, dy }){
+        for (let joint of this.jointFromBackSide) {
+            const delta = (joint.getLength() + dx + dy) - joint.minLength
+            if (delta < 0)
+                if (this.vertical) return { result: true, newX: x - delta, newY: y, dx: dx - delta, dy }
+                                else return { result: true, newX: x, newY: y - delta, dx, dy: dy - delta }
         }
         for (let joint of this.jointFromFrontSide) {
-            if (joint.getLength() - (dx + dy) < joint.minLength) return { result: false }
+            const delta = (joint.getLength() - dx - dy) - joint.minLength
+            if (delta < 0) if (this.vertical) return { result: true, newX: x + delta, newY: y, dx: dx + delta, dy }
+                            else return { result: true, newX: x, newY: y + delta, dx, dy: dy + delta }
         }
+        return {result: false, newX: x, newY: y, dx, dy }
+    }
 
+    snapToNearest({ newX: x, newY: y, dx, dy }){
         const { nearestFromBack, nearestFromFront } = this.getNearest()
         let par = nearestFromBack
         let margin = Math.max(this.panelMargin, par.panelMargin)
@@ -146,11 +165,13 @@ export default class PanelShape extends Shape {
             const minDY = y - minY
             if (minY < y) return { result: true, newX: x, newY: minY, dx, dy: dy - minDY }
         }
-        return { result: true, newX: x, newY: y, dx, dy }
+
+        return {result: false, newX: x, newY: y, dx, dy }
     }
 
     getNearest() {
-        let nearestFromBack, nearestFromFront
+        let nearestFromBack = this.parallelFromBack.values().next().value
+        let nearestFromFront = this.parallelFromFront.values().next().value
         let maxX = 0, maxY = 0
         for (let par of this.parallelFromBack) {
             if ((par.rect.x > maxX) && this.vertical) {

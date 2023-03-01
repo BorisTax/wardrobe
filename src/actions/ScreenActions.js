@@ -11,10 +11,10 @@ export const ScreenActions = {
   DELETE_CONFIRM: "DELETE_CONFIRM",
   DELETE_SELECTED_PANELS: "DELETE_SELECTED_PANELS",
   FLIP_ORIENTATION: "FLIP_ORIENTATION",
-  GO_TO_ACTIVE_TABLE: "GO_TO_ACTIVE_TABLE",
   PAN_SCREEN: "PAN_SCREEN",
   PRINT: "PRINT",
   REPAINT: "REPAINT",
+  RESET_VIEW: "RESET_VIEW",
   SELECT_ALL: "SELECT_ALL",
   SELECT_PANEL: "SELECT_PANEL",
   SET_CURSOR:"SET_CURSOR",
@@ -85,11 +85,6 @@ export const ScreenActions = {
       type: ScreenActions.FLIP_ORIENTATION
     };
   },
-  goToActiveTable: () => {
-    return {
-      type: ScreenActions.GO_TO_ACTIVE_TABLE
-    };
-  },
   print: ({save}) => {
     return {
       type: ScreenActions.PRINT,
@@ -100,6 +95,11 @@ export const ScreenActions = {
   repaint: () => {
     return {
       type: ScreenActions.REPAINT
+    };
+  },
+  resetView: () => {
+    return {
+      type: ScreenActions.RESET_VIEW
     };
   },
   selectPanels: selectedPanels => {

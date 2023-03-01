@@ -17,7 +17,7 @@ const initialState = {
     viewPortWidth: 550,
     selectDist: 2,
     snapDist: 20, snapMinDist: 10,
-    topLeft: { x: -500, y: 2500 },
+    topLeft: { x: -5000, y: 2500 },
     bottomRight: { x: 2500, y: -100 },
     touchManager: new TouchManager(),
 }

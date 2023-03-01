@@ -67,6 +67,9 @@ export default function statusReducer(state, action){
         case ScreenActions.REPAINT:
             return { result: true, newState: {...state} }
 
+        case ScreenActions.RESET_VIEW:
+            return { result: true, newState: {...state, resetView: !state.resetView} }
+
         case ScreenActions.SET_CURSOR:
             return {result:true, newState: {...state, cursor: action.payload} }
 

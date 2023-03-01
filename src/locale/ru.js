@@ -134,6 +134,7 @@ export const captions = {
       "moveRight": "Двигать вправо",
       "moveUp": "Двигать вверх",
       "moveDown": "Двигать вниз",
+      "resetView": "Центрировать вид",
     },
     "property": {
       "title": "Свойства детали",

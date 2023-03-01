@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import ToolBar from './ToolBar.js';
 import { paint } from '../functions/drawFunctions.js';
-import { addWindowListeners } from '../functions/viewPortFunctions.js';
+import { addWindowListeners, zoomToRect } from '../functions/viewPortFunctions.js';
 import useEvents from '../customHooks/useEvents.js';
 import useDoubleClick from '../customHooks/useDoubleClick.js';
 
@@ -20,6 +20,9 @@ export default function ViewPort({ viewPortData, setViewPortData, appActions, ap
         })
         addWindowListeners(viewPortData, setViewPortData, appActions, refCanvas.current)
     }, [])
+    useEffect(()=>{
+        setViewPortData((prevData) => zoomToRect({topLeft:{x: -500, y: appData.wardrobe.height+1000}, bottomRight: {x: appData.wardrobe.width, y: -1000}}, prevData));
+    }, [appData.resetView])
     const doubleClick = useDoubleClick(eventHandlers, (e) => eventHandlers.onDoubleClick(e))
     return <ToolBar id={"canvas-container"} noTitle={true} wide={false}>
         <canvas ref={refCanvas} id="canvas" style={{ width: `${viewPortData.viewPortWidth}px`, height: `${viewPortData.viewPortHeight}px`, cursor: 'none' }} width={viewPortData.viewPortWidth} height={viewPortData.viewPortHeight}

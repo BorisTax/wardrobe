@@ -180,8 +180,8 @@ $icon-url: '../images/icons/';
     background-image: url($icon-url+'dimension_outside.svg');
     @include instruments_button();
   }
-  .table_move_to{
-    background-image: url($icon-url+'table_move_to.png');
+  .resetView{
+    background-image: url($icon-url+'resetView.svg');
     @include instruments_button();
   }
   .table_hor_center{

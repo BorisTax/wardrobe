@@ -54,6 +54,7 @@ export function getInitialState(data) {
       createTwoPanelDimension: false,
     },
     information: { order: "", plan: "", currentDate: getNewDate() },
+    resetView: true,
     showLoading: false,
     showConfirm: { show: false, message: "" },
     showAlert: { show: false, message: "" },
