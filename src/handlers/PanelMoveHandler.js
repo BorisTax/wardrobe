@@ -22,7 +22,6 @@ export class PanelMoveHandler extends MouseHandler {
         this.newPanel = newPanel;
         if (this.newPanel) this.panels = [...state.panels, state.curShape];
         this.curShape = state.curShape;
-        this.countSelected = this.panels.filter(p => p.state.selected).length
         this.first = true;
         this.setStatusBar()
     }
@@ -43,7 +42,7 @@ export class PanelMoveHandler extends MouseHandler {
             appActions.setScreenStatus(Status.PAN, { startPoint: this.coord, prevStatus: Status.FREE, prevMouseHandler: this });
             return
         }
-        if (button === 2 && this.countSelected < 2) {
+        if (button === 2 ) {
 
             return true;
         }

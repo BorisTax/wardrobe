@@ -3,6 +3,8 @@ export const ShapeActions = {
     CREATE_PANEL: 'CREATE_PANEL',
     CREATE_SINGLE_DIMENSION: 'CREATE_SINGLE_DIMENSION',
     CREATE_TWO_PANEL_DIMENSION: 'CREATE_TWO_PANEL_DIMENSION',
+    DELETE_SELECTED: "DELETE_SELECTED",
+    DELETE_SELECTED_CONFIRM: "DELETE_SELECTED_CONFIRM",
     MOVE_PANEL: "MOVE_PANEL",
     SELECT_PANEL: 'SELECT_PANEL',
     SET_PANEL_STATE: 'SET_PANEL_STATE',
@@ -30,6 +32,16 @@ export const ShapeActions = {
             payload: {inside}
         }
     },
+    deleteSelected: () => {
+        return {
+          type: ShapeActions.DELETE_SELECTED
+        };
+      },
+    deleteSelectedConfirm: () => {
+        return {
+          type: ShapeActions.DELETE_SELECTED_CONFIRM
+        };
+      },
     movePanel: (panel, movePoint) => {
         return {
             type: ShapeActions.MOVE_PANEL,

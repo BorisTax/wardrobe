@@ -25,6 +25,28 @@ export function updateParallelPanels(panels) {
         }
 }
 
+export function selectAllJointedPanels(panel, selectedPanels){
+    panel.jointFromBackSide.forEach(j => {
+        selectedPanels.add(j)
+        selectAllJointedPanels(j, selectedPanels)
+    })
+    panel.jointFromFrontSide.forEach(j => {
+        selectedPanels.add(j)
+        selectAllJointedPanels(j, selectedPanels)
+    })
+}
+
+export function deleteAllLinksToPanels(panels, panelsToDelete){
+    for(let p of panels){
+        panelsToDelete.forEach(d => {
+            p.jointFromBackSide.delete(d)
+            p.jointFromFrontSide.delete(d)
+            p.parallelFromBack.delete(d)
+            p.parallelFromFront.delete(d)
+        })
+    }
+}
+
 export function getWardrobeDimensions({panels}) {
     let maxX = 0
     let maxY = 0

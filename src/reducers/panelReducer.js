@@ -12,7 +12,7 @@ import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimens
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
-import { updateParallelPanels } from "./panels";
+import { deleteAllLinksToPanels, selectAllJointedPanels, updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action) {
     switch (action.type) {
@@ -24,7 +24,7 @@ export default function panelReducer(state, action) {
 
         case ScreenActions.ADD_PANEL:
             const panel = action.payload
-            state.panels.push(panel);
+            state.panels.add(panel);
             updateParallelPanels(state.panels)
             return { result: true, newState: { ...state, status: Status.FREE } };
 
@@ -67,23 +67,43 @@ export default function panelReducer(state, action) {
                 }, cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
             }
             return { result: true, newState: { ...newState, mouseHandler: new TwoPanelDimensionCreateHandler(newState, action.payload.inside) } };
-        case ScreenActions.DELETE_CONFIRM:
-            const showConfirm = (state.panels.some(s => s.state.selected)) ? { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ScreenActions.deleteSelectedPanels }] } : { show: false }
-            return { result: true, newState: { ...state, showConfirm } }
 
-        case ScreenActions.DELETE_SELECTED_PANELS:
-            const panels = state.panels.filter((p) => {
-                if (p.state.selected) state.detailList[p.model.listKey].forEach(d => { if (p.getId() === d.id) d.created--; })
-                return !p.getState().selected;
+        case ShapeActions.DELETE_SELECTED:
+            const panels = new Set()
+            deleteAllLinksToPanels(state.panels, state.selectedPanels)
+            state.panels.forEach((p) => {
+                if(!state.selectedPanels.delete(p)){
+                    panels.add(p);
+                }
+                    else {
+                        p.dimensions.forEach(d => {d.delete(); state.dimensions.delete(d)})
+                        if(p.singleDimension) {state.dimensions.delete(p.singleDimension); p.singleDimension.delete();}
+                        p.dimensions = new Set()
+                    }
             });
+            const dimensions = new Set()
+            state.dimensions.forEach((p) => {
+                if(!state.selectedPanels.delete(p)) {
+                    dimensions.add(p)
+                }
+                    else state.dimensions.forEach(d => d.delete())
+            });
+
             newState = {
                 ...state,
                 panels,
-                selectedPanels: new Set(),
+                dimensions,
                 mouseHandler: new StatusFreeHandler(state),
                 cursor: new SelectCursor()
             };
-            return { result: true, newState: { ...newState, detailList: { ...newState.detailList } } };
+            return { result: true, newState: { ...newState } };
+
+        case ShapeActions.DELETE_SELECTED_CONFIRM:
+            for(let p of state.selectedPanels){
+                if(p.type !== Shape.DIMENSION) selectAllJointedPanels(p, state.selectedPanels)
+            }    
+            const showConfirm = { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
+            return { result: true, newState: { ...state, showConfirm } };
 
         case ShapeActions.MOVE_PANEL:
             newState = {

@@ -16,6 +16,8 @@ export default class PanelShape extends Shape {
         this.model.name = model.name || (this.vertical ? "Стойка" : "Полка")
         this.minLength = model.minLength || 282
         this.state.selectable = model.selectable === undefined ? true : model.selectable
+        this.state.deleteable = model.deleteable === undefined ? true : model.deleteable
+        this.state.fixable = model.fixable === undefined ? true : model.fixable
         this.state.fixed = model.fixed === undefined ? false : model.fixed
         this.state.blocked = model.blocked === undefined ? false : model.fixed
         this.state.hidden = model.hidden

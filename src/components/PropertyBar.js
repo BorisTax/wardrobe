@@ -12,11 +12,14 @@ export default function PropertyBar() {
     const selected = useSelector(store => store.selectedPanels)
     let panels = []
     let dimensions = []
-    let blockedInSelected = false
+    let fixDisabled = false
+    let deleteDisabled = false
+    let fixed = true
     for (let s of selected) {
-        if (s.state.blocked) blockedInSelected = true
+        if (!s.state.deleteable) deleteDisabled = true
+        if (!s.state.fixable) fixDisabled = true
         if (s.type === Shape.PANEL) panels.push(s)
-        if (s.type === Shape.DIMENSION) { blockedInSelected = true; dimensions.push(s) }
+        if (s.type === Shape.DIMENSION) { dimensions.push(s) }
     }
     let contents = <></>
     if (panels.length === 1) {
@@ -27,16 +30,18 @@ export default function PropertyBar() {
             <div>{captions.width}</div><div>{selected.model.width}</div>
         </div>
     }
+    if (panels.length > 0) fixed = panels[0].state.fixed
     if (panels.length + dimensions.length === 0) {
         contents = captions.noselected
-        blockedInSelected = true
+        fixDisabled = true
+        deleteDisabled = true
     }
     if ((panels.length + dimensions.length > 0) && (panels.length !== 1)) contents = captions.selected + (panels.length + dimensions.length)
-    const fixed = blockedInSelected ? true : panels[0].state.fixed
     const buttons = <div>
         <hr />
         <ToolButtonBar>
-            <ToolButton title={fixed ? captions.unlock : captions.lock} disabled={blockedInSelected} pressed={fixed} pressedStyle={"lockbutton_pressed"} unpressedStyle={"lockbutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed: !fixed }) }} />
+            <ToolButton title={fixed ? captions.unlock : captions.lock} disabled={fixDisabled} pressed={fixed} pressedStyle={"lockbutton_pressed"} unpressedStyle={"lockbutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed: !fixed }) }} />
+            <ToolButton title={captions.delete} disabled={deleteDisabled} pressed={fixed} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm() }} />
         </ToolButtonBar>
     </div>
     return <ToolBar caption={captions.title}>

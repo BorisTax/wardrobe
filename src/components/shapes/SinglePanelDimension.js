@@ -16,5 +16,9 @@ export default class SinglePanelDimension extends Dimension {
         super.refresh()
 
     }
+    delete(){
+        this.panel.dimensions.delete(this)
+        this.panel.singleDimension = null
+    }
 
 }

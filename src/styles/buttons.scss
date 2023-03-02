@@ -135,8 +135,8 @@ $table_icon_height: 41px;
 }
 
 @mixin property_button {
-  width: calc($table_icon_width / 2);
-  height: calc($table_icon_height / 2);
+  width: 20px;
+  height: 20px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -168,6 +168,11 @@ $table_icon_height: 41px;
 .lockbutton_unpressed {
   @include property_button;
   background-image: url($icon-url+'unlock.svg');
+}
+
+.deletebutton {
+  @include property_button;
+  background-image: url($icon-url+'delete.svg');
 }
 
 .createPanelVertical {

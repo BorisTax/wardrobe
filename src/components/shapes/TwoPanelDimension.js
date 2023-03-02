@@ -14,6 +14,10 @@ export default class TwoPanelDimension extends Dimension {
         super.refresh()
 
     }
+    delete(){
+        this.panel1.dimensions.delete(this)
+        this.panel2.dimensions.delete(this)
+    }
     static getPoints(panel1, panel2, inside) {
         const vert = panel1.vertical
         const firstPoint = {}

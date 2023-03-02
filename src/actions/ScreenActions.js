@@ -1,15 +1,9 @@
 import { Status } from "../reducers/functions";
 export const ScreenActions = {
-  ABORT:'ABORT',
   ADD_PANEL: "ADD_PANEL",
-  ARRANGE_PANELS:"ARRANGE_PANELS",
   CANCEL: "CANCEL",
-  CANCEL_MOVING:"CANCEL_MOVING",
   CANCEL_SELECTION: "CANCEL_SELECTION",
-  CENTER_TO_POINT: "CENTER_TO_POINT",
-  CREATE_PANEL: "CREATE_PANEL",
   DELETE_CONFIRM: "DELETE_CONFIRM",
-  DELETE_SELECTED_PANELS: "DELETE_SELECTED_PANELS",
   FLIP_ORIENTATION: "FLIP_ORIENTATION",
   PAN_SCREEN: "PAN_SCREEN",
   PRINT: "PRINT",
@@ -29,33 +23,15 @@ export const ScreenActions = {
   SET_TOP_LEFT: "SET_TOP_LEFT",
   START_SELECTION: "START_SELECTION",
   STOP_SELECTION: "STOP_SELECTION",
-  START_MEASURING: "START_MEASURING",
-  UPDATE_PLACED_DETAILS:"UPDATE_PLACED_DETAILS",
-  abort: () => {
-    return {
-      type: ScreenActions.ABORT,
-    };
-  },
   addShape: shape => {
     return {
       type: ScreenActions.ADD_PANEL,
       payload: shape
     };
   },
-  arrangePanels({hor,vert}){
-    return {
-      type: ScreenActions.ARRANGE_PANELS,
-      payload:{hor,vert}
-    }
-  },
   cancel: () => {
     return {
       type: ScreenActions.CANCEL
-    };
-  },
-  cancelMoving: () => {
-    return {
-      type: ScreenActions.CANCEL_MOVING
     };
   },
   cancelSelection: () => {
@@ -63,28 +39,12 @@ export const ScreenActions = {
       type: ScreenActions.CANCEL_SELECTION
     };
   },
-  centerToPoint: p => {
-    return {
-      type: ScreenActions.CENTER_TO_POINT,
-      payload: p
-    };
-  },
-
   deleteConfirm: () => {
     return {
       type: ScreenActions.DELETE_CONFIRM
     };
   },
-  deleteSelectedPanels: () => {
-    return {
-      type: ScreenActions.DELETE_SELECTED_PANELS
-    };
-  },
-  flipOrientation: () => {
-    return {
-      type: ScreenActions.FLIP_ORIENTATION
-    };
-  },
+
   print: ({save}) => {
     return {
       type: ScreenActions.PRINT,
@@ -182,11 +142,6 @@ export const ScreenActions = {
       payload: p
     };
   },
-  startMeasuring(){
-    return {
-      type:ScreenActions.START_MEASURING
-    }
-  },
   startSelection(point){
     return {
       type:ScreenActions.START_SELECTION,
@@ -199,9 +154,5 @@ export const ScreenActions = {
       payload:isSelectedPanels
     }
   },
-  updatePlacedDetails: () => {
-    return {
-      type: ScreenActions.UPDATE_PLACED_DETAILS
-    };
-  },
+
 };
