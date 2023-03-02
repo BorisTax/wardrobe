@@ -72,21 +72,21 @@ export default function panelReducer(state, action) {
             const panels = new Set()
             deleteAllLinksToPanels(state.panels, state.selectedPanels)
             state.panels.forEach((p) => {
-                if(!state.selectedPanels.delete(p)){
+                if (!state.selectedPanels.delete(p)) {
                     panels.add(p);
                 }
-                    else {
-                        p.dimensions.forEach(d => {d.delete(); state.dimensions.delete(d)})
-                        if(p.singleDimension) {state.dimensions.delete(p.singleDimension); p.singleDimension.delete();}
-                        p.dimensions = new Set()
-                    }
+                else {
+                    p.dimensions.forEach(d => { d.delete(); state.dimensions.delete(d) })
+                    if (p.singleDimension) { state.dimensions.delete(p.singleDimension); p.singleDimension.delete(); }
+                    p.dimensions = new Set()
+                }
             });
             const dimensions = new Set()
             state.dimensions.forEach((p) => {
-                if(!state.selectedPanels.delete(p)) {
+                if (!state.selectedPanels.delete(p)) {
                     dimensions.add(p)
                 }
-                    else state.dimensions.forEach(d => d.delete())
+                else state.dimensions.forEach(d => d.delete())
             });
 
             newState = {
@@ -99,10 +99,10 @@ export default function panelReducer(state, action) {
             return { result: true, newState: { ...newState } };
 
         case ShapeActions.DELETE_SELECTED_CONFIRM:
-            for(let p of state.selectedPanels){
-                if(p.type !== Shape.DIMENSION) selectAllJointedPanels(p, state.selectedPanels)
-            }    
-            const showConfirm = { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
+            for (let p of state.selectedPanels) {
+                if (p.type !== Shape.DIMENSION) selectAllJointedPanels(p, state.selectedPanels)
+            }
+            const showConfirm = { show: true, messageKey: action.payload.isJoints ? "deleteJointedPanels" : "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
             return { result: true, newState: { ...state, showConfirm } };
 
         case ShapeActions.MOVE_PANEL:

@@ -37,9 +37,10 @@ export const ShapeActions = {
           type: ShapeActions.DELETE_SELECTED
         };
       },
-    deleteSelectedConfirm: () => {
+    deleteSelectedConfirm: ({isJoints}) => {
         return {
-          type: ShapeActions.DELETE_SELECTED_CONFIRM
+          type: ShapeActions.DELETE_SELECTED_CONFIRM,
+          payload: {isJoints}
         };
       },
     movePanel: (panel, movePoint) => {

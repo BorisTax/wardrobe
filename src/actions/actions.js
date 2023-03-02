@@ -20,7 +20,7 @@ export function getActions(dispatch) {
         createSingleDimension: () => dispatch(ShapeActions.createSingleDimension()),
         createTwoPanelDimension: ({inside}) => dispatch(ShapeActions.createTwoPanelDimension({inside})),
         deleteSelected: () => dispatch(ShapeActions.deleteSelected()),
-        deleteSelectedConfirm: () => dispatch(ShapeActions.deleteSelectedConfirm()),
+        deleteSelectedConfirm: ({isJoints}) => dispatch(ShapeActions.deleteSelectedConfirm({isJoints})),
         logout: () => dispatch(UserActions.logout()),
         movePanel: (panel, movePoint) => dispatch(ShapeActions.movePanel(panel, movePoint)),
         open: () => dispatch(ModelActions.openProject()),
