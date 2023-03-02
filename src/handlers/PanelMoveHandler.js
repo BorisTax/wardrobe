@@ -102,6 +102,9 @@ export class PanelMoveHandler extends MouseHandler {
         const tm = viewPortData.touchManager
         if (tm.getTouchCount() === 0) this.up({ button: 0, curPoint, viewPortData, appActions, appData })
     }
+    leave({appActions}){
+        appActions.cancel()
+    }
     click() {
 
 

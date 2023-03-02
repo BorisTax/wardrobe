@@ -14,6 +14,7 @@ export default function InstrumentsBar(){
         <ToolButtonBar>
             <ToolButton icon={"createPanelVertical"} pressed={vert} {...pressedStyle} title={captions.createVertical} onClick={()=>{appActions.createPanel({vertical: true})}}/>
             <ToolButton icon={"createPanelHorizontal"} pressed={hor} {...pressedStyle} title={captions.createHorizontal} onClick={()=>{appActions.createPanel({vertical: false})}}/>
+            <ToolButton icon={"createDrawer"} pressed={hor} {...pressedStyle} title={captions.createDrawer} onClick={()=>{}}/>
         </ToolButtonBar>
         <ToolButtonBar>
             <ToolButton icon={"createSingleDimension"} pressed={single} {...pressedStyle} title={captions.createSingleDimension} onClick={()=>{appActions.createSingleDimension()}}/>

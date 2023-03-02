@@ -121,6 +121,7 @@ export const captions = {
       "title": "Инструменты",
       "createVertical": "Добавить вертикальную деталь",
       "createHorizontal": "Добавить горизонтальную деталь",
+      "createDrawer": "Добавить ящик",
       "createSingleDimension": "Добавить размер для одной детали",
       "createTwoPanelDimensionInside": "Добавить размер между деталями изнутри",
       "createTwoPanelDimensionOutside": "Добавить размер между деталями снаружи",

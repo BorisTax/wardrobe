@@ -185,6 +185,11 @@ $table_icon_height: 41px;
   @include instruments_button();
 }
 
+.createDrawer {
+  background: url($icon-url+'drawer.svg');
+  @include instruments_button();
+}
+
 .moveButtons {
   @include instruments_button();
   display: grid;

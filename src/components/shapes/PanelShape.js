@@ -99,8 +99,6 @@ export default class PanelShape extends Shape {
     moveTo(dx, dy, onGabaritChange = () => { }) {
         const { x, y } = this.getPosition();
         if (this.vertical) dy = 0; else dx = 0
-        //if (Math.abs(dx) > 20) dx = Math.sign(dx) * 20
-        //if (Math.abs(dy) > 20) dy = Math.sign(dy) * 20
         let newX = x + dx
         let newY = y + dy
         let result
@@ -119,6 +117,7 @@ export default class PanelShape extends Shape {
             return true
         } else return false
     }
+    
     isMoveAvailable({ newX: x, newY: y, dx, dy }) {
         if (this.state.fixed) return { result: false }
         const resultNear = this.snapToNearest({ newX: x, newY: y, dx, dy })
@@ -126,31 +125,34 @@ export default class PanelShape extends Shape {
         if (resultNear.result === true) {
             if (resultJoint.result === false) return { ...resultNear }
             if (this.vertical) {
-                //console.log(dx)
-                if (dx < 0) return resultNear.newX > resultJoint.newX ? { ...resultNear } : { resultJoint }
-                return resultNear.newX < resultJoint.newX ? { ...resultNear } : { resultJoint }
+                if (dx < 0) return resultNear.newX > resultJoint.newX ? { ...resultNear } : { ...resultJoint }
+                return resultNear.newX < resultJoint.newX ? { ...resultNear } : { ...resultJoint }
             } else {
-                if (dy < 0) return resultNear.newY > resultJoint.newY ? { ...resultNear } : { resultJoint }
-                return resultNear.newY < resultJoint.newY ? { ...resultNear } : { resultJoint }
+                if (dy < 0) return resultNear.newY > resultJoint.newY ? { ...resultNear } : { ...resultJoint }
+                return resultNear.newY < resultJoint.newY ? { ...resultNear } : { ...resultJoint }
             }
         }
         if (resultJoint.result === true) return { ...resultJoint }
-
         return { result: true, newX: x, newY: y, dx, dy }
     }
 
     snapToMinJointLength({ newX: x, newY: y, dx, dy }) {
-        for (let joint of this.jointFromBackSide) {
-            const delta = (joint.getLength() + dx + dy) - joint.minLength
+        const jointFromBackSide = Array.from(this.jointFromBackSide)
+        const shortestJointFromBack = jointFromBackSide.reduce((min, j) => j.getLength() < min.getLength() ? j : min, jointFromBackSide[0])
+        if(shortestJointFromBack){
+            const delta = (shortestJointFromBack.getLength() + dx + dy) - shortestJointFromBack.minLength
             if (delta < 0)
                 if (this.vertical) return { result: true, newX: x - delta, newY: y, dx: dx - delta, dy }
-                else return { result: true, newX: x, newY: y - delta, dx, dy: dy - delta }
-        }
-        for (let joint of this.jointFromFrontSide) {
-            const delta = (joint.getLength() - dx - dy) - joint.minLength
-            if (delta < 0) if (this.vertical) return { result: true, newX: x + delta, newY: y, dx: dx + delta, dy }
-            else return { result: true, newX: x, newY: y + delta, dx, dy: dy + delta }
-        }
+                    else return { result: true, newX: x, newY: y - delta, dx, dy: dy - delta }
+            }
+        const jointFromFrontSide = Array.from(this.jointFromFrontSide)
+        const shortestJointFromFront = jointFromFrontSide.reduce((min, j) => j.getLength() < min.getLength() ? j : min, jointFromFrontSide[0])
+        if(shortestJointFromFront){
+            const delta = (shortestJointFromFront.getLength() - dx - dy) - shortestJointFromFront.minLength
+            if (delta < 0) 
+                if (this.vertical) return { result: true, newX: x + delta, newY: y, dx: dx + delta, dy }
+                    else return { result: true, newX: x, newY: y + delta, dx, dy: dy + delta }
+                }
         return { result: false, newX: x, newY: y, dx, dy }
     }
 
