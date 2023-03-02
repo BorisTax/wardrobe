@@ -121,10 +121,26 @@ export default class Dimension extends Shape {
     }
 
     isInSelectionRect({ topLeft, bottomRight }) {
-        const inRect = [Geometry.pointInRect(this.offsetPoint, topLeft, bottomRight),
-        Geometry.pointInRect(this.rect.last, topLeft, bottomRight)];
+        const firstPoint = {}
+        const secondPoint = {}
+        if (this.vertical) {
+            firstPoint.x = this.offsetPoint.x
+            secondPoint.x = this.offsetPoint.x
+            firstPoint.y = this.offsetPoint.y - this.length / 2
+            secondPoint.y = this.offsetPoint.y + this.length / 2
+        } else {
+            firstPoint.x = this.offsetPoint.x - this.length / 2
+            secondPoint.x = this.offsetPoint.x + this.length / 2
+            firstPoint.y = this.offsetPoint.y
+            secondPoint.y = this.offsetPoint.y
+        }
+        const inRect = [Geometry.pointInRect(firstPoint, topLeft, bottomRight),
+        Geometry.pointInRect(secondPoint, topLeft, bottomRight)];
         const full = inRect.every(i => i === true);
-        const cross = Intersection.RectangleRectangle(topLeft, bottomRight, this.rect, this.rect.last).length > 0;
+        const dimLine = { p1: firstPoint, p2: secondPoint }
+        const cross = Intersection.LineRectangle(dimLine, topLeft, bottomRight).length > 0
+
+
         return { cross, full };
     }
 }

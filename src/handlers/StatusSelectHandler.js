@@ -32,6 +32,7 @@ export class StatusSelectHandler extends MouseHandler {
         this.curShape.setCorners({ x: this.x0, y: this.y0 }, this.coord)
         this.selectPanels({ topLeft: this.curShape.model.topLeft, bottomRight: this.curShape.model.bottomRight },
             appData.panels,
+            appData.dimensions,
             appData.selectedPanels,
             crossSelect
         );
@@ -63,9 +64,9 @@ export class StatusSelectHandler extends MouseHandler {
         if (button === 0) appActions.stopSelection(this.isSelectedPanels);
         appActions.updateState()
     }
-    selectPanels(rect, panels, selectedPanels, crossSelect) {
+    selectPanels(rect, panels, dimensions, selectedPanels, crossSelect) {
         this.isSelectedPanels = false
-        for (let p of panels) {
+        for (let p of [...panels, ...dimensions]) {
             selectedPanels.delete(p)
             const { full, cross } = p.isInSelectionRect(rect)
             if (full) { selectedPanels.add(p); this.isSelectedPanels = true }
