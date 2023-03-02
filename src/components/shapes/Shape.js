@@ -4,6 +4,14 @@ import { PropertyTypes, RegExp } from "./PropertyData";
 export default class Shape {
     static PANEL = "PANEL"
     static DIMENSION = "DIMENSION"
+    static DRAWER = "DRAWER"
+    static DRAWER_OPTIONS = {
+        vertical: false,
+        type: Shape.DRAWER,
+        thickness: 140,
+        panelMargin: 10,
+        name: "Ящик"
+    }
     constructor() {
         this.style = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID);
         this.selectedStyle = new ShapeStyle(Color.SELECTED, ShapeStyle.SOLID);

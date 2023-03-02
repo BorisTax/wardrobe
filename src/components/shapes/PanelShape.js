@@ -117,7 +117,7 @@ export default class PanelShape extends Shape {
             return true
         } else return false
     }
-    
+
     isMoveAvailable({ newX: x, newY: y, dx, dy }) {
         if (this.state.fixed) return { result: false }
         const resultNear = this.snapToNearest({ newX: x, newY: y, dx, dy })
@@ -139,20 +139,20 @@ export default class PanelShape extends Shape {
     snapToMinJointLength({ newX: x, newY: y, dx, dy }) {
         const jointFromBackSide = Array.from(this.jointFromBackSide)
         const shortestJointFromBack = jointFromBackSide.reduce((min, j) => j.getLength() < min.getLength() ? j : min, jointFromBackSide[0])
-        if(shortestJointFromBack){
+        if (shortestJointFromBack) {
             const delta = (shortestJointFromBack.getLength() + dx + dy) - shortestJointFromBack.minLength
             if (delta < 0)
                 if (this.vertical) return { result: true, newX: x - delta, newY: y, dx: dx - delta, dy }
-                    else return { result: true, newX: x, newY: y - delta, dx, dy: dy - delta }
-            }
+                else return { result: true, newX: x, newY: y - delta, dx, dy: dy - delta }
+        }
         const jointFromFrontSide = Array.from(this.jointFromFrontSide)
         const shortestJointFromFront = jointFromFrontSide.reduce((min, j) => j.getLength() < min.getLength() ? j : min, jointFromFrontSide[0])
-        if(shortestJointFromFront){
+        if (shortestJointFromFront) {
             const delta = (shortestJointFromFront.getLength() - dx - dy) - shortestJointFromFront.minLength
-            if (delta < 0) 
+            if (delta < 0)
                 if (this.vertical) return { result: true, newX: x + delta, newY: y, dx: dx + delta, dy }
-                    else return { result: true, newX: x, newY: y + delta, dx, dy: dy + delta }
-                }
+                else return { result: true, newX: x, newY: y + delta, dx, dy: dy + delta }
+        }
         return { result: false, newX: x, newY: y, dx, dy }
     }
 
@@ -175,11 +175,11 @@ export default class PanelShape extends Shape {
         if (near) {
             const margin = Math.max(this.panelMargin, near.panelMargin)
             if (this.vertical) {
-                const minX = near.rect.x - near.thickness - margin
+                const minX = near.rect.x - this.thickness - margin
                 const minDX = x - minX
                 if (minX < x) return { result: true, newX: minX, newY: y, dx: dx - minDX, dy }
             } else {
-                const minY = near.rect.y - near.thickness - margin
+                const minY = near.rect.y - this.thickness - margin
                 const minDY = y - minY
                 if (minY < y) return { result: true, newX: x, newY: minY, dx, dy: dy - minDY }
             }
@@ -247,10 +247,10 @@ export default class PanelShape extends Shape {
         return true
     }
     findDimensions(x, y, panels, wardrobe) {
-        let minX = this.thickness
-        let maxX = wardrobe.width - this.thickness
+        let minX = 0
+        let maxX = wardrobe.width
         let minY = 46
-        let maxY = wardrobe.height - this.thickness
+        let maxY = wardrobe.height
         for (let panel of panels) {
             if (panel === this) continue
             if (this.vertical === panel.vertical) continue
@@ -287,7 +287,9 @@ export default class PanelShape extends Shape {
         this.model.length = this.vertical ? maxY - minY : maxX - minX
         this.rect = this.vertical ? { x, y: minY } : { x: minX, y }
         this.refresh()
+        return this.jointToBack.type === Shape.PANEL && this.jointToFront.type === Shape.PANEL
     }
+
     isInSelectionRect({ topLeft, bottomRight }) {
         const inRect = [Geometry.pointInRect(this.rect, topLeft, bottomRight),
         Geometry.pointInRect(this.rect.last, topLeft, bottomRight)];

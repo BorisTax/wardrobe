@@ -50,11 +50,12 @@ export class PanelCreateHandler extends MouseHandler {
         p.y = Math.trunc(p.y);
         this.canBePlaced = this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)
         if (this.canBePlaced) {
-            this.activeShape.findDimensions(p.x, p.y, appData.panels, appData.wardrobe)
+            const res = this.activeShape.findDimensions(p.x, p.y, appData.panels, appData.wardrobe)
             this.canBePlaced = (this.activeShape.model.length >= this.activeShape.minLength)
+            this.canBePlaced = res
         }
         this.activeShape.setHidden(!this.canBePlaced)
-        appData.cursor.setType(this.canBePlaced?DragCursor.DRAG:DragCursor.NODRAG)
+        appData.cursor.setType(this.canBePlaced ? DragCursor.DRAG : DragCursor.NODRAG)
         this.lastPoint = { ...this.coord };
     }
 

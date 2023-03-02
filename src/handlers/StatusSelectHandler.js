@@ -64,6 +64,11 @@ export class StatusSelectHandler extends MouseHandler {
         if (button === 0) appActions.stopSelection(this.isSelectedPanels);
         appActions.updateState()
     }
+    leave({appActions}){
+        super.leave()
+        appActions.cancel()
+    }
+
     selectPanels(rect, panels, dimensions, selectedPanels, crossSelect) {
         this.isSelectedPanels = false
         for (let p of [...panels, ...dimensions]) {

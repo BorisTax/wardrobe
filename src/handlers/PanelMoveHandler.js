@@ -63,7 +63,7 @@ export class PanelMoveHandler extends MouseHandler {
         for (const shape of [...this.panels, ...appData.dimensions]) {
             if (!appData.selectedPanels.has(shape)) continue;
             //selectedPanels.add(panel);
-            if (shape.type === Shape.PANEL) shape.moveTo(dx, dy, () => { setWardrobeDimensions(appData, appActions) });
+            if (shape.type !== Shape.DIMENSION) shape.moveTo(dx, dy, () => { setWardrobeDimensions(appData, appActions) });
             if (shape.type === Shape.DIMENSION) shape.moveTo(dx, dy, appData.wardrobe)
         }
         this.lastPoint = { ...this.coord };

@@ -4,6 +4,7 @@ import DimensionCursor from "../components/shapes/cursors/DimensionCursor";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
+import DrawerShape from "../components/shapes/DrawerShape";
 import PanelShape from "../components/shapes/PanelShape"
 import Shape from "../components/shapes/Shape";
 import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
@@ -28,16 +29,33 @@ export default function panelReducer(state, action) {
             updateParallelPanels(state.panels)
             return { result: true, newState: { ...state, status: Status.FREE } };
 
+        case ShapeActions.CREATE_DRAWER:
+            state.selectedPanels = new Set()
+            var newState = {
+                ...state, curShape: new DrawerShape({ wardrobe: state.wardrobe }),
+                cursor: new DragCursor(state.curRealPoint),
+                status: Status.CREATE,
+                toolButtonsPressed: {
+                    createVertical: false,
+                    createHorizontal: false,
+                    createDrawer: true,
+                    createSingleDimension: false,
+                    createTwoPanelDimension: false,
+                }
+            }
+            return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
+
         case ShapeActions.CREATE_PANEL:
             state.panels.forEach(p => { p.setState({ selected: false }) })
             state.selectedPanels = new Set()
-            var newState = {
-                ...state, curShape: new PanelShape({ ...action.payload, selectable: true, wardrobe: state.wardrobe }),
+            newState = {
+                ...state, curShape: new PanelShape({ ...action.payload, wardrobe: state.wardrobe }),
                 cursor: new DragCursor(state.curRealPoint),
                 status: Status.CREATE,
                 toolButtonsPressed: {
                     createVertical: action.payload.vertical,
                     createHorizontal: !action.payload.vertical,
+                    createDrawer: false,
                     createSingleDimension: false,
                     createTwoPanelDimension: false,
                 }
@@ -50,6 +68,7 @@ export default function panelReducer(state, action) {
                 toolButtonsPressed: {
                     createVertical: false,
                     createHorizontal: false,
+                    createDrawer: false,
                     createSingleDimension: true,
                     createTwoPanelDimension: false,
                 }, cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
@@ -61,6 +80,7 @@ export default function panelReducer(state, action) {
                 toolButtonsPressed: {
                     createVertical: false,
                     createHorizontal: false,
+                    createDrawer: false,
                     createSingleDimension: false,
                     createTwoPanelDimensionInside: action.payload.inside,
                     createTwoPanelDimensionOutside: !action.payload.inside,
