@@ -17,6 +17,7 @@ export default class PanelShape extends Shape {
         this.minLength = model.minLength || 282
         this.state.selectable = model.selectable === undefined ? true : model.selectable
         this.state.fixed = model.fixed === undefined ? false : model.fixed
+        this.state.blocked = model.blocked === undefined ? false : model.fixed
         this.state.hidden = model.hidden
         this.thickness = model.thickness || 16
         const position = model.position || { x: 0, y: 0 }
@@ -96,8 +97,8 @@ export default class PanelShape extends Shape {
     moveTo(dx, dy, onGabaritChange = () => { }) {
         const { x, y } = this.getPosition();
         if (this.vertical) dy = 0; else dx = 0
-        if (Math.abs(dx) > 20) dx = Math.sign(dx) * 20
-        if (Math.abs(dy) > 20) dy = Math.sign(dy) * 20
+        //if (Math.abs(dx) > 20) dx = Math.sign(dx) * 20
+        //if (Math.abs(dy) > 20) dy = Math.sign(dy) * 20
         let newX = x + dx
         let newY = y + dy
         let result
@@ -119,8 +120,18 @@ export default class PanelShape extends Shape {
     isMoveAvailable({ newX: x, newY: y, dx, dy }) {
         if (this.state.fixed) return { result: false }
         const resultNear = this.snapToNearest({ newX: x, newY: y, dx, dy })
-        if (resultNear.result === true) return { ...resultNear }
         const resultJoint = this.snapToMinJointLength({ newX: x, newY: y, dx, dy })
+        if (resultNear.result === true) {
+            if (resultJoint.result === false) return { ...resultNear }
+            if (this.vertical) {
+                //console.log(dx)
+                if (dx < 0) return resultNear.newX > resultJoint.newX ? { ...resultNear } : { resultJoint }
+                return resultNear.newX < resultJoint.newX ? { ...resultNear } : { resultJoint }
+            } else {
+                if (dy < 0) return resultNear.newY > resultJoint.newY ? { ...resultNear } : { resultJoint }
+                return resultNear.newY < resultJoint.newY ? { ...resultNear } : { resultJoint }
+            }
+        }
         if (resultJoint.result === true) return { ...resultJoint }
 
         return { result: true, newX: x, newY: y, dx, dy }

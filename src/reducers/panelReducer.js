@@ -5,6 +5,7 @@ import DragCursor from "../components/shapes/cursors/DragCursor";
 import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import PanelShape from "../components/shapes/PanelShape"
+import Shape from "../components/shapes/Shape";
 import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
 import { PanelMoveHandler } from "../handlers/PanelMoveHandler";
 import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimensionCreateHandler";
@@ -98,8 +99,8 @@ export default function panelReducer(state, action) {
             };
 
         case ShapeActions.SET_PANEL_STATE:
-            state.selectedPanels.forEach(p => p.setState(action.payload))
-            return { result: true, newState: { ...state} };
+            state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.setState(action.payload) })
+            return { result: true, newState: { ...state } };
 
         case ScreenActions.SELECT_PANEL:
             return { result: true, newState: { ...state, selectedPanels: action.payload } };

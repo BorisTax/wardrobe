@@ -20,10 +20,10 @@ if (token) {
 function createNewState({ wardrobe = { width: 2400, height: 2200, depth: 600 } }) {
   const leg = 30
   const panels = [
-    new PanelShape({ id: 0, wardrobe, name: "Крыша", length: wardrobe.width, vertical: false, position: { x: 0, y: wardrobe.height - 16 }, gabarit: true }),
-    new PanelShape({ id: 1, wardrobe, name: "Дно", length: wardrobe.width, vertical: false, position: { x: 0, y: leg }, fixed: true , gabarit: true }),
-    new PanelShape({ id: 2, wardrobe, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: 0, y: 16 + leg }, fixed: true, gabarit: true  }),
-    new PanelShape({ id: 3, wardrobe, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: wardrobe.width - 16, y: 16 + leg }, selectable: true, gabarit: true }),
+    new PanelShape({ id: 0, wardrobe, name: "Крыша", length: wardrobe.width, vertical: false, position: { x: 0, y: wardrobe.height - 16 }, fixed: true ,gabarit: true }),
+    new PanelShape({ id: 1, wardrobe, name: "Дно", length: wardrobe.width, vertical: false, position: { x: 0, y: leg }, fixed: true , blocked: true, gabarit: true }),
+    new PanelShape({ id: 2, wardrobe, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: 0, y: 16 + leg }, fixed: true, blocked: true, gabarit: true  }),
+    new PanelShape({ id: 3, wardrobe, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: wardrobe.width - 16, y: 16 + leg }, fixed: true, gabarit: true }),
   ]
   panels[0].jointFromBackSide = new Set([panels[2], panels[3]])
   panels[0].parallelFromBack = new Set([panels[1]])

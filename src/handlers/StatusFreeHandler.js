@@ -94,14 +94,7 @@ export class StatusFreeHandler extends MouseHandler {
     }
     doubleClick({ button, curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.doubleClick({ curPoint, viewPortData })
-        if (button === 0 && this.activeShape) {
-            if (appData.material.texture) return;
-            for (let panel of appData.panels) {
-                panel.state.selected = (panel === this.activeShape)
-            }
-            appActions.repaint()
-            return true;
-        }
+
     }
     keypress(code) {
         return super.keypress(code)

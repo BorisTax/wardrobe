@@ -83,7 +83,7 @@ export default class Dimension extends Shape {
     }
     moveTo(dx, dy, wardrobe) {
         const point = { x: this.vertical ? this.offsetPoint.x + dx : this.offsetPoint.x, y: this.vertical ? this.offsetPoint.y : this.offsetPoint.y + dy }
-        if (this.vertical) this.setOffsetPoint(point, wardrobe)
+        this.setOffsetPoint(point, wardrobe)
         this.refresh()
 
     }
