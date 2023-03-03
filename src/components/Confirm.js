@@ -1,14 +1,13 @@
 import React from 'react';
-import {AppActions} from '../actions/AppActions';
-import {  useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
+import Modal from './Modal';
 
 export default function Confirm(props){
         const dispatch = useDispatch()
         const appActions = useActions()
         const captions = useSelector(store => store.captions)
-        return <div className='modal-container  noselect' onClick={AppActions.blink} >
-                    <div className={"toolbar-modal shadow-box"} onClick={(e)=>{e.stopPropagation()}}>
+        return <Modal>
                       <div style={{maxWidth:"400px",wordWrap:"break-word",textAlign:"center"}}>{captions.messages[props.messageKey]}</div>
                         <div className="flex-center">
                         {props.actions.map((action, index)=>
@@ -20,7 +19,6 @@ export default function Confirm(props){
                             </button>)}
                         <button onClick={() => appActions.showConfirm(false)}>{captions.buttons.cancel}</button>
                         </div>
-                    </div>
-                </div>
+                </Modal>
 
 }
