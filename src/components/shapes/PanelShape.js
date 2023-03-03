@@ -117,6 +117,8 @@ export default class PanelShape extends Shape {
     moveTo(dx, dy, onGabaritChange = () => { }, doNotMove = false) {
         const { x, y } = this.getPosition();
         if (this.vertical) dy = 0; else dx = 0
+        const oldDX = dx
+        const oldDY = dy
         let newX = x + dx
         let newY = y + dy
         let result
@@ -133,7 +135,7 @@ export default class PanelShape extends Shape {
                 joint.setPosition(jpos.x + dx, jpos.y + dy)
             }
             if (this.gabarit) onGabaritChange() //to recalculate wardrobe size
-            return { result: true, newDX: newX - x, newDY: newY - y }
+            return { result: true, newDX: oldDX - dx, newDY: oldDY - dy }
         } else return { result: false }
     }
 
