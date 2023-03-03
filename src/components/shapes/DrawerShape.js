@@ -9,11 +9,9 @@ export default class DrawerShape extends PanelShape {
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {
-        console.log(this)
         if (this.state.hidden) return
         this.refresh(realRect, screenRect);
         this.refreshStyle(ctx)
-        //super.__proto__.__proto__.drawSelf(ctx, realRect, screenRect)
         if (this.state.selected || this.state.highlighted) { this.getStyle().setWidth(2) } else { this.getStyle().setWidth(1) }
         const rect = { x: this.rect.x + 4, y: this.rect.y, last: { x: this.rect.last.x - 4, y: this.rect.last.y } }
         const topLeft = Geometry.realToScreen(rect, realRect, screenRect);

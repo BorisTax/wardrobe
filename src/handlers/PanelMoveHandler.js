@@ -3,8 +3,7 @@ import { PropertyTypes } from "../components/shapes/PropertyData";
 import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
-import { setWardrobeDimensions } from "../reducers/panels";
-import Shape from "../components/shapes/Shape";
+import { moveSelectedPanels, setWardrobeDimensions } from "../reducers/panels";
 export class PanelMoveHandler extends MouseHandler {
     constructor(state, newPanel, movePoint) {
         super(state);
@@ -42,7 +41,7 @@ export class PanelMoveHandler extends MouseHandler {
             appActions.setScreenStatus(Status.PAN, { startPoint: this.coord, prevStatus: Status.FREE, prevMouseHandler: this });
             return
         }
-        if (button === 2 ) {
+        if (button === 2) {
 
             return true;
         }
@@ -59,12 +58,11 @@ export class PanelMoveHandler extends MouseHandler {
         p.y = Math.trunc(p.y);
         var { x, y } = this.activeShape.getPosition();
         var [dx, dy] = [p.x - x, p.y - y];
-        //let selectedPanels = new Set()
-        for (const shape of [...this.panels, ...appData.dimensions]) {
+        moveSelectedPanels(dx, dy, this.activeShape, appData.selectedPanels, () => { setWardrobeDimensions(appData, appActions) })
+
+        for (const shape of appData.dimensions) {
             if (!appData.selectedPanels.has(shape)) continue;
-            //selectedPanels.add(panel);
-            if (shape.type !== Shape.DIMENSION) shape.moveTo(dx, dy, () => { setWardrobeDimensions(appData, appActions) });
-            if (shape.type === Shape.DIMENSION) shape.moveTo(dx, dy, appData.wardrobe)
+            shape.moveTo(dx, dy, appData.wardrobe)
         }
         this.lastPoint = { ...this.coord };
     }
@@ -102,7 +100,7 @@ export class PanelMoveHandler extends MouseHandler {
         const tm = viewPortData.touchManager
         if (tm.getTouchCount() === 0) this.up({ button: 0, curPoint, viewPortData, appActions, appData })
     }
-    leave({appActions}){
+    leave({ appActions }) {
         appActions.cancel()
     }
     click() {

@@ -63,6 +63,24 @@ export default class PanelShape extends Shape {
         this.caption = ` ${ext}№${this.model.id} ${this.model.origLength}x${this.model.origWidth} ${module} `;
         this.captionShape.setText(this.caption);
     }
+    save() {
+        this.savedData = {
+            rect: {
+                x: this.rect.x,
+                y: this.rect.y,
+                last: { x: this.rect.last.x, y: this.rect.last.y },
+            },
+            length: this.model.length
+        }
+        this.jointFromBackSide.forEach(j => j.save())
+        this.jointFromFrontSide.forEach(j => j.save())
+    }
+    restore() {
+        this.rect = this.savedData.rect
+        this.model.length = this.savedData.length
+        this.jointFromBackSide.forEach(j => j.restore())
+        this.jointFromFrontSide.forEach(j => j.restore())
+    }
     setPosition(x, y) {
         this.rect.x = x
         this.rect.y = y
@@ -96,13 +114,14 @@ export default class PanelShape extends Shape {
     getDistance(point) {
 
     }
-    moveTo(dx, dy, onGabaritChange = () => { }) {
+    moveTo(dx, dy, onGabaritChange = () => { }, doNotMove = false) {
         const { x, y } = this.getPosition();
         if (this.vertical) dy = 0; else dx = 0
         let newX = x + dx
         let newY = y + dy
         let result
-        ({ result, newX, newY, dx, dy } = this.isMoveAvailable({ newX, newY, dx, dy }))
+            ; ({ result, newX, newY, dx, dy } = this.isMoveAvailable({ newX, newY, dx, dy }))
+        //if (doNotMove) return { result, newDX: newX - x, newDY: newY - y }
         if (result) {
             this.setPosition(newX, newY);
             for (let joint of this.jointFromBackSide) {
@@ -114,8 +133,8 @@ export default class PanelShape extends Shape {
                 joint.setPosition(jpos.x + dx, jpos.y + dy)
             }
             if (this.gabarit) onGabaritChange() //to recalculate wardrobe size
-            return true
-        } else return false
+            return { result: true, newDX: newX - x, newDY: newY - y }
+        } else return { result: false }
     }
 
     isMoveAvailable({ newX: x, newY: y, dx, dy }) {
@@ -188,8 +207,8 @@ export default class PanelShape extends Shape {
     }
 
     getNearest() {
-        let nearestFromBack = this.parallelFromBack.values().next().value
-        let nearestFromFront = this.parallelFromFront.values().next().value
+        let nearestFromBack = Array.from(this.parallelFromBack)[0]
+        let nearestFromFront = Array.from(this.parallelFromFront)[0]
         let maxX = 0, maxY = 0
         for (let par of this.parallelFromBack) {
             if ((par.rect.x > maxX) && this.vertical) {

@@ -56,7 +56,7 @@ export function getSelectionData(selected) {
     for (let s of selected) {
         if (!s.state.deleteable) deleteDisabled = true
         if (!s.state.fixable) fixDisabled = true
-        if (s.type === Shape.PANEL) panels.push(s)
+        if (s.type === Shape.PANEL || s.type === Shape.DRAWER) panels.push(s)
         if (s.type === Shape.DIMENSION) { dimensions.push(s) }
     }
 
@@ -66,6 +66,30 @@ export function getSelectionData(selected) {
     }
     const isJoints = panels.find(p => p.jointFromBackSide.size > 0 || p.jointFromFrontSide.size > 0)
     return { canBeDeleted: !deleteDisabled, canBeFixed: !fixDisabled, panelCount: panels.length, firstSelected: panels[0], dimensionCount: dimensions.length, isJoints }
+}
+
+export function moveSelectedPanels(dx, dy, active, selected, onGabaritChange = () => { }) {
+    const vertical = active.vertical
+    if ((dx === 0 && vertical) || (dy === 0 && !vertical)) return
+    const panels = Array.from(selected).filter(s => (s.vertical === vertical) && s.type !== Shape.DIMENSION)
+    if (vertical) {
+        panels.sort((p1, p2) => dx < 0 ? p1.rect.x - p2.rect.x : p2.rect.x - p1.rect.x)
+    } else panels.sort((p1, p2) => dy < 0 ? p1.rect.y - p2.rect.y : p2.rect.y - p1.rect.y)
+    let canMove = true
+    const savedPanels = new Set()
+    for (let p of panels) {
+        p.save()
+        savedPanels.add(p)
+        const res = p.moveTo(dx, dy, onGabaritChange)
+        if (!res.result || (p.vertical && (res.newDX === 0)) || (!p.vertical && (res.newDY === 0))) { canMove = false; break;}
+    }
+    if (!canMove) {
+        for (let p of savedPanels) {
+            p.restore()
+        }
+        onGabaritChange()
+    }
+
 }
 
 export function getWardrobeDimensions({ panels }) {
