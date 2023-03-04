@@ -1,7 +1,6 @@
 import { ModelActions } from "../actions/ModelActions";
 import { ScreenActions } from "../actions/ScreenActions";
 import DragCursor from "../components/shapes/cursors/DragCursor";
-import DrawCursor from "../components/shapes/cursors/DrawCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { StatusPanHandler } from "../handlers/StatusPanHandler";
@@ -111,7 +110,7 @@ export default function statusReducer(state, action) {
                 result: true,
                 newState: {
                     ...state,
-                    cursor: new DrawCursor(state.curRealPoint),
+                    cursor: new SelectCursor(state.curRealPoint),
                     status: Status.SELECT,
                     mouseHandler: new StatusSelectHandler(action.payload, state)
                 }

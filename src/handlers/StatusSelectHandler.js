@@ -72,7 +72,7 @@ export class StatusSelectHandler extends MouseHandler {
     selectPanels(rect, panels, dimensions, selectedPanels, crossSelect) {
         this.isSelectedPanels = false
         for (let p of [...panels, ...dimensions]) {
-            selectedPanels.delete(p)
+            //selectedPanels.delete(p)
             const { full, cross } = p.isInSelectionRect(rect)
             if (full) { selectedPanels.add(p); this.isSelectedPanels = true }
             if (cross && crossSelect) { selectedPanels.add(p); this.isSelectedPanels = true }

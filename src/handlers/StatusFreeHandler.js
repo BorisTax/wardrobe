@@ -58,6 +58,7 @@ export class StatusFreeHandler extends MouseHandler {
             if (!p.state.selectable) continue;
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 this.activeShape = p;
+                if(!p.state.selected && !keys.shiftKey) appData.selectedPanels = new Set()
             } else {
                 //p.setState({ selected: false })
             }
@@ -74,7 +75,6 @@ export class StatusFreeHandler extends MouseHandler {
     }
     click({ button, curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.click({ curPoint, viewPortData });
-        if (button !== 0) return
         if (button !== 0) return
         for (let p of [...appData.panels, ...appData.dimensions]) {
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
