@@ -4,8 +4,8 @@ import { AppActions } from '../actions/AppActions';
 export default function Modal(props) {
     const refHeader = useRef()
     const {onPointerDown, onPointerMove, onPointerLeave, onPointerUp} = useDragElement(refHeader)
-    return <div className='modal-container  noselect' onClick={AppActions.blink} >
-        <div ref={refHeader} className={"toolbar-modal shadow-box"} onClick={(e) => { e.stopPropagation() }}>
+    return <div className='modal-container noselect' onClick={AppActions.blink} >
+        <div ref={refHeader} className={"toolbar-modal shadow-box"} style={props.wide?{display:"block",width:"100%"}:{}} onClick={(e) => { e.stopPropagation() }}>
         <div 
             style={{ maxWidth: "400px", wordWrap: "break-word", textAlign: "center" }}
             onPointerDown = {onPointerDown}

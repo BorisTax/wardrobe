@@ -1,7 +1,7 @@
 import ShapeStyle from '../components/shapes/ShapeStyle';
 import { getRealRect, getScreenRect } from './viewPortFunctions'
 
-export function paint(ctx, viewPortData, appData) {
+export function paint(ctx, viewPortData, appData, print = false) {
     const color = "white"
     ctx.fillStyle = color;
     ctx.lineWidth = 1;
@@ -26,6 +26,7 @@ export function paint(ctx, viewPortData, appData) {
     ctx.lineWidth = 1;
     ctx.setLineDash(ShapeStyle.SOLID);
     ctx.fillStyle = color;
+    if(print) return
     //fill margin
     ctx.fillRect(0, 0, viewPortWidth - marginRight, marginTop);
     ctx.fillRect(0, 0, marginLeft, viewPortHeight);
@@ -38,11 +39,6 @@ export function paint(ctx, viewPortData, appData) {
     if (!appData.isMobile && appData.mouseHandler.mouseOnScreen) {
         appData.cursor.setPosition(viewPortData.curRealPoint);
         appData.cursor.drawSelf(ctx, realRect, screenRect);
-    }
-    if (appData.mouseHandler.debugText) {
-        ctx.font = `14px serif`;
-        ctx.fillStyle = "red"
-        ctx.fillText(appData.mouseHandler.debugText, 10, 100)
     }
 
 }

@@ -89,6 +89,7 @@ export function getInitialState(data) {
     dimensions: new Set(),
     panels: new Set(panels),
     deleteConfirm: true,
+    getViewportData:false,
     wardrobe,
     panelMargin: 0,
     toolButtonsPressed: {

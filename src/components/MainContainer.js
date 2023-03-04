@@ -10,12 +10,16 @@ export default function MainContainer(){
         <Header/>
         <StatusBar/>
         <div className='work-container'>
+        
            <LeftSideBar/>
+           
             <div className={'viewport-container'}>
                 <ViewPortContainer/>
             </div>
+            
             <RightSideBar/>
         </div>
+        
     </div>
 }
 

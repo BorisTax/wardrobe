@@ -89,7 +89,8 @@ export function setDimensions(width, height, realWidth, viewPortData) {
 }
 
 export function zoomToRect({topLeft, bottomRight}, viewPortData) {
-  const realWidth = 3000 / (viewPortData.viewPortHeight / viewPortData.viewPortWidth)
+  const realHeight = topLeft.y - bottomRight.y
+  const realWidth = realHeight / (viewPortData.viewPortHeight / viewPortData.viewPortWidth)
   
   const newViewPortData = setDimensions(viewPortData.viewPortWidth, viewPortData.viewPortHeight, realWidth, viewPortData);
   const point = {

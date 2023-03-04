@@ -31,7 +31,7 @@ export default class TextShape extends Shape {
     const fitWidth = Math.max(this.fitRect.width, this.fitRect.height);
     const fitHeight = Math.min(this.fitRect.width, this.fitRect.height);
     if (!fontSize) {
-      for (fontSize = 20; fontSize > 5; fontSize -= 1) {
+      for (fontSize = 14; fontSize > 5; fontSize -= 1) {
         ctx.font = `${fontSize}px serif`;
         ({ width, height } = this.getTextRect(ctx, ctx.font));
         if (fitWidth >= width && fitHeight >= height + 5) break;

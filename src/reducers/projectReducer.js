@@ -7,11 +7,12 @@ import { getNewDate } from "./functions";
 import { getInitialState } from "./initialState";
 import { printToPDF } from "./printPdf";
 import React from "react";
+import PrintPreviewBar from "../components/PrintPreviewBar";
 
 export default function projectReducer(state, action) {
     switch (action.type) {
         case ModelActions.NEW_PROJECT_CONFIRM:
-            const showDialog = { show: true, dialog: <NewProjectDialog /> }
+            let showDialog = { show: true, dialog: <NewProjectDialog /> }
             return { result: true, newState: { ...state, showDialog } };
 
         case ModelActions.NEW_PROJECT:
@@ -21,12 +22,15 @@ export default function projectReducer(state, action) {
                 result: true,
                 newState: { ...initialState }
             };
+
+            
         case ScreenActions.PRINT:
-            printToPDF(state, action.payload)
-            return {
-                result: true,
-                newState: state,
-            }
+            showDialog = { show: true, dialog: <PrintPreviewBar /> }
+            
+            return { result: true, newState: { ...state, showDialog } };
+
+        case ScreenActions.SEND_VIEWPORT_DATA:
+            return { result: true, newState: { ...state, viewPortData: action.payload  } }
 
         case ModelActions.SET_INFORMATION:
             return { result: true, newState: { ...state, information: { ...action.payload } } }

@@ -129,7 +129,8 @@ export const captions = {
       "deleteConfirm": "спрашивать перед удалением"
     },
     "print": {
-      "title": "Просмотр печати"
+      "title": "Просмотр печати",
+      "close": "Закрыть"
     },
     "statusbar": {
       "move": "двигать рабочее поле",

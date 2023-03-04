@@ -1,10 +1,10 @@
 import React, { useId, useState } from 'react';
 
-export default function ToolBar({ id, expanded = true, expandable = true, caption, font, noTitle, wide, children }) {
+export default function ToolBar({ id, expanded = true, expandable = true, caption, font, noTitle, wide, children, extStyle = {} }) {
         const [expand, setExpanded] = useState(expanded)
         if(!id) id = useId()
         const contents = expand ? children : <></>
-        return <div id={id} className={`${wide?'toolbar-wide':'toolbar'} noselect`}>
+        return <div id={id} className={`${wide?'toolbar-wide':'toolbar'} noselect`} style={extStyle}>
                 {!noTitle ?
                         <>
                         <div className={`${expandable?'toolbar-header-expandable':'toolbar-header'}`} style={{ fontSize: font }} onClick={() => { if(expandable) setExpanded(!expand) }}>
