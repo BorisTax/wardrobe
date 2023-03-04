@@ -73,6 +73,11 @@ export const captions = {
         "width": "Ширина",
         "depth": "Глубина",
         "height": "Высота",
+        "type":{
+          "type": "Тип",
+          "single": "Одинарный",
+          "double": "Двойной",
+        }
       }
     },
     "info": {
