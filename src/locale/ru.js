@@ -89,6 +89,7 @@ export const captions = {
     },
     "instruments": {
       "title": "Инструменты",
+      "dimensions": "Размеры",
       "createVertical": "Добавить вертикальную деталь",
       "createHorizontal": "Добавить горизонтальную деталь",
       "createDrawer": "Добавить ящик",

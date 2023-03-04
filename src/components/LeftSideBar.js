@@ -4,6 +4,7 @@ import { Status } from "../reducers/functions";
 import ProjectBar from "./ProjectBar";
 import InstrumentsBar from "./InstrumentsBar";
 import OperationsBar from "./OperationsBar";
+import DimensionsBar from "./DimensionsBar";
 
 export default function LeftSideBar() {
   const appData = useSelector(store => store)
@@ -13,6 +14,7 @@ export default function LeftSideBar() {
       <div className="sidebar-content">
         <ProjectBar disabled={disabled} />
         <InstrumentsBar/>
+        <DimensionsBar/>
         <OperationsBar/>
         </div>
     </div>

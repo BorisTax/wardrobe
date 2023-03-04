@@ -27,7 +27,7 @@ export default function panelReducer(state, action) {
             const panel = action.payload
             state.panels.add(panel);
             updateParallelPanels(state.panels)
-            return { result: true, newState: { ...state, status: Status.FREE } };
+            return { result: true, newState: { ...state, } };
 
         case ShapeActions.CREATE_DRAWER:
             state.selectedPanels = new Set()
