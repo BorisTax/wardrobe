@@ -7,8 +7,7 @@ export default function Confirm(props){
         const dispatch = useDispatch()
         const appActions = useActions()
         const captions = useSelector(store => store.captions)
-        return <Modal>
-                      <div style={{maxWidth:"400px",wordWrap:"break-word",textAlign:"center"}}>{captions.messages[props.messageKey]}</div>
+        return <Modal header={captions.messages[props.messageKey]}>
                         <div className="flex-center">
                         {props.actions.map((action, index)=>
                             <button key={index} 

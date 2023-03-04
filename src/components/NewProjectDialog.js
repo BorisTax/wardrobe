@@ -13,8 +13,8 @@ export default function NewProjectDialog() {
     const wardrobeCaps = captions.toolbars.project.wardrobe
     const [{ width, depth, height, double }, setWardrobe] = useState({ width: 2400, depth: 600, height: 2400, double: false })
     const comboValue = double ? wardrobeCaps.type.double : wardrobeCaps.type.single
-    return <Modal>
-                <div style={{ maxWidth: "400px", wordWrap: "break-word", textAlign: "center" }}>{captions.toolbars.project.new}</div>
+    return <Modal header={captions.toolbars.project.new}>
+                
                 <div className="newproject-content">
                     <div>{wardrobeCaps.width}</div>
                     <InputField type={NUMBER} value={width} setValue={value => setWardrobe(prev => ({ ...prev, width: +value }))} />
