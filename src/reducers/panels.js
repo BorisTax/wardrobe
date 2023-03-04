@@ -37,6 +37,32 @@ export function updateParallelPanels(panels) {
     }
 }
 
+export function getJointData(p){
+  const jointFromBackSide = Array.from(p.jointFromBackSide);
+  const jointFromFrontSide = Array.from(p.jointFromFrontSide);
+  const jointsFromBackMinToMax = jointFromBackSide.sort((j1, j2) => j1.getLength() - j2.getLength())
+  const jointsFromFrontMinToMax = jointFromFrontSide.sort((j1, j2) => j1.getLength() - j2.getLength())
+
+  // const shortestJointFromBack = jointFromBackSide.reduce(
+  //   (min, j) => (j.getLength() < min.getLength() ? j : min),
+  //   jointFromBackSide[0]
+  // );
+  // const longestJointFromBack = jointFromBackSide.reduce(
+  //   (max, j) => (j.getLength() > max.getLength() ? j : max),
+  //   jointFromBackSide[0]
+  // );
+  // const shortestJointFromFront = jointFromFrontSide.reduce(
+  //   (min, j) => (j.getLength() < min.getLength() ? j : min),
+  //   jointFromFrontSide[0]
+  // );
+  // const longestJointFromFront = jointFromFrontSide.reduce(
+  //   (max, j) => (j.getLength() > max.getLength() ? j : max),
+  //   jointFromFrontSide[0]
+  // );
+
+  return { jointsFromBackMinToMax, jointsFromFrontMinToMax };
+}
+
 export function selectAllJointedPanels(panel, selectedPanels) {
   panel.jointFromBackSide.forEach((j) => {
     selectedPanels.add(j);
@@ -65,7 +91,7 @@ export function getSelectionData(selected) {
   let fixDisabled = false;
   let deleteDisabled = false;
   for (let s of selected) {
-    if (!s.state.deleteable) deleteDisabled = true;
+    if (!s.state.deletable) deleteDisabled = true;
     if (!s.state.fixable) fixDisabled = true;
     if (s.type === Shape.PANEL || s.type === Shape.DRAWER) panels.push(s);
     if (s.type === Shape.DIMENSION) {
@@ -98,13 +124,10 @@ export function moveSelectedPanels(dx, dy, active, selected, onGabaritChange = (
     panels.sort((p1, p2) => dx < 0 ? p1.rect.x - p2.rect.x : p2.rect.x - p1.rect.x);
   } else
     panels.sort((p1, p2) => dy < 0 ? p1.rect.y - p2.rect.y : p2.rect.y - p1.rect.y);
-  //const savedPanels = new Set()
   let maxDX = 0;
   let maxDY = 0;
   let stopPanel;
   for (let p of panels) {
-    //p.save()
-    //savedPanels.add(p)
     const res = p.moveTo(dx, dy, onGabaritChange);
     if (vertical && Math.abs(res.newDX) > Math.abs(maxDX)) {
       maxDX = res.newDX;
@@ -114,18 +137,11 @@ export function moveSelectedPanels(dx, dy, active, selected, onGabaritChange = (
       maxDY = res.newDY;
       stopPanel = p;
     }
-    //if (!res.result || (p.vertical && (res.newDX !== 0)) || (!p.vertical && (res.newDY !== 0))) { canMove = false; break;}
   }
   for (let p of panels) {
     if (p === stopPanel) continue;
     p.move( - maxDX,  - maxDY, onGabaritChange);
   }
-  // if (!canMove) {
-  //     for (let p of savedPanels) {
-  //         p.restore()
-  //     }
-  //     onGabaritChange()
-  // }
 }
 
 export function getWardrobeDimensions({ panels }) {

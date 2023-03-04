@@ -23,7 +23,7 @@ export class StatusFreeHandler extends MouseHandler {
     move({ curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.move({ curPoint, viewPortData });
         if (this.drag) {
-            if (!keys.shiftKey) appData.selectedPanels = new Set()
+            //if (!keys.shiftKey) appData.selectedPanels = new Set()
             appData.selectedPanels.add(this.activeShape)
             if (!this.activeShape.state.fixed) appActions.movePanel(this.activeShape, this.dragPos);
             return;

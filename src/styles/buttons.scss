@@ -160,14 +160,24 @@ $table_icon_height: 41px;
   border-style: outset;
 }
 
-.lockbutton_pressed {
+.lockmovebutton_pressed {
   @include property_button;
-  background-image: url($icon-url+'lock.svg');
+  background-image: url($icon-url+'lock_move.svg');
 }
 
-.lockbutton_unpressed {
+.lockmovebutton_unpressed {
   @include property_button;
-  background-image: url($icon-url+'unlock.svg');
+  background-image: url($icon-url+'unlock_move.svg');
+}
+
+.locklengthbutton_pressed {
+  @include property_button;
+  background-image: url($icon-url+'lock_length.svg');
+}
+
+.locklengthbutton_unpressed {
+  @include property_button;
+  background-image: url($icon-url+'unlock_length.svg');
 }
 
 .deletebutton {

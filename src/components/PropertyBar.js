@@ -11,7 +11,8 @@ export default function PropertyBar() {
     const appActions = useActions()
     const selected = useSelector(store => store.selectedPanels)
     const {canBeDeleted, canBeFixed,  panelCount, firstSelected, dimensionCount, isJoints} = getSelectionData(selected)
-    let fixed = true
+    let fixed_move = true
+    let fixed_length = true
     let contents = <></>
     if (panelCount === 1) {
         const selected = firstSelected
@@ -21,7 +22,10 @@ export default function PropertyBar() {
             <div>{captions.width}</div><div>{selected.model.width}</div>
         </div>
     }
-    if (panelCount > 0) fixed = firstSelected.state.fixed
+    if (panelCount > 0) {
+        fixed_move = firstSelected.state.fixed_move
+        fixed_length = firstSelected.state.fixed_length
+    }
     if (panelCount + dimensionCount === 0) {
         contents = captions.noselected
     }
@@ -29,8 +33,9 @@ export default function PropertyBar() {
     const buttons = <div>
         <hr />
         <ToolButtonBar>
-            <ToolButton title={fixed ? captions.unlock : captions.lock} disabled={!canBeFixed} pressed={fixed} pressedStyle={"lockbutton_pressed"} unpressedStyle={"lockbutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed: !fixed }) }} />
-            <ToolButton title={captions.delete} disabled={!canBeDeleted} pressed={fixed} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm({isJoints}) }} />
+            <ToolButton title={fixed_move ? captions.unlock_move : captions.lock_move} disabled={!canBeFixed} pressed={fixed_move} pressedStyle={"lockmovebutton_pressed"} unpressedStyle={"lockmovebutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed_move: !fixed_move }) }} />
+            <ToolButton title={fixed_length ? captions.unlock_length : captions.lock_length} disabled={!canBeFixed} pressed={fixed_length} pressedStyle={"locklengthbutton_pressed"} unpressedStyle={"locklengthbutton_unpressed"} onClick={() => { appActions.fixLength(!fixed_length) }} />
+            <ToolButton title={captions.delete} disabled={!canBeDeleted} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm({isJoints}) }} />
         </ToolButtonBar>
     </div>
     return <ToolBar caption={captions.title}>

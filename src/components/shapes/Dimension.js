@@ -14,7 +14,7 @@ export default class Dimension extends Shape {
         this.offsetPoint = {}
         this.length = 0
         this.state.selectable = true
-        this.state.deleteable = true
+        this.state.deletable = true
         this.state.fixable = false
         this.state.fixed = false
         this.captionShape = new TextShape(this.length, {}, vertical ? -Math.PI / 2 : 0, { vertical: vertical ? TextShape.CENTER : TextShape.BOTTOM, horizontal: vertical ? TextShape.CENTER : TextShape.CENTER })

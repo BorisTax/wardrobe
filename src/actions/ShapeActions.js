@@ -6,6 +6,7 @@ export const ShapeActions = {
     CREATE_TWO_PANEL_DIMENSION: 'CREATE_TWO_PANEL_DIMENSION',
     DELETE_SELECTED: "DELETE_SELECTED",
     DELETE_SELECTED_CONFIRM: "DELETE_SELECTED_CONFIRM",
+    FIX_LENGTH: "FIX_LENGTH",
     MOVE_PANEL: "MOVE_PANEL",
     SELECT_PANEL: 'SELECT_PANEL',
     SET_PANEL_STATE: 'SET_PANEL_STATE',
@@ -49,6 +50,12 @@ export const ShapeActions = {
           payload: {isJoints}
         };
       },
+    fixLength: (fix) => {
+        return {
+            type: ShapeActions.FIX_LENGTH,
+            payload: fix
+        };
+    },
     movePanel: (panel, movePoint) => {
         return {
             type: ShapeActions.MOVE_PANEL,

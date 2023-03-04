@@ -125,6 +125,10 @@ export default function panelReducer(state, action) {
             const showConfirm = { show: true, messageKey: action.payload.isJoints ? "deleteJointedPanels" : "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
             return { result: true, newState: { ...state, showConfirm } };
 
+        case ShapeActions.FIX_LENGTH:
+            state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.fixLength(action.payload) })
+            return { result: true, newState: { ...state } };
+
         case ShapeActions.MOVE_PANEL:
             newState = {
                 ...state, curShape: action.payload.panel,

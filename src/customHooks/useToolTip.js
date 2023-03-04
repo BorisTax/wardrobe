@@ -9,6 +9,7 @@ export const useToolTip = (title) => {
     if (title) {
       toolTip.innerText = title;
       toolTip.style.display = "inline";
+      toolTip.style.fontSize = "0.8rem"
       const {width:toolTipWidth, height:toolTipHeight} = toolTip.getBoundingClientRect()
       let top = elementTop + elementHeight + window.scrollY + 5
       let left = elementLeft + window.scrollX 
