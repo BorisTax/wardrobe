@@ -16,15 +16,15 @@ export default class PanelShape extends Shape {
     if (!model.active) this.model.active = false;
     this.vertical = model.vertical;
     this.model.name = model.name || (this.vertical ? "Стойка" : "Полка");
-    this.minLength = model.minLength || 282;
-    this.defaultMinLength = this.minLength;
-    this.state.selectable =
-      model.selectable === undefined ? true : model.selectable;
-    this.state.deletable =
-      model.deletable === undefined ? true : model.deletable;
+    this.defaultMinLength = model.minLength || 282;;
+    this.defaultMaxLength = model.maxLength || 10000000;
+    this.minLength = this.defaultMinLength 
+    this.maxLength = this.defaultMaxLength;
+    this.state.selectable = model.selectable === undefined ? true : model.selectable;
+    this.state.deletable = model.deletable === undefined ? true : model.deletable;
     this.state.fixable = model.fixable === undefined ? true : model.fixable;
     this.state.fixed_move = model.fixed_move === undefined ? false : model.fixed_move;
-    this.state.fixed_length = model.fixed_length === undefined ? false : model.fixed_length;
+    this.state.fixedLength = model.fixedLength === undefined ? {min: false, max: false} : model.fixedLength;
     this.state.blocked = model.blocked === undefined ? false : model.fixed;
     this.state.hidden = model.hidden;
     this.thickness = model.thickness || 16;
@@ -124,9 +124,10 @@ export default class PanelShape extends Shape {
     this.model.id = id;
     this.refreshModel();
   }
-  fixLength(fix) {
-    this.minLength = fix ? this.model.length : this.defaultMinLength;
-    this.state.fixed_length = fix
+  fixLength({min, max}) {
+    this.minLength = min ? this.model.length : this.defaultMinLength;
+    this.maxLength = max ? this.model.length : this.defaultMaxLength
+    this.state.fixedLength = {min, max}
   }
   isUnderCursor(p, pixelRatio) {
     const mult = 2;
@@ -194,26 +195,49 @@ export default class PanelShape extends Shape {
 
   snapToMinJointLength({ newX: x, newY: y, dx, dy }) {
     const  { jointsFromBackMinToMax, jointsFromFrontMinToMax } =  getJointData(this)
-    let maxDelta = 0
+    let minLengthDelta = 0
+    let maxLengthDelta = 0
     for(let joint of jointsFromBackMinToMax) {
-        const delta = joint.getLength() + dx + dy - joint.minLength;
-        if (delta < maxDelta) maxDelta = delta
+        let delta = joint.getLength() + dx + dy - joint.minLength;
+        if (delta < minLengthDelta) minLengthDelta = delta
+        delta = joint.maxLength - (joint.getLength() + dx + dy);
+        if (delta < maxLengthDelta) maxLengthDelta = delta
     }
-    if (maxDelta < 0)
-        if (this.vertical)
-            return { result: true, newX: x - maxDelta, newY: y, dx: dx - maxDelta, dy };
-            else
-            return { result: true, newX: x, newY: y - maxDelta, dx, dy: dy - maxDelta };
-    maxDelta = 0 
-    for(let joint of jointsFromFrontMinToMax) {
-      const delta = joint.getLength() - dx - dy - joint.minLength;
-      if (delta < maxDelta) maxDelta = delta
-    }
-    if (maxDelta < 0)
-      if (this.vertical)
-        return { result: true, newX: x + maxDelta, newY: y, dx: dx + maxDelta, dy };
-      else
-        return { result: true, newX: x, newY: y + maxDelta, dx, dy: dy + maxDelta };
+    let result = []
+    result.push({delta: minLengthDelta, 
+        result: this.vertical?
+            { result: true, newX: x - minLengthDelta, newY: y, dx: dx - minLengthDelta, dy }
+            :
+            { result: true, newX: x, newY: y - minLengthDelta, dx, dy: dy - minLengthDelta }
+        })
+    result.push({delta: maxLengthDelta, 
+        result: this.vertical?
+            { result: true, newX: x + maxLengthDelta, newY: y, dx: dx + maxLengthDelta, dy }
+            :
+            { result: true, newX: x, newY: y + maxLengthDelta, dx, dy: dy + maxLengthDelta }
+        })
+    minLengthDelta = 0
+    maxLengthDelta = 0
+    jointsFromFrontMinToMax.forEach(joint => {
+      let delta = joint.getLength() - dx - dy - joint.minLength;
+      if (delta < minLengthDelta) minLengthDelta = delta
+      delta = joint.maxLength - joint.getLength() + dx + dy;
+      if (delta < maxLengthDelta) maxLengthDelta = delta
+    })
+    result.push({delta: minLengthDelta, 
+      result: this.vertical?
+        { result: true, newX: x + minLengthDelta, newY: y, dx: dx + minLengthDelta, dy }
+        :
+        { result: true, newX: x, newY: y + minLengthDelta, dx, dy: dy + minLengthDelta }
+    })
+    result.push({delta: maxLengthDelta,
+        result: this.vertical?
+          { result: true, newX: x - maxLengthDelta, newY: y, dx: dx - maxLengthDelta, dy }
+            :
+          { result: true, newX: x, newY: y - maxLengthDelta, dx, dy: dy - maxLengthDelta }
+    })
+    result.sort((r1, r2) => r1.delta - r2.delta)
+    if (result[0].delta < 0) return result[0].result
     return { result: false, newX: x, newY: y, dx, dy };
 }
 

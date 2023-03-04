@@ -50,10 +50,10 @@ export const ShapeActions = {
           payload: {isJoints}
         };
       },
-    fixLength: (fix) => {
+    fixLength: (min, max) => {
         return {
             type: ShapeActions.FIX_LENGTH,
-            payload: fix
+            payload: {min, max}
         };
     },
     movePanel: (panel, movePoint) => {

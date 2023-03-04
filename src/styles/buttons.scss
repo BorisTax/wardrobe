@@ -135,8 +135,8 @@ $table_icon_height: 41px;
 }
 
 @mixin property_button {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -178,6 +178,25 @@ $table_icon_height: 41px;
 .locklengthbutton_unpressed {
   @include property_button;
   background-image: url($icon-url+'unlock_length.svg');
+}
+.lockminlengthbutton_pressed {
+  @include property_button;
+  background-image: url($icon-url+'lock_minlength.svg');
+}
+
+.lockminlengthbutton_unpressed {
+  @include property_button;
+  background-image: url($icon-url+'unlock_minlength.svg');
+}
+
+.lockmaxlengthbutton_pressed {
+  @include property_button;
+  background-image: url($icon-url+'lock_maxlength.svg');
+}
+
+.lockmaxlengthbutton_unpressed {
+  @include property_button;
+  background-image: url($icon-url+'unlock_maxlength.svg');
 }
 
 .deletebutton {

@@ -42,24 +42,6 @@ export function getJointData(p){
   const jointFromFrontSide = Array.from(p.jointFromFrontSide);
   const jointsFromBackMinToMax = jointFromBackSide.sort((j1, j2) => j1.getLength() - j2.getLength())
   const jointsFromFrontMinToMax = jointFromFrontSide.sort((j1, j2) => j1.getLength() - j2.getLength())
-
-  // const shortestJointFromBack = jointFromBackSide.reduce(
-  //   (min, j) => (j.getLength() < min.getLength() ? j : min),
-  //   jointFromBackSide[0]
-  // );
-  // const longestJointFromBack = jointFromBackSide.reduce(
-  //   (max, j) => (j.getLength() > max.getLength() ? j : max),
-  //   jointFromBackSide[0]
-  // );
-  // const shortestJointFromFront = jointFromFrontSide.reduce(
-  //   (min, j) => (j.getLength() < min.getLength() ? j : min),
-  //   jointFromFrontSide[0]
-  // );
-  // const longestJointFromFront = jointFromFrontSide.reduce(
-  //   (max, j) => (j.getLength() > max.getLength() ? j : max),
-  //   jointFromFrontSide[0]
-  // );
-
   return { jointsFromBackMinToMax, jointsFromFrontMinToMax };
 }
 

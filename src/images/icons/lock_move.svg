@@ -2,34 +2,32 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Creator: CorelDRAW 2019 (64-Bit) -->
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="124px" height="175px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-viewBox="0 0 123.65 174.99"
+viewBox="0 0 122.33 173.13"
  xmlns:xlink="http://www.w3.org/1999/xlink"
  xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
  <defs>
   <style type="text/css">
    <![CDATA[
-    .str0 {stroke:#2B2A29;stroke-width:7.46;stroke-miterlimit:2.61313}
-    .str1 {stroke:#2B2A29;stroke-width:15.63;stroke-miterlimit:2.61313}
+    .str0 {stroke:#2B2A29;stroke-width:7.38;stroke-miterlimit:2.61313}
+    .str1 {stroke:#2B2A29;stroke-width:15.47;stroke-miterlimit:2.61313}
     .fil1 {fill:none}
-    .fil2 {fill:#2B2A29}
     .fil0 {fill:#FEFEFE}
-    .fil3 {fill:#E31E24;fill-rule:nonzero}
+    .fil2 {fill:#E31E24;fill-rule:nonzero}
    ]]>
   </style>
  </defs>
  <g id="Слой_x0020_1">
   <metadata id="CorelCorpID_0Corel-Layer"/>
-  <path class="fil0 str0" d="M15.46 68.57l92.73 0c6.47,0 11.72,4.46 11.72,9.95l0 82.79c0,5.49 -5.25,9.94 -11.72,9.94l-92.73 0.01c-6.48,-0.01 -11.73,-4.46 -11.73,-9.95l0 -82.79c0,-5.49 5.25,-9.95 11.73,-9.95z"/>
-  <path class="fil1 str1" d="M29.31 68.57l0 -26.29c0,-19.19 15.64,-34.46 34.82,-34.46 18.83,0 34.47,15.27 34.47,34.46l0 25.23"/>
-  <path class="fil2" d="M63.42 92.02c7.46,0 13.5,6.04 13.5,13.51 0,6.04 -3.91,11.36 -9.59,13.14l9.59 31.62 -27 0 9.59 -31.62c-5.68,-1.78 -9.59,-7.1 -9.59,-13.14 0,-7.47 6.04,-13.51 13.5,-13.51l0 0z"/>
+  <path class="fil0 str0" d="M15.29 67.84l91.75 0c6.41,0 11.6,4.41 11.6,9.85l0 81.9c0,5.44 -5.19,9.85 -11.6,9.85l-91.75 0c-6.4,0 -11.6,-4.41 -11.6,-9.85l0 -81.9c0,-5.44 5.2,-9.85 11.6,-9.85z"/>
+  <path class="fil1 str1" d="M29.66 67.84l0 -26.01c0,-18.98 15.47,-34.1 34.45,-34.1 18.63,0 34.1,15.12 34.1,34.1l0 24.96"/>
  </g>
  <g id="Слой_x0020_1_0">
   <metadata id="CorelCorpID_1Corel-Layer"/>
   <g>
-   <path class="fil3" d="M86.41 100.13l-34.27 0 17.13 -31.14 17.14 31.14zm-23.14 45.77l0 -48.47 12.01 0 0 48.47 -12.01 0zm23.14 -2.7l-17.14 31.14 -17.13 -31.14 34.27 0z"/>
+   <path class="fil2" d="M78.12 97.34l-33.9 0 16.95 -30.82 16.95 30.82zm-22.9 45.28l0 -47.95 11.89 0 0 47.95 -11.89 0zm22.9 -2.67l-16.95 30.81 -16.95 -30.81 33.9 0z"/>
   </g>
   <g>
-   <path class="fil3" d="M90.81 138.8l0 -34.27 31.14 17.13 -31.14 17.14zm-45.77 -23.14l48.47 0 0 12.01 -48.47 0 0 -12.01zm2.7 23.14l-31.14 -17.14 31.14 -17.13 0 34.27z"/>
+   <path class="fil2" d="M82.47 135.59l0 -33.9 30.81 16.95 -30.81 16.95zm-45.28 -22.89l47.95 0 0 11.88 -47.95 0 0 -11.88zm2.67 22.89l-30.81 -16.95 30.81 -16.95 0 33.9z"/>
   </g>
  </g>
 </svg>
