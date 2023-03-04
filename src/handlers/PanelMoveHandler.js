@@ -13,8 +13,8 @@ export class PanelMoveHandler extends MouseHandler {
         ]
         if (!this.movePoint) {
             this.movePoint = {}
-            this.movePoint.dx = (state.curShape.model.length + state.curShape.model.margin * 2) / 2
-            this.movePoint.dy = (state.curShape.model.width + state.curShape.model.margin * 2) / 2
+            this.movePoint.dx = (state.curShape.length + state.curShape.margin * 2) / 2
+            this.movePoint.dy = (state.curShape.width + state.curShape.margin * 2) / 2
         }
         this.panels = state.panels
         this.activeShape = state.curShape

@@ -1,11 +1,16 @@
 import Geometry, { Intersection } from '../../utils/geometry';
 import Shape from "./Shape";
 import PanelShape from './PanelShape';
+import { PropertyTypes } from './PropertyData';
 export default class DrawerShape extends PanelShape {
     type = Shape.DRAWER
-    constructor(model) {
-        super({ ...model, vertical: false, thickness: 140, panelMargin: 10, name: "Ящик" });
-
+    constructor(data) {
+        super({ ...data, vertical: false, thickness: 140, panelMargin: 10, name: "Ящик" });
+        this.properties = [
+            {key: "name", type: PropertyTypes.STRING},
+            {key: "drawerWidth", type: PropertyTypes.INTEGER_POSITIVE_NUMBER},
+            {key: "depth", type: PropertyTypes.INTEGER_POSITIVE_NUMBER},
+        ]
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {
@@ -22,7 +27,12 @@ export default class DrawerShape extends PanelShape {
         let y = Math.trunc(topLeft.y) + 0.5
         ctx.strokeRect(x, y, width, height);
     }
-
+    getProperties(){
+        const props = super.getProperties()
+        props.find(p => p.key === "drawerWidth").value = this.length
+        props.find(p => p.key === "depth").value = this.width - 50
+        return props
+    }
     isInSelectionRect({ topLeft, bottomRight }) {
         const inRect = [Geometry.pointInRect(this.rect, topLeft, bottomRight),
         Geometry.pointInRect(this.rect.last, topLeft, bottomRight)];

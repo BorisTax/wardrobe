@@ -10,7 +10,7 @@ export default class ResizeCursor extends Cursor {
         this.refresh(realRect, screenRect);
         ctx.strokeStyle = this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());
-        ctx.lineWidth = this.getStyle().getWidth();
+        ctx.lineWidth = 2//this.getStyle().getWidth();
         ctx.beginPath();
         drawArrow(ctx, this.vertical, this.p0, 30, 6)
         ctx.stroke();

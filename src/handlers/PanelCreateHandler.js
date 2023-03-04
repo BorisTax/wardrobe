@@ -51,7 +51,7 @@ export class PanelCreateHandler extends MouseHandler {
         this.canBePlaced = this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)
         if (this.canBePlaced) {
             const res = this.activeShape.findDimensions(p.x, p.y, appData.panels, appData.wardrobe)
-            this.canBePlaced = (this.activeShape.model.length >= this.activeShape.minLength)
+            this.canBePlaced = (this.activeShape.length >= this.activeShape.minLength)
             this.canBePlaced = res
         }
         this.activeShape.setHidden(!this.canBePlaced)
@@ -61,6 +61,7 @@ export class PanelCreateHandler extends MouseHandler {
 
     up({ button, curPoint, viewPortData, appActions, appData }) {
         super.click({ button, curPoint, viewPortData })
+        if(button === 2) return appActions.cancel()
         if (button !== 0) return
         appData.curShape.state.selected = false;
         if (this.canBePlaced) {
@@ -94,8 +95,8 @@ export class PanelCreateHandler extends MouseHandler {
         const tm = viewPortData.touchManager
         if (tm.getTouchCount() === 0) this.up({ button: 0, curPoint, viewPortData, appActions, appData })
     }
-    click() {
-
+    click({ button, appActions }) {
+        
 
     }
 }

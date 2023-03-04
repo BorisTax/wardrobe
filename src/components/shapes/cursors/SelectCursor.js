@@ -6,7 +6,7 @@ export default class SelectCursor extends Cursor{
         this.refresh(realRect,screenRect);
         ctx.strokeStyle=this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());
-        ctx.lineWidth=this.getStyle().getWidth();
+        ctx.lineWidth=2//this.getStyle().getWidth();
         let size=10;
         ctx.beginPath();
         ctx.moveTo(this.p0.x-size+0.5,this.p0.y+0.5);

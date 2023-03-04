@@ -35,13 +35,9 @@ export default function panelReducer(state, action) {
                 ...state, curShape: new DrawerShape({ wardrobe: state.wardrobe }),
                 cursor: new DragCursor(state.curRealPoint),
                 status: Status.CREATE,
-                toolButtonsPressed: {
-                    createVertical: false,
-                    createHorizontal: false,
+                toolButtonsPressed: getButtonPressed({
                     createDrawer: true,
-                    createSingleDimension: false,
-                    createTwoPanelDimension: false,
-                }
+                })
             }
             return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
 
@@ -52,39 +48,28 @@ export default function panelReducer(state, action) {
                 ...state, curShape: new PanelShape({ ...action.payload, wardrobe: state.wardrobe }),
                 cursor: new DragCursor(state.curRealPoint),
                 status: Status.CREATE,
-                toolButtonsPressed: {
+                toolButtonsPressed: getButtonPressed({
                     createVertical: action.payload.vertical,
                     createHorizontal: !action.payload.vertical,
-                    createDrawer: false,
-                    createSingleDimension: false,
-                    createTwoPanelDimension: false,
-                }
+                })
             }
             return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
 
         case ShapeActions.CREATE_SINGLE_DIMENSION:
             newState = {
                 ...state,
-                toolButtonsPressed: {
-                    createVertical: false,
-                    createHorizontal: false,
-                    createDrawer: false,
+                toolButtonsPressed: getButtonPressed({
                     createSingleDimension: true,
-                    createTwoPanelDimension: false,
-                }, cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
+                }), cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
             }
             return { result: true, newState: { ...newState, mouseHandler: new SinglePanelDimensionCreateHandler(newState) } };
         case ShapeActions.CREATE_TWO_PANEL_DIMENSION:
             newState = {
                 ...state,
-                toolButtonsPressed: {
-                    createVertical: false,
-                    createHorizontal: false,
-                    createDrawer: false,
-                    createSingleDimension: false,
+                toolButtonsPressed: getButtonPressed({
                     createTwoPanelDimensionInside: action.payload.inside,
                     createTwoPanelDimensionOutside: !action.payload.inside,
-                }, cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
+                }), cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
             }
             return { result: true, newState: { ...newState, mouseHandler: new TwoPanelDimensionCreateHandler(newState, action.payload.inside) } };
 
@@ -146,6 +131,10 @@ export default function panelReducer(state, action) {
             state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.setState(action.payload) })
             return { result: true, newState: { ...state } };
 
+        case ShapeActions.SET_PROPERTY:
+            state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.setProperty(action.payload) })
+            return { result: true, newState: { ...state } };
+
         case ScreenActions.SELECT_PANEL:
             return { result: true, newState: { ...state, selectedPanels: action.payload } };
 
@@ -153,4 +142,16 @@ export default function panelReducer(state, action) {
             return { result: false, newState: state }
         }
     }
+}
+
+function getButtonPressed(buttons){
+    const buttonPressed = {
+        createVertical: false,
+        createHorizontal: false,
+        createDrawer: false,
+        createSingleDimension: false,
+        createTwoPanelDimensionInside: false,
+        createTwoPanelDimensionOutside: false
+    }
+    return {buttonPressed, ...buttons}
 }

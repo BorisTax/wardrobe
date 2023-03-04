@@ -17,7 +17,8 @@ if (token) {
 }
 
 
-function createNewState({ wardrobe = { width: 2400, height: 2200, depth: 600 } }) {
+function createNewState({ wardrobe = { width: 2400, height: 2200, depth: 600, double: false } }) {
+  const width = wardrobe.double ? wardrobe.width / 2 : wardrobe.width
   const leg = 30
   const panels = [
     new PanelShape({ id: 0, wardrobe, name: "Крыша", length: wardrobe.width, vertical: false, position: { x: 0, y: wardrobe.height - 16 }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, gabarit: true }),
@@ -35,6 +36,7 @@ function createNewState({ wardrobe = { width: 2400, height: 2200, depth: 600 } }
   panels[3].parallelFromBack = new Set([panels[2]])
   return { wardrobe, panels }
 }
+
 export function getInitialState(data) {
   const { wardrobe, panels } = createNewState(data)
   return {

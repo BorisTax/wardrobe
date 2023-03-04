@@ -68,10 +68,10 @@ export const ShapeActions = {
             payload: state,
         }
     },
-    setProperty: (prop) => {
+    setProperty: (key, value) => {
         return {
             type: ShapeActions.SET_PROPERTY,
-            payload: prop,
+            payload: {key, value},
         }
     }
 }

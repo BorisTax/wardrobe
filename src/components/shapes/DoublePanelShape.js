@@ -4,39 +4,12 @@ import ShapeStyle from "./ShapeStyle";
 import { Color } from "../colors";
 import { getJointData, isPanelIntersect } from "../../reducers/panels";
 import { PropertyTypes } from "./PropertyData";
-export default class PanelShape extends Shape {
-  type = Shape.PANEL;
+export default class DoublePanelShape extends PanelShape {
+  type = Shape.DOUBLE_PANEL;
   constructor(data) {
-    super();
+    super({...data, vertical: true, thickness: 32});
     this.gabarit = data.gabarit; //габаритная деталь
-    this.length = data.length;
-    this.width = data.gabarit? data.wardrobe.depth : data.wardrobe.depth - 100;
-    this.panelMargin = data.panelMargin || 0;
-    if (!data.active) this.active = false;
-    this.vertical = data.vertical;
-    this.name = data.name || (this.vertical ? "Стойка" : "Полка");
-    this.defaultMinLength = data.minLength || 282;;
-    this.defaultMaxLength = data.maxLength || 10000000;
-    this.minLength = this.defaultMinLength 
-    this.maxLength = this.defaultMaxLength;
-    this.state.selectable = data.selectable === undefined ? true : data.selectable;
-    this.state.deletable = data.deletable === undefined ? true : data.deletable;
-    this.state.fixable = data.fixable === undefined ? true : data.fixable;
-    this.state.fixed_move = data.fixed_move === undefined ? false : data.fixed_move;
-    this.state.fixedLength = data.fixedLength === undefined ? {min: false, max: false} : data.fixedLength;
-    this.state.blocked = data.blocked === undefined ? false : data.fixed;
-    this.state.hidden = data.hidden;
-    this.thickness = data.thickness || 16;
-    const position = data.position || { x: 0, y: 0 };
-    const w = data.vertical ? this.thickness : data.length;
-    const h = data.vertical ? data.length : this.thickness;
-    const last = { x: position.x + w, y: position.y + h };
-    this.rect = { ...position, last, w, h };
-    this.setStyle(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID));
-    this.jointFromBackSide = data.jointFromBackSide || new Set();
-    this.jointFromFrontSide = data.jointFromFrontSide || new Set();
-    this.parallelFromBack = data.parallelFromBack || new Set();
-    this.parallelFromFront = data.parallelFromFront || new Set();
+    this.name = "Стойка внутр";
     this.dimensions = new Set();
     this.properties = [
         {key: "name", type: PropertyTypes.STRING, editable: true},
@@ -47,7 +20,8 @@ export default class PanelShape extends Shape {
 
   drawSelf(ctx, realRect, screenRect, print = false) {
     if (this.state.hidden) return;
-    super.drawSelf(ctx, realRect, screenRect);
+    this.refresh(realRect, screenRect);
+    this.refreshStyle(ctx)
     if (this.state.selected || this.state.highlighted) {
       this.getStyle().setWidth(2);
     } else {
@@ -59,6 +33,7 @@ export default class PanelShape extends Shape {
     const height = bottomRight.y - topLeft.y;
     let x = Math.trunc(topLeft.x) + 0.5;
     let y = Math.trunc(topLeft.y) + 0.5;
+    ctx.strokeRect(x, y, width / 2, height);
     ctx.strokeRect(x, y, width, height);
   }
   refresh(realRect, screenRect) {
@@ -74,8 +49,6 @@ export default class PanelShape extends Shape {
       y: this.rect.y + this.rect.height,
     };
   }
-
-
 
   setPosition(x, y) {
     this.rect.x = x;

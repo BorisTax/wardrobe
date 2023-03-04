@@ -105,13 +105,6 @@ export default class Dimension extends Shape {
         if (this.offsetPoint.y > wardrobe.height + max) this.offsetPoint.y = wardrobe.height + max
         this.refresh()
     }
-    getId() {
-        return this.model.id;
-    }
-    setId(id) {
-        this.model.id = id;
-        this.refreshModel();
-    }
 
     isUnderCursor(p, pixelRatio) {
         const mult = 2

@@ -17,9 +17,7 @@ export default function PropertyBar() {
     if (panelCount === 1) {
         const selected = firstSelected
         contents = <div className='detailPropertyContent'>
-            <div>{captions.name}</div><input value={selected.model.name} onChange={e => { selected.model.name = e.target.value; appActions.updateState() }} />
-            <div>{captions.length}</div><div>{selected.model.length}</div>
-            <div>{captions.width}</div><div>{selected.model.width}</div>
+            {getProperties(selected, captions, appActions.setProperty)}
         </div>
     }
     if (panelCount > 0) {
@@ -45,4 +43,29 @@ export default function PropertyBar() {
         {contents}
         {buttons}
     </ToolBar>
+}
+
+function getProperties( object, captions, setProperty) {
+  const props = [];
+  for (let p of object.getProperties()) {
+    const value = getValueElement(p, setProperty);
+    const prop = (
+      <>
+        <div>{captions[p.key]}</div>
+        {value}
+      </>
+    );
+    props.push(prop);
+  }
+  return props
+}
+
+function getValueElement(p, setProperty) {
+  if (p.editable) {
+    return (
+      <input value={p.value} onChange={(e) => setProperty(p.key, e.target.value)} />
+    );
+  } else {
+    return <div>{p.value}</div>;
+  }
 }

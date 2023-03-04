@@ -1,8 +1,8 @@
 import { Color } from '../colors';
 import ShapeStyle from './ShapeStyle';
-import { PropertyTypes, RegExp } from "./PropertyData";
 export default class Shape {
     static PANEL = "PANEL"
+    static DOUBLE_PANEL = "DOUBLE_PANEL"
     static DIMENSION = "DIMENSION"
     static DRAWER = "DRAWER"
     static DRAWER_OPTIONS = {
@@ -22,34 +22,13 @@ export default class Shape {
         this.properties = [];
 
     }
-    defineProperties() {
-        const thisShape = this;
-        for (let p of this.properties) {
-            p.parentLabelKeys = [this.getDescription()];
-            p.setValue = function (value) {
-                this.value = value;
-                this.changed = true;
-                thisShape.refreshModel();
-            }
 
-            switch (p.type) {
-                case PropertyTypes.VERTEX:
-                    p.show = false;
-                    p.selected = false;
-                    p.regexp = RegExp.NUMBER;
-                    break;
-                case PropertyTypes.NUMBER:
-                    p.regexp = RegExp.NUMBER;
-                    break;
-                case PropertyTypes.POSITIVE_NUMBER:
-                    p.regexp = RegExp.POSITIVE_NUMBER;
-                    break;
-                default:
-            }
-        }
-    }
-    deactivatePoints() {
-
+    getProperties(){
+        this.properties.forEach(p => p.value = this[p.key])
+        return this.properties
+      }
+    setProperty({key, value}){
+        this[key] = value
     }
     refreshStyle(ctx) {
         ctx.strokeStyle = this.getStyle().getColor();
@@ -61,46 +40,8 @@ export default class Shape {
         this.refresh(realRect, screenRect);
         this.refreshStyle(ctx)
     }
-    applyTransform() {
 
-    }
-    move(distance) {
 
-    }
-    rotate(basePoint, angle) {
-
-    }
-    createMockShape() {
-
-    }
-    deleteMockShape() {
-
-    }
-    copyShape() {
-        return new this.constructor(this.model.copy());
-    }
-    setActivePoint(key) {
-
-    }
-    selectPoint(pointIndex) {
-
-    }
-    setControlPoint(index, point) {
-
-    }
-    getDistanceToControlPoints(point) {
-    }
-    getProperties() {
-        return this.properties;
-    }
-    getModel() {
-        return this.model;
-    }
-    refreshModel() {
-        for (const p of this.properties) {
-            p.changed = false;
-        }
-    }
     setColor(color) {
         this.style.setColor(color);
         this.fillStyle = color

@@ -10,7 +10,7 @@ export default class RectangleShape extends Shape{
             {type:PropertyTypes.VERTEX,value:model.topLeft,labelKey:"p1"},
             {type:PropertyTypes.VERTEX,value:model.bottomRight,labelKey:"p2"},
         ]
-        this.defineProperties();
+        //this.defineProperties();
     }
 
     drawSelf(ctx, realRect, screenRect,fill=false) {

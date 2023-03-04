@@ -56,7 +56,7 @@ export class TwoPanelDimensionCreateHandler extends MouseHandler {
     down({ button, curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.down({ curPoint, viewPortData })
         setViewPortData(prevData => setCurCoord(this.coord, curPoint, prevData));
-        if (button === 1 || button === 2) {
+        if (button === 1) {
             appActions.setScreenStatus(Status.PAN, { startPoint: this.coord, prevStatus: Status.FREE, prevMouseHandler: this });
             return
         }
@@ -111,7 +111,8 @@ export class TwoPanelDimensionCreateHandler extends MouseHandler {
     keypress(code) {
         return super.keypress(code)
     }
-    up({ appActions }) {
+    up({ button, appActions }) {
+        if(button === 2) return appActions.cancel()
         this.drag = false;
         appActions.updateState()
     }

@@ -5,16 +5,16 @@ export function isPanelIntersect(source, target) {
   if (source.vertical)
     d =
       Math.max(
-        source.rect.y + source.model.length,
-        target.rect.y + target.model.length
+        source.rect.y + source.length,
+        target.rect.y + target.length
       ) - Math.min(source.rect.y, target.rect.y);
   else
     d =
       Math.max(
-        source.rect.x + source.model.length,
-        target.rect.x + target.model.length
+        source.rect.x + source.length,
+        target.rect.x + target.length
       ) - Math.min(source.rect.x, target.rect.x);
-  return d > source.model.length + target.model.length;
+  return d > source.length + target.length;
 }
 
 export function updateParallelPanels(panels) {
@@ -106,23 +106,19 @@ export function moveSelectedPanels(dx, dy, active, selected, onGabaritChange = (
     panels.sort((p1, p2) => dx < 0 ? p1.rect.x - p2.rect.x : p2.rect.x - p1.rect.x);
   } else
     panels.sort((p1, p2) => dy < 0 ? p1.rect.y - p2.rect.y : p2.rect.y - p1.rect.y);
-  let maxDX = 0;
-  let maxDY = 0;
-  let stopPanel;
+  let maxDX = 1000000;
+  let maxDY = 1000000;
   for (let p of panels) {
-    const res = p.moveTo(dx, dy, onGabaritChange);
-    if (vertical && Math.abs(res.newDX) > Math.abs(maxDX)) {
+    const res = p.moveTo(dx, dy, onGabaritChange, true);
+    if (vertical && Math.abs(res.newDX) < Math.abs(maxDX)) {
       maxDX = res.newDX;
-      stopPanel = p;
     }
-    if (!vertical && Math.abs(res.newDY) > Math.abs(maxDY)) {
+    if (!vertical && Math.abs(res.newDY) < Math.abs(maxDY)) {
       maxDY = res.newDY;
-      stopPanel = p;
     }
   }
   for (let p of panels) {
-    if (p === stopPanel) continue;
-    p.move( - maxDX,  - maxDY, onGabaritChange);
+    p.moveTo( maxDX,  maxDY, onGabaritChange);
   }
 }
 
