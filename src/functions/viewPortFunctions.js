@@ -71,7 +71,13 @@ export function getScreenRect(viewPortWidth, viewPortHeight) {
   return screenRect;
 }
 
-export function setDimensions(width, height, realWidth, viewPortData) {
+export function getRealAndScreenRect(viewPortData){
+  return {realRect: getRealRect(viewPortData.topLeft, viewPortData.bottomRight),
+          screenRect: getScreenRect(viewPortData.viewPortWidth, viewPortData.viewPortHeight)
+  }
+}
+
+export function  setDimensions(width, height, realWidth, viewPortData) {
   const rh = (height * realWidth) / width;
   return {
     ...viewPortData,

@@ -37,7 +37,7 @@ export function updateParallelPanels(panels) {
     }
 }
 
-export function getJointData(p){
+export function getJointData(p) {
   const jointFromBackSide = Array.from(p.jointFromBackSide);
   const jointFromFrontSide = Array.from(p.jointFromFrontSide);
   const jointsFromBackMinToMax = jointFromBackSide.sort((j1, j2) => j1.getLength() - j2.getLength())
@@ -98,7 +98,7 @@ export function getSelectionData(selected) {
   };
 }
 
-export function moveSelectedPanels(dx, dy, active, selected, onGabaritChange = () => {}) {
+export function moveSelectedPanels(dx, dy, active, selected, onGabaritChange = () => { }) {
   const vertical = active.vertical;
   if ((dx === 0 && vertical) || (dy === 0 && !vertical)) return;
   const panels = Array.from(selected).filter((s) => s.vertical === vertical && s.type !== Shape.DIMENSION);
@@ -118,7 +118,7 @@ export function moveSelectedPanels(dx, dy, active, selected, onGabaritChange = (
     }
   }
   for (let p of panels) {
-    p.moveTo( maxDX,  maxDY, onGabaritChange);
+    p.moveTo(maxDX, maxDY, onGabaritChange);
   }
 }
 
@@ -132,7 +132,28 @@ export function getWardrobeDimensions({ panels }) {
   }
   return { maxX, maxY };
 }
+
 export function setWardrobeDimensions(appData, appActions) {
   const { maxX, maxY } = getWardrobeDimensions(appData);
   appActions.setWardrobeDimensions({ width: maxX, height: maxY });
+}
+
+export function getEntireRect(appData) {
+  const { width, height } = appData.wardrobe
+  const rect = { topLeft: { x: 0, y: height }, bottomRight: { x: width, y: 0 } }
+  for (let d of appData.dimensions) {
+    const { x, y } = d.getPosition()
+    if (d.vertical) {
+      if (x < rect.topLeft.x) rect.topLeft.x = x
+      if (x > rect.bottomRight.x) rect.bottomRight.x = x
+    } else {
+      if (y < rect.bottomRight.y) rect.bottomRight.y = y
+      if (y > rect.topLeft.y) rect.topLeft.y = y
+    }
+  }
+  rect.topLeft.x -= 150
+  rect.topLeft.y += 150
+  rect.bottomRight.x += 100
+  rect.bottomRight.y -= 100
+  return rect
 }

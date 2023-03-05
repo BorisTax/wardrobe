@@ -5,7 +5,9 @@ import { pointerMove, pointerDown, pointerUp, pointerLeave, pointerEnter, mouseW
 import TouchManager from "../handlers/TouchManager";
 import useActions from "../customHooks/useActions";
 
-const initialState = {
+
+export function getViewPortState(){
+    return {
     curRealPoint: { x: 0, y: 0 },
     curCanvasPoint: { x: 225, y: 225 },
     gridStep: 10,
@@ -20,7 +22,9 @@ const initialState = {
     topLeft: { x: -5000, y: 2500 },
     bottomRight: { x: 2500, y: -100 },
     touchManager: new TouchManager(),
+    }
 }
+const initialState = getViewPortState()
 
 export default function ViewPortContainer() {
     const [viewPortData, setViewPortData] = useState(initialState)
@@ -35,8 +39,7 @@ export default function ViewPortContainer() {
         window.addEventListener('keypress', (e) => { keyPress(e, { mouseHandler }) })
         window.addEventListener('keydown', (e) => { keyDown(e, { appData: appDataRef.current, appActions }) })
         window.addEventListener('keyup', (e) => { keyUp(e, { appData }) })
-        appActions.sendViewportData(viewPortData)
-    }, [])
+        }, [])
 
     const eventHandlers = {
         onPointerMove: (e) => { pointerMove(e, props.current) },

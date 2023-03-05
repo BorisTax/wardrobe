@@ -4,6 +4,7 @@ import { getNewDate, isMobile, Status } from "./functions";
 import jwtDecode from "jwt-decode";
 import PanelShape from "../components/shapes/PanelShape";
 import DoublePanelShape from "../components/shapes/DoublePanelShape";
+import { getViewPortState } from "../components/ViewPortContainer";
 
 var user = { name: "", activated: false };
 var token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -107,6 +108,7 @@ export function getInitialState(data) {
     status: Status.FREE,
     statusBar: 5,
     statusParams: { creator: null, picker: null },
+    viewPortData: getViewPortState(),
     isMobile: isMobile(),
     captions,
     user

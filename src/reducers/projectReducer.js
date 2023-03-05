@@ -5,7 +5,6 @@ import PanelShape from "../components/shapes/PanelShape";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { getNewDate } from "./functions";
 import { getInitialState } from "./initialState";
-import { printToPDF } from "./printPdf";
 import React from "react";
 import PrintPreviewBar from "../components/PrintPreviewBar";
 
@@ -29,9 +28,6 @@ export default function projectReducer(state, action) {
             
             return { result: true, newState: { ...state, showDialog } };
 
-        case ScreenActions.SEND_VIEWPORT_DATA:
-            return { result: true, newState: { ...state, viewPortData: action.payload  } }
-
         case ModelActions.SET_INFORMATION:
             return { result: true, newState: { ...state, information: { ...action.payload } } }
 
@@ -54,7 +50,6 @@ export default function projectReducer(state, action) {
         }
     }
 }
-
 
 export function saveCurrentState(state) {
     const saveState = {

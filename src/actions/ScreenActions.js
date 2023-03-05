@@ -9,7 +9,6 @@ export const ScreenActions = {
   PRINT: "PRINT",
   REPAINT: "REPAINT",
   RESET_VIEW: "RESET_VIEW",
-  SEND_VIEWPORT_DATA: "SEND_VIEWPORT_DATA",
   SELECT_ALL: "SELECT_ALL",
   SELECT_PANEL: "SELECT_PANEL",
   SET_CURSOR:"SET_CURSOR",
@@ -67,12 +66,6 @@ export const ScreenActions = {
     return {
       type: ScreenActions.SELECT_PANEL,
       payload: selectedPanels
-    };
-  },
-  sendViewportData: (viewPortData) => {
-    return {
-      type: ScreenActions.SEND_VIEWPORT_DATA,
-      payload: viewPortData
     };
   },
   setCursor: (cursor) => {

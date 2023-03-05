@@ -11,7 +11,11 @@ export default function PrintPreviewBar(){
     const appData = useSelector(store => store)
     const [isLoading, setLoading] = useState(true)
     useEffect(()=>{
-        setTimeout(()=>{printToPDF(appData); setLoading(false)},1)
+        setTimeout(()=>{
+            printToPDF(appData); 
+            setLoading(false)
+
+        },1)
     },[])
         return (
             <Modal header={captions.title} wide={true}>

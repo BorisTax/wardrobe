@@ -32,7 +32,6 @@ export function getActions(dispatch) {
         resetView: () => dispatch(ScreenActions.resetView()),
         requestLanguage: (lang) => dispatch(AppActions.requestLanguage(lang)),
         save: () => dispatch(ModelActions.saveProject()),
-        sendViewportData: (viewPortData) => dispatch(ScreenActions.sendViewportData(viewPortData)),
         setCursor: (cursor) => dispatch(ScreenActions.setCursor(cursor)),
         setDeleteConfirm: (value) => dispatch(ModelActions.setDeleteConfirm(value)),
         setInformation: (info) => dispatch(ModelActions.setInformation(info)),
