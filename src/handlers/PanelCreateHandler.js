@@ -68,10 +68,10 @@ export class PanelCreateHandler extends MouseHandler {
             if (appData.curShape.jointToBack) appData.curShape.jointToBack.jointFromBackSide.add(appData.curShape)
             if (appData.curShape.jointToFront) appData.curShape.jointToFront.jointFromFrontSide.add(appData.curShape)
             appActions.addShape(appData.curShape)
-            appActions.createPanel(appData.curShape)
+            //appActions.createPanel(appData.curShape)
         }
-        //this.drag = false;
-        //appActions.cancel();
+        this.drag = false;
+        appActions.cancel();
     }
 
     touchMove({ pointerId, curPoint, viewPortData, setViewPortData, appActions, appData }) {

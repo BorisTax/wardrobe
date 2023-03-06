@@ -138,7 +138,7 @@ export function setWardrobeDimensions(appData, appActions) {
   appActions.setWardrobeDimensions({ width: maxX, height: maxY });
 }
 
-export function getEntireRect(appData) {
+export function getWardrobePrintArea(appData) {
   const { width, height } = appData.wardrobe
   const rect = { topLeft: { x: 0, y: height }, bottomRight: { x: width, y: 0 } }
   for (let d of appData.dimensions) {
@@ -153,7 +153,7 @@ export function getEntireRect(appData) {
   }
   rect.topLeft.x -= 150
   rect.topLeft.y += 150
-  rect.bottomRight.x += 100
+  rect.bottomRight.x += 150
   rect.bottomRight.y -= 100
   return rect
 }
