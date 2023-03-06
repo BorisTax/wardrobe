@@ -19,8 +19,8 @@ export function printToPDF(appData, printState) {
     var canvHeight = pageHeight * pixels * scale
     canv.setAttribute("width", `${canvWidth}`)
     canv.setAttribute("height", `${canvHeight}`)
-    canv.style.width = `${canvWidth/scale}px`
-    canv.style.height = `${canvHeight/scale}px`
+    canv.style.width = `${canvWidth / scale}px`
+    canv.style.height = `${canvHeight / scale}px`
 
     var ctx = canv.getContext('2d')
     ctx.scale(scale, scale)
@@ -42,47 +42,24 @@ export function printToPDF(appData, printState) {
     let viewPortData = appData.viewPortData
     viewPortData.viewPortWidth = canvWidth / scale
     viewPortData.viewPortHeight = canvHeight / scale
-    viewPortData = zoomToRect({ topLeft: wardrobeRect.topLeft, bottomRight: wardrobeRect.bottomRight }, viewPortData)
+    const realWidth = wardrobeRect.bottomRight.x - wardrobeRect.topLeft.x
+    viewPortData = setDimensions(viewPortData.viewPortWidth, viewPortData.viewPortHeight, realWidth, viewPortData)
+    viewPortData = zoomToRect({ ...wardrobeRect }, viewPortData)
+    paint(ctx, viewPortData, appData, true)
 
-    const fontSize = 12
-    let { totalWidth: dataTableScreenWidth, totalHeight: dataTableScreenHeight } = dataTable.getTableDimensions(ctx, fontSize)
-    dataTableScreenWidth = dataTableScreenWidth * 3
-    const realWidth = viewPortData.realWidth
-    const dataTableRealWidth = Geometry.screenToRealLength(dataTableScreenWidth, realWidth, viewPortData.viewPortWidth) 
-    
-    //viewPortData.viewPortWidth += dataTableScreenWidth
-    //viewPortData.viewPortHeight = viewPortData.viewPortWidth / viewPortData.ratio
-    viewPortData = setDimensions(viewPortData.viewPortWidth, viewPortData.viewPortHeight, realWidth + dataTableRealWidth, viewPortData)
-
-    let { realRect, screenRect } = getRealAndScreenRect(viewPortData)
-
-    const entireRect = { topLeft: { ...wardrobeRect.topLeft }, bottomRight: { ...wardrobeRect.bottomRight } }
-    entireRect.bottomRight.x += dataTableRealWidth
-    entireRect.bottomRight.y -= dataTableRealWidth / viewPortData.ratio
-    viewPortData.bottomRight = entireRect.bottomRight
-    viewPortData = zoomToRect({ topLeft: entireRect.topLeft, bottomRight: entireRect.bottomRight }, viewPortData)
-    viewPortData = setTopLeft(wardrobeRect.topLeft, viewPortData)
-
-    ;({ realRect, screenRect } = getRealAndScreenRect(viewPortData))
-    for (let dimension of appData.dimensions) {
-        dimension.setState({selected: appData.selectedPanels.has(dimension)})
-        dimension.drawSelf(ctx, realRect, screenRect);
-    }
-    for (let shape of appData.panels) {
-        shape.setState({selected: appData.selectedPanels.has(shape)})
-        shape.drawSelf(ctx, realRect, screenRect);
-    }
-    const wardrobeOuterRect = new RectangleShape({...wardrobeRect})
-    wardrobeOuterRect.drawSelf(ctx, realRect, screenRect)
-    const dataTablePosition = { x: wardrobeRect.bottomRight.x, y: wardrobeRect.topLeft.y }
-    const dataTableCanvasPosition = Geometry.realToScreen(dataTablePosition, realRect, screenRect)
-
-    dataTable.setPosition(dataTableCanvasPosition.x, dataTableCanvasPosition.y)
-    dataTable.draw(ctx, fontSize)
     var imgData = canv.toDataURL('image/png');
-    const factor = 0.354 //подобрал чтобы вместилось на лист
-    doc.addImage(imgData, 'PNG', 10, 10, canvWidth * factor-10, canvHeight * factor-10);
+    const factor = 0.25
+    const marginTop = 30
+    const marginLeft = 10
+    doc.addImage(imgData, 'PNG', marginLeft, marginTop, canvWidth * factor, canvHeight * factor);
 
+    ctx.clearRect(0, 0, viewPortData.viewPortWidth, viewPortData.viewPortHeight)
+    dataTable.setPosition(0, 0)
+    const fontSize = 12
+    dataTable.draw(ctx, fontSize)
+    imgData = canv.toDataURL('image/png');
+    const {totalWidth, totalHeight} = dataTable.getTableDimensions(ctx, fontSize)
+    doc.addImage(imgData, 'PNG', canvWidth * factor + marginLeft, marginTop, totalWidth * 5, totalHeight * 4.5);
 
     window.open(doc.output('bloburl'), 'print-frame')
     //window.open(doc.output('bloburl'))

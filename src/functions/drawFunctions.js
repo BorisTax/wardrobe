@@ -4,7 +4,7 @@ import { getRealRect, getScreenRect } from './viewPortFunctions'
 export function paint(ctx, viewPortData, appData, print = false) {
     const color = "white"
     ctx.fillStyle = color;
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.lineJoin = 'round';
     ctx.strokeStyle = "black"
     ctx.fillRect(0, 0, viewPortData.viewPortWidth, viewPortData.viewPortHeight);

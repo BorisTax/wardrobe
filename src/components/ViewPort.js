@@ -4,6 +4,7 @@ import { paint } from '../functions/drawFunctions.js';
 import { addWindowListeners, zoomToRect } from '../functions/viewPortFunctions.js';
 import useEvents from '../customHooks/useEvents.js';
 import useDoubleClick from '../customHooks/useDoubleClick.js';
+import { getWardrobePrintArea } from '../reducers/panels.js';
 
 export default function ViewPort({ viewPortData, setViewPortData, appActions, appData, eventHandlers }) {
     const events = useEvents(appData.isMobile, eventHandlers)
@@ -21,7 +22,8 @@ export default function ViewPort({ viewPortData, setViewPortData, appActions, ap
         addWindowListeners(viewPortData, setViewPortData, appActions, refCanvas.current)
     }, [])
     useEffect(() => {
-        setViewPortData((prevData) => zoomToRect({ topLeft: { x: -1000, y: appData.wardrobe.height + 1000 }, bottomRight: { x: appData.wardrobe.width, y: -1000 } }, prevData));
+        const wardrobeRect = getWardrobePrintArea(appData)
+        setViewPortData((prevData) => zoomToRect({ ...wardrobeRect }, prevData));
     }, [appData.resetView])
     const doubleClick = useDoubleClick(eventHandlers, (e) => eventHandlers.onDoubleClick(e))
     return <ToolBar id={"canvas-container"} noTitle={true} wide={false}>

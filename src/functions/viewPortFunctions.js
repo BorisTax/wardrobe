@@ -71,13 +71,14 @@ export function getScreenRect(viewPortWidth, viewPortHeight) {
   return screenRect;
 }
 
-export function getRealAndScreenRect(viewPortData){
-  return {realRect: getRealRect(viewPortData.topLeft, viewPortData.bottomRight),
-          screenRect: getScreenRect(viewPortData.viewPortWidth, viewPortData.viewPortHeight)
+export function getRealAndScreenRect(viewPortData) {
+  return {
+    realRect: getRealRect(viewPortData.topLeft, viewPortData.bottomRight),
+    screenRect: getScreenRect(viewPortData.viewPortWidth, viewPortData.viewPortHeight)
   }
 }
 
-export function  setDimensions(width, height, realWidth, viewPortData) {
+export function setDimensions(width, height, realWidth, viewPortData) {
   const rh = (height * realWidth) / width;
   return {
     ...viewPortData,
@@ -94,10 +95,12 @@ export function  setDimensions(width, height, realWidth, viewPortData) {
   };
 }
 
-export function zoomToRect({topLeft, bottomRight}, viewPortData) {
-  const realHeight = topLeft.y - bottomRight.y
-  const realWidth = realHeight / (viewPortData.viewPortHeight / viewPortData.viewPortWidth)
-  
+export function zoomToRect({ topLeft, bottomRight }, viewPortData) {
+  const rectHeight = topLeft.y - bottomRight.y
+  const rectWidth = bottomRight.x - topLeft.x
+  const ratio = rectWidth / rectHeight
+  const realWidth = ratio < viewPortData.ratio ? rectHeight * viewPortData.ratio : rectWidth
+
   const newViewPortData = setDimensions(viewPortData.viewPortWidth, viewPortData.viewPortHeight, realWidth, viewPortData);
   const point = {
     x: (topLeft.x + bottomRight.x) / 2,
@@ -120,11 +123,11 @@ export function addWindowListeners(viewPortData, setViewPortData, appActions, ca
   const { sw, sh } = resize(viewPortData, setViewPortData, canvas);
   setViewPortData((prevData) => setDimensions(sw, sh, 10000, prevData));
   //setViewPortData((prevData) => scale(2, { x: 0, y: 0 }, prevData));
-  
+
 
   document.body.oncontextmenu = () => true;
   document.addEventListener("load", () => {
-  ///zoomToTable({topLeft:{x: 0, y: 2400}, bottomRight: {x: 3000, y: 0}}, viewPortData)
+    ///zoomToTable({topLeft:{x: 0, y: 2400}, bottomRight: {x: 3000, y: 0}}, viewPortData)
   });
   window.addEventListener("resize", () => {
     resize(viewPortData, setViewPortData, canvas);
