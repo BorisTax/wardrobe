@@ -4,6 +4,7 @@ import DimensionCursor from "../components/shapes/cursors/DimensionCursor";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
+import DrawerBlockShape from "../components/shapes/DrawerBlockShape";
 import DrawerShape from "../components/shapes/DrawerShape";
 import PanelShape from "../components/shapes/PanelShape"
 import Shape from "../components/shapes/Shape";
@@ -37,6 +38,18 @@ export default function panelReducer(state, action) {
                 status: Status.CREATE,
                 toolButtonsPressed: getButtonPressed({
                     createDrawer: true,
+                })
+            }
+            return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
+
+        case ShapeActions.CREATE_DRAWERBLOCK:
+            state.selectedPanels = new Set()
+            newState = {
+                ...state, curShape: new DrawerBlockShape({ wardrobe: state.wardrobe }),
+                cursor: new DragCursor(state.curRealPoint),
+                status: Status.CREATE,
+                toolButtonsPressed: getButtonPressed({
+                    createDrawerBlock: true,
                 })
             }
             return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };

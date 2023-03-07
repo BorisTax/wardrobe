@@ -1,4 +1,4 @@
-import Geometry, { Intersection } from '../../utils/geometry';
+import Geometry from '../../utils/geometry';
 import Shape from "./Shape";
 import PanelShape from './PanelShape';
 import { PropertyTypes } from './PropertyData';
@@ -32,12 +32,5 @@ export default class DrawerShape extends PanelShape {
         props.find(p => p.key === "drawerWidth").value = this.length
         props.find(p => p.key === "depth").value = this.width - 50
         return props
-    }
-    isInSelectionRect({ topLeft, bottomRight }) {
-        const inRect = [Geometry.pointInRect(this.rect, topLeft, bottomRight),
-        Geometry.pointInRect(this.rect.last, topLeft, bottomRight)];
-        const full = inRect.every(i => i === true);
-        const cross = Intersection.RectangleRectangle(topLeft, bottomRight, this.rect, this.rect.last).length > 0;
-        return { cross, full };
     }
 }

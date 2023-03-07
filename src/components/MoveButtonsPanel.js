@@ -15,7 +15,7 @@ export default function MoveButtonsPanel() {
     //appData.selectedPanels.forEach(p => panels.push(p))
     const enabledButtons = { left: false, right: false, up: false, down: false }
     //const panel = panels[0]
-    if (panels && !fixed) {
+    if (panels.length > 0 && !fixed) {
         enabledButtons.left = panels.vertical
         enabledButtons.right = panels.vertical
         enabledButtons.up = !panels.vertical

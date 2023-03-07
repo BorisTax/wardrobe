@@ -17,6 +17,7 @@ export function getActions(dispatch) {
         addShape: (shape) => dispatch(ScreenActions.addShape(shape)),
         cancel: () => dispatch(ScreenActions.cancel()),
         createDrawer: () => dispatch(ShapeActions.createDrawer()),
+        createDrawerBlock: () => dispatch(ShapeActions.createDrawerBlock()),
         createPanel: (options) => dispatch(ShapeActions.createPanel(options)),
         createSingleDimension: () => dispatch(ShapeActions.createSingleDimension()),
         createTwoPanelDimension: ({inside}) => dispatch(ShapeActions.createTwoPanelDimension({inside})),

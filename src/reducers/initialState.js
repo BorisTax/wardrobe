@@ -44,13 +44,13 @@ function createNewState({ wardrobe = { width: 3000, height: 2200, depth: 600, do
     panels[3].jointToBack = panels[0]
   }else{
     panels = [
-      new PanelShape({ id: 0, wardrobe, name: "Крыша", length: width, vertical: false, position: { x: 0, y: wardrobe.height - 16 }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizeable: false, gabarit: true }),
-      new PanelShape({ id: 1, wardrobe, name: "Крыша", length: width, vertical: false, position: { x: width, y: wardrobe.height - 16 }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizeable: false, gabarit: true }),
-      new PanelShape({ id: 2, wardrobe, name: "Дно", length: width, vertical: false, position: { x: 0, y: leg }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizeable: false, gabarit: true }),
-      new PanelShape({ id: 3, wardrobe, name: "Дно", length: width, vertical: false, position: { x: width, y: leg }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, gabarit: true }),
-      new PanelShape({ id: 4, wardrobe, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: 0, y: 16 + leg }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizeable: false, gabarit: true  }),
-      new PanelShape({ id: 5, wardrobe, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: width * 2 - 16, y: 16 + leg }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizeable: false, gabarit: true }),
-      new DoublePanelShape({ id: 6, wardrobe, name: "Стойка внутр", length: wardrobe.height - 32 - leg, vertical: true, position: { x: width - 16, y: 16 + leg }, fixed_move: true, fixed_minlength: true, fixable: true, deletable: false, resizeable: false, gabarit: false }),
+      new PanelShape({ id: 0, wardrobe, name: "Крыша", length: width, vertical: false, position: { x: 0, y: wardrobe.height - 16 }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizable: false, gabarit: true }),
+      new PanelShape({ id: 1, wardrobe, name: "Крыша", length: width, vertical: false, position: { x: width, y: wardrobe.height - 16 }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizable: false, gabarit: true }),
+      new PanelShape({ id: 2, wardrobe, name: "Дно", length: width, vertical: false, position: { x: 0, y: leg }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizable: false, gabarit: true }),
+      new PanelShape({ id: 3, wardrobe, name: "Дно", length: width, vertical: false, position: { x: width, y: leg }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizable: false, gabarit: true }),
+      new PanelShape({ id: 4, wardrobe, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: 0, y: 16 + leg }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizable: false, gabarit: true  }),
+      new PanelShape({ id: 5, wardrobe, name: "Стойка боковая", length: wardrobe.height - 32 - leg, vertical: true, position: { x: width * 2 - 16, y: 16 + leg }, fixed_move: true, fixed_minlength: true, fixable: false, deletable: false, resizable: false, gabarit: true }),
+      new DoublePanelShape({ id: 6, wardrobe, name: "Стойка внутр", length: wardrobe.height - 32 - leg, vertical: true, position: { x: width - 16, y: 16 + leg }, fixed_move: true, fixed_minlength: true, fixable: true, deletable: false, resizable: false, gabarit: false }),
     ]
     panels[0].jointFromBackSide = new Set([panels[4], panels[6]])
     panels[0].parallelFromBack = new Set([panels[2]])

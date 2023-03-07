@@ -1,6 +1,7 @@
 export const ShapeActions = {
     ADD_DIMENSION: 'ADD_DIMENSION',
     CREATE_DRAWER: 'CREATE_DRAWER',
+    CREATE_DRAWERBLOCK: 'CREATE_DRAWERBLOCK',
     CREATE_PANEL: 'CREATE_PANEL',
     CREATE_SINGLE_DIMENSION: 'CREATE_SINGLE_DIMENSION',
     CREATE_TWO_PANEL_DIMENSION: 'CREATE_TWO_PANEL_DIMENSION',
@@ -20,6 +21,11 @@ export const ShapeActions = {
     createDrawer: () => {
         return {
             type: ShapeActions.CREATE_DRAWER,
+        }
+    },
+    createDrawerBlock: () => {
+        return {
+            type: ShapeActions.CREATE_DRAWERBLOCK,
         }
     },
     createPanel: (options) => {

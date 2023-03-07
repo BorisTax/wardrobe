@@ -88,11 +88,12 @@ export const captions = {
 
     },
     "instruments": {
-      "title": "Инструменты",
+      "title": "Детали",
       "dimensions": "Размеры",
       "createVertical": "Добавить вертикальную деталь",
       "createHorizontal": "Добавить горизонтальную деталь",
       "createDrawer": "Добавить ящик",
+      "createDrawerBlock": "Добавить ящичный блок",
       "createSingleDimension": "Добавить размер для одной детали",
       "createTwoPanelDimensionInside": "Добавить размер между деталями изнутри",
       "createTwoPanelDimensionOutside": "Добавить размер между деталями снаружи",
@@ -152,7 +153,7 @@ export const captions = {
   "title": "Конструктор шкафов-купе",
   "messages": {
     "deleteJointedPanels": "Будут также удалены все сопряженные детали. Продолжить?",
-    "deletePanels": "Удалить выбранные детали?",
+    "deletePanels": "Удалить выбранные объекты?",
     "deleteTable": "Удалить выбранную раскладку?",
     "deleteRow": "Удалить строку?",
     "changeTexture": "Некоторые детали повернуты против текстуры. Перевернуть обратно?",

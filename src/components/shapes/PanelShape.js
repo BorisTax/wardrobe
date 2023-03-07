@@ -321,10 +321,10 @@ export default class PanelShape extends Shape {
 
   canBePlaced(x, y, panels, wardrobe) {
     if (
-      x < this.thickness ||
-      x > wardrobe.width - this.thickness ||
+      x < 16 ||
+      x > wardrobe.width - 16 ||
       y < 46 ||
-      y > wardrobe.height - this.thickness
+      y > wardrobe.height - 16
     )
       return false;
     this.parallelFromBack = new Set();
@@ -410,13 +410,7 @@ export default class PanelShape extends Shape {
       Geometry.pointInRect(this.rect.last, topLeft, bottomRight),
     ];
     const full = inRect.every((i) => i === true);
-    const cross =
-      Intersection.RectangleRectangle(
-        topLeft,
-        bottomRight,
-        this.rect,
-        this.rect.last
-      ).length > 0;
+    const cross = Intersection.RectangleRectangle(topLeft, bottomRight, this.rect, this.rect.last).length > 0;
     return { cross, full };
   }
 }

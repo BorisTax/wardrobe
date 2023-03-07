@@ -13,6 +13,8 @@ export default function DimensionsBar(){
     return <ToolBar caption={captions.dimensions}>
         <ToolButtonBar>
             <ToolButton icon={"createSingleDimension"} pressed={single} {...pressedStyle} title={captions.createSingleDimension} onClick={()=>{appActions.createSingleDimension()}}/>
+        </ToolButtonBar>
+        <ToolButtonBar>
             <ToolButton icon={"createTwoPanelDimensionInside"} pressed={twoInside} {...pressedStyle} title={captions.createTwoPanelDimensionInside} onClick={()=>{appActions.createTwoPanelDimension({inside: true})}}/>
             <ToolButton icon={"createTwoPanelDimensionOutside"} pressed={twoOutside} {...pressedStyle} title={captions.createTwoPanelDimensionOutside} onClick={()=>{appActions.createTwoPanelDimension({inside: false})}}/>
         </ToolButtonBar>
