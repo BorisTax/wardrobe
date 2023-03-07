@@ -15,13 +15,13 @@ export function paint(ctx, viewPortData, appData, print = false) {
     
     for (let dimension of appData.dimensions) {
         dimension.setState({selected: appData.selectedPanels.has(dimension)})
-        dimension.drawSelf(ctx, realRect, screenRect);
+        dimension.drawSelf(ctx, realRect, screenRect, print);
     }
     let curShape = appData.mouseHandler.curShape;
     if (curShape != null) curShape.drawSelf(ctx, realRect, screenRect);
     for (let shape of appData.panels) {
         shape.setState({selected: appData.selectedPanels.has(shape)})
-        shape.drawSelf(ctx, realRect, screenRect);
+        shape.drawSelf(ctx, realRect, screenRect, print);
     }
 
     if (appData.curShape != null) appData.curShape.drawSelf(ctx, realRect, screenRect);

@@ -48,6 +48,8 @@ export default class PanelShape extends Shape {
 
   drawSelf(ctx, realRect, screenRect, print = false) {
     if (this.state.hidden) return;
+    let saveState = {...this.state}
+    if(print) this.state = {...this.state, selected: false, highlighted: false}  
     super.drawSelf(ctx, realRect, screenRect);
     if (this.state.selected || this.state.highlighted) {
       this.getStyle().setWidth(2);
@@ -61,6 +63,7 @@ export default class PanelShape extends Shape {
     let x = Math.trunc(topLeft.x) + 0.5;
     let y = Math.trunc(topLeft.y) + 0.5;
     ctx.strokeRect(x, y, width, height);
+    if(print) this.state = {...saveState}
   }
   refresh(realRect, screenRect) {
     if (this.vertical) {

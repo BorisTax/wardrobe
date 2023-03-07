@@ -5,40 +5,40 @@ import InputField from './InputField'
 import ToolButtonBar from './ToolButtonBar';
 import { useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
-import { getSelectionData } from '../reducers/panels';
 import { PropertyTypes } from './shapes/PropertyData';
+import Shape from './shapes/Shape';
 
 export default function PropertyBar() {
   const captions = useSelector(store => store.captions.toolbars.property)
   const appActions = useActions()
-  const selected = useSelector(store => store.selectedPanels)
-  const { canBeDeleted, canBeFixed, panelCount, firstSelected, dimensionCount, isJoints } = getSelectionData(selected)
-  let fixed_move = true
-  let fixedLength = { min: true, max: true }
+  const selected = Array.from(useSelector(store => store.selectedPanels))
+  const selectedPanels = selected.filter(p => p.type !== Shape.DIMENSION)
+  const selectedCount = selected.length
+  const isJoints = selectedPanels.find(p => p.jointFromBackSide.size > 0 || p.jointFromFrontSide.size > 0);
+  const fixed_move = selected.some(s => s.state.fixed_move)
+  const noFix = selected.some(s => !s.state.fixable)
+  const noDelete = selected.some(s => !s.state.deletable)
+  const fixedLengthMin = selectedPanels.some(s => s.state.fixedLength.min)
+  const fixedLengthMax = selectedPanels.some(s => s.state.fixedLength.max)
   let contents = <></>
-  if (panelCount === 1) {
-    const selected = firstSelected
+  if (selectedCount === 1) {
     contents = <div className='detailPropertyContent'>
-      {getProperties(selected, captions, appActions.updateState)}
+      {getProperties(selected[0], captions, appActions.updateState)}
     </div>
   }
-  if (panelCount > 0) {
-    fixed_move = firstSelected.state.fixed_move
-    fixedLength = firstSelected.state.fixedLength
-  }
   let noSelected = false
-  if (panelCount + dimensionCount === 0) {
+  if (selectedCount === 0) {
     contents = captions.noselected
     noSelected = true
   }
-  if ((panelCount + dimensionCount > 0) && (panelCount !== 1)) contents = captions.selected + (panelCount + dimensionCount)
+  if (selectedCount > 1) contents = captions.selected + selectedCount
   const buttons = !noSelected ? <div>
     <hr />
     <ToolButtonBar>
-      <ToolButton title={fixed_move ? captions.unlock_move : captions.lock_move} disabled={!canBeFixed} pressed={fixed_move} pressedStyle={"lockmovebutton_pressed"} unpressedStyle={"lockmovebutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed_move: !fixed_move }) }} />
-      <ToolButton title={fixedLength.min ? captions.unlock_minlength : captions.lock_minlength} disabled={!canBeFixed} pressed={fixedLength.min} pressedStyle={"lockminlengthbutton_pressed"} unpressedStyle={"lockminlengthbutton_unpressed"} onClick={() => { appActions.fixLength(!fixedLength.min, fixedLength.max) }} />
-      <ToolButton title={fixedLength.max ? captions.unlock_maxlength : captions.lock_maxlength} disabled={!canBeFixed} pressed={fixedLength.max} pressedStyle={"lockmaxlengthbutton_pressed"} unpressedStyle={"lockmaxlengthbutton_unpressed"} onClick={() => { appActions.fixLength(fixedLength.min, !fixedLength.max) }} />
-      <ToolButton title={captions.delete} disabled={!canBeDeleted} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm({ isJoints }) }} />
+      <ToolButton title={fixed_move ? captions.unlock_move : captions.lock_move} disabled={noFix} pressed={fixed_move} pressedStyle={"lockmovebutton_pressed"} unpressedStyle={"lockmovebutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed_move: !fixed_move }) }} />
+      <ToolButton title={fixedLengthMin ? captions.unlock_minlength : captions.lock_minlength} disabled={noFix} pressed={fixedLengthMin} pressedStyle={"lockminlengthbutton_pressed"} unpressedStyle={"lockminlengthbutton_unpressed"} onClick={() => { appActions.fixLength(!fixedLengthMin, fixedLengthMax) }} />
+      <ToolButton title={fixedLengthMax ? captions.unlock_maxlength : captions.lock_maxlength} disabled={noFix} pressed={fixedLengthMax} pressedStyle={"lockmaxlengthbutton_pressed"} unpressedStyle={"lockmaxlengthbutton_unpressed"} onClick={() => { appActions.fixLength(fixedLengthMin, !fixedLengthMax) }} />
+      <ToolButton title={captions.delete} disabled={noDelete} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm({ isJoints }) }} />
     </ToolButtonBar>
   </div> : <></>
   return <ToolBar caption={captions.title}>

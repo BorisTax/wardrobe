@@ -28,6 +28,8 @@ export default class Dimension extends Shape {
 
     drawSelf(ctx, realRect, screenRect, print = false) {
         if (this.hidden) return
+        let saveState = {...this.state}
+        if(print) this.state = {...this.state, selected: false, highlighted: false} 
         super.drawSelf(ctx, realRect, screenRect)
         const first = Geometry.realToScreen(this.firstPoint, realRect, screenRect);
         const second = Geometry.realToScreen(this.secondPoint, realRect, screenRect);
@@ -67,6 +69,7 @@ export default class Dimension extends Shape {
         this.captionShape.drawSelf(ctx, realRect, screenRect, null, offset)
         this.getStyle().setStroke(prevStroke)
         this.refreshStyle(ctx)
+        if(print) this.state = {...saveState}
     }
     refresh() {
         if (this.vertical) {

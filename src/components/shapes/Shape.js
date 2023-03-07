@@ -31,6 +31,7 @@ export default class Shape {
         this[key] = value
     }
     refreshStyle(ctx) {
+        this.setState(this.state)
         ctx.strokeStyle = this.getStyle().getColor();
         ctx.fillStyle = this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());

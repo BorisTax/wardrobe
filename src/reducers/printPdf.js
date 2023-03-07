@@ -23,15 +23,17 @@ export function printToPDF(appData, printState) {
     var ctx = canv.getContext('2d')
     ctx.scale(scale, scale)
     const dims = appData.wardrobe
+    const captions = appData.captions.print.dataTable
+    const double = appData.wardrobe.double ? captions.double : captions.single 
     const dataList = [
-        [{ text: ['Спецификация:'], frame: false, align: 'left', weight: TextShape.BOLD }],
-        [{ text: ['1. Габариты изделия (общий)'], frame: true, weight: TextShape.BOLD }],
-        [{ text: [`  1.ширина: ${dims.width}`], frame: true, align: 'left' }],
-        [{ text: [`  2.глубина: ${dims.depth}`], frame: true, align: 'left' }],
-        [{ text: [`  3.высота: ${dims.height}`], frame: true, align: 'left' }],
-        [{ text: [`2. Цвет ДСП`], frame: true, align: 'left', weight: TextShape.BOLD }],
-        [{ text: [`  1.ДСП (корпус): ${"венге магия"}`], frame: true, align: 'left' }],
-        [{ text: [`  2.ДСП (дополн):`], frame: true, align: 'left' }],
+        [{ text: [captions.title], frame: false, align: 'left', weight: TextShape.BOLD }],
+        [{ text: [captions.gabarits], frame: true, weight: TextShape.BOLD }],
+        [{ text: [`  ${captions.width} ${dims.width} ${double}`], frame: true, align: 'left' }],
+        [{ text: [`  ${captions.depth} ${dims.depth}`], frame: true, align: 'left' }],
+        [{ text: [`  ${captions.height} ${dims.height}`], frame: true, align: 'left' }],
+        [{ text: [captions.DSPcolor], frame: true, align: 'left', weight: TextShape.BOLD }],
+        [{ text: [`  ${captions.DSPcorpus} ${"венге магия"}`], frame: true, align: 'left' }],
+        [{ text: [`  ${captions.DSPext}`], frame: true, align: 'left' }],
     ]
 
     const dataTable = new TableShape(dataList)
