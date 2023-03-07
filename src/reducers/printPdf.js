@@ -1,9 +1,7 @@
 import { jsPDF } from 'jspdf'
 import TableShape from '../components/shapes/table/TableShape'
-import RectangleShape from '../components/shapes/RectangleShape'
 import { paint } from '../functions/drawFunctions';
-import { getRealAndScreenRect, setDimensions, setTopLeft, zoomToRect } from '../functions/viewPortFunctions';
-import Geometry from '../utils/geometry';
+import { setDimensions, zoomToRect } from '../functions/viewPortFunctions';
 import { getWardrobePrintArea } from './panels';
 import TextShape from '../components/shapes/table/TextShape';
 
@@ -59,7 +57,9 @@ export function printToPDF(appData, printState) {
     dataTable.draw(ctx, fontSize)
     imgData = canv.toDataURL('image/png');
     const {totalWidth, totalHeight} = dataTable.getTableDimensions(ctx, fontSize)
-    doc.addImage(imgData, 'PNG', canvWidth * factor + marginLeft, marginTop, totalWidth * 5, totalHeight * 4.5);
+    const ratio = totalWidth / totalHeight
+    const dataTableScale = 3
+    doc.addImage(imgData, 'PNG', canvWidth * factor + marginLeft, marginTop, totalWidth * dataTableScale, totalHeight * dataTableScale / ratio);
 
     window.open(doc.output('bloburl'), 'print-frame')
     //window.open(doc.output('bloburl'))

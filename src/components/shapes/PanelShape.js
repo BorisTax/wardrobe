@@ -10,20 +10,21 @@ export default class PanelShape extends Shape {
     super();
     this.gabarit = data.gabarit; //габаритная деталь
     this.length = data.length;
-    this.width = data.gabarit? data.wardrobe.depth : data.wardrobe.depth - 100;
+    this.width = data.gabarit ? data.wardrobe.depth : data.wardrobe.depth - 100;
     this.panelMargin = data.panelMargin || 0;
     if (!data.active) this.active = false;
     this.vertical = data.vertical;
     this.name = data.name || (this.vertical ? "Стойка" : "Полка");
     this.defaultMinLength = data.minLength || 282;;
     this.defaultMaxLength = data.maxLength || 10000000;
-    this.minLength = this.defaultMinLength 
+    this.minLength = this.defaultMinLength
     this.maxLength = this.defaultMaxLength;
     this.state.selectable = data.selectable === undefined ? true : data.selectable;
     this.state.deletable = data.deletable === undefined ? true : data.deletable;
     this.state.fixable = data.fixable === undefined ? true : data.fixable;
     this.state.fixed_move = data.fixed_move === undefined ? false : data.fixed_move;
-    this.state.fixedLength = data.fixedLength === undefined ? {min: false, max: false} : data.fixedLength;
+    this.state.fixedLength = data.fixedLength === undefined ? { min: false, max: false } : data.fixedLength;
+    this.state.resizable = data.resizable === undefined ? true : data.resizable;
     this.state.blocked = data.blocked === undefined ? false : data.fixed;
     this.state.hidden = data.hidden;
     this.thickness = data.thickness || 16;
@@ -39,9 +40,9 @@ export default class PanelShape extends Shape {
     this.parallelFromFront = data.parallelFromFront || new Set();
     this.dimensions = new Set();
     this.properties = [
-        {key: "name", type: PropertyTypes.STRING, editable: true},
-        {key: "length", type: PropertyTypes.INTEGER_POSITIVE_NUMBER},
-        {key: "width", type: PropertyTypes.INTEGER_POSITIVE_NUMBER},
+      { key: "name", type: PropertyTypes.STRING, editable: true, setValue: (value) => { this.name = value } },
+      { key: "length", type: PropertyTypes.INTEGER_POSITIVE_NUMBER, editable: this.state.resizable, setValue: (value) => { this.resize(value) } },
+      { key: "width", type: PropertyTypes.INTEGER_POSITIVE_NUMBER },
     ]
   }
 
@@ -75,8 +76,10 @@ export default class PanelShape extends Shape {
     };
   }
 
+  getProperties() {
+    return super.getProperties()
 
-
+  }
   setPosition(x, y) {
     this.rect.x = x;
     this.rect.y = y;
@@ -88,19 +91,49 @@ export default class PanelShape extends Shape {
   setHidden(hidden) {
     this.state.hidden = hidden;
   }
+  resize(length) {
+    //if (length < this.minLength) return false
+    const dl = length - this.length
+    let dx, dy
+    let joint = this.jointToBack
+    if (joint) {
+      if (this.vertical) {
+        dx = 0;
+        dy = dl
+      } else {
+        dx = dl;
+        dy = 0
+      }
+      joint.moveTo(dx, dy)
+    }
+    joint = this.jointToFront
+    if (joint) {
+      if (this.vertical) {
+        dx = 0;
+        dy = -dl
+      } else {
+        dx = -dl;
+        dy = 0
+      }
+      joint.moveTo(dx, dy)
+    }
+  }
+
   setLength(length) {
     this.length = length;
     this.refresh();
   }
+
   getLength() {
     return this.length;
   }
 
-  fixLength({min, max}) {
+  fixLength({ min, max }) {
     this.minLength = min ? this.length : this.defaultMinLength;
     this.maxLength = max ? this.length : this.defaultMaxLength
-    this.state.fixedLength = {min, max}
+    this.state.fixedLength = { min, max }
   }
+
   isUnderCursor(p, pixelRatio) {
     const mult = 2;
     return (
@@ -111,7 +144,7 @@ export default class PanelShape extends Shape {
     );
   }
 
-  moveTo(dx, dy, onGabaritChange = () => {}, doNotMove = false) {
+  moveTo(dx, dy, onGabaritChange = () => { }, doNotMove = false) {
     const { x, y } = this.getPosition();
     if (this.vertical) dy = 0;
     else dx = 0;
@@ -120,9 +153,9 @@ export default class PanelShape extends Shape {
     let newX = x + dx;
     let newY = y + dy;
     let result;
-    
-    ;({ result, newX, newY, dx, dy } = this.isMoveAvailable({newX, newY, dx, dy}));
-    if(doNotMove) return { result, newX, newY, newDX: dx, newDY: dy }
+
+    ; ({ result, newX, newY, dx, dy } = this.isMoveAvailable({ newX, newY, dx, dy }));
+    if (doNotMove) return { result, newX, newY, newDX: dx, newDY: dy }
     if (result) {
       this.setPosition(newX, newY);
       for (let joint of this.jointFromBackSide) {
@@ -167,28 +200,30 @@ export default class PanelShape extends Shape {
   }
 
   snapToMinJointLength({ newX: x, newY: y, dx, dy }) {
-    const  { jointsFromBackMinToMax, jointsFromFrontMinToMax } =  getJointData(this)
+    const { jointsFromBackMinToMax, jointsFromFrontMinToMax } = getJointData(this)
     let minLengthDelta = 0
     let maxLengthDelta = 0
-    for(let joint of jointsFromBackMinToMax) {
-        let delta = joint.getLength() + dx + dy - joint.minLength;
-        if (delta < minLengthDelta) minLengthDelta = delta
-        delta = joint.maxLength - (joint.getLength() + dx + dy);
-        if (delta < maxLengthDelta) maxLengthDelta = delta
+    for (let joint of jointsFromBackMinToMax) {
+      let delta = joint.getLength() + dx + dy - joint.minLength;
+      if (delta < minLengthDelta) minLengthDelta = delta
+      delta = joint.maxLength - (joint.getLength() + dx + dy);
+      if (delta < maxLengthDelta) maxLengthDelta = delta
     }
     let result = []
-    result.push({delta: minLengthDelta, 
-        result: this.vertical?
-            { result: true, newX: x - minLengthDelta, newY: y, dx: dx - minLengthDelta, dy }
-            :
-            { result: true, newX: x, newY: y - minLengthDelta, dx, dy: dy - minLengthDelta }
-        })
-    result.push({delta: maxLengthDelta, 
-        result: this.vertical?
-            { result: true, newX: x + maxLengthDelta, newY: y, dx: dx + maxLengthDelta, dy }
-            :
-            { result: true, newX: x, newY: y + maxLengthDelta, dx, dy: dy + maxLengthDelta }
-        })
+    result.push({
+      delta: minLengthDelta,
+      result: this.vertical ?
+        { result: true, newX: x - minLengthDelta, newY: y, dx: dx - minLengthDelta, dy }
+        :
+        { result: true, newX: x, newY: y - minLengthDelta, dx, dy: dy - minLengthDelta }
+    })
+    result.push({
+      delta: maxLengthDelta,
+      result: this.vertical ?
+        { result: true, newX: x + maxLengthDelta, newY: y, dx: dx + maxLengthDelta, dy }
+        :
+        { result: true, newX: x, newY: y + maxLengthDelta, dx, dy: dy + maxLengthDelta }
+    })
     minLengthDelta = 0
     maxLengthDelta = 0
     jointsFromFrontMinToMax.forEach(joint => {
@@ -197,22 +232,24 @@ export default class PanelShape extends Shape {
       delta = joint.maxLength - joint.getLength() + dx + dy;
       if (delta < maxLengthDelta) maxLengthDelta = delta
     })
-    result.push({delta: minLengthDelta, 
-      result: this.vertical?
+    result.push({
+      delta: minLengthDelta,
+      result: this.vertical ?
         { result: true, newX: x + minLengthDelta, newY: y, dx: dx + minLengthDelta, dy }
         :
         { result: true, newX: x, newY: y + minLengthDelta, dx, dy: dy + minLengthDelta }
     })
-    result.push({delta: maxLengthDelta,
-        result: this.vertical?
-          { result: true, newX: x - maxLengthDelta, newY: y, dx: dx - maxLengthDelta, dy }
-            :
-          { result: true, newX: x, newY: y - maxLengthDelta, dx, dy: dy - maxLengthDelta }
+    result.push({
+      delta: maxLengthDelta,
+      result: this.vertical ?
+        { result: true, newX: x - maxLengthDelta, newY: y, dx: dx - maxLengthDelta, dy }
+        :
+        { result: true, newX: x, newY: y - maxLengthDelta, dx, dy: dy - maxLengthDelta }
     })
     result.sort((r1, r2) => r1.delta - r2.delta)
     if (result[0].delta < 0) return result[0].result
     return { result: false, newX: x, newY: y, dx, dy };
-}
+  }
 
   snapToNearest({ newX: x, newY: y, dx, dy }) {
     const { nearestFromBack, nearestFromFront } = this.getNearest();

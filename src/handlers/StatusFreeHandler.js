@@ -32,7 +32,7 @@ export class StatusFreeHandler extends MouseHandler {
             for (let p of [...appData.panels, ...appData.dimensions]) {
                 if (!p.state.selectable) continue;
                 if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
-                    if (!p.state.fixed) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
+                    if (!p.state.fixed_move) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
                     p.setState({ highlighted: true })
                     this.activeShape = p;
                 } else {
