@@ -357,7 +357,7 @@ export default class PanelShape extends Shape {
     }
     return true;
   }
-  findDimensions(x, y, panels, wardrobe) {
+  findConstraints(x, y, panels, wardrobe) {
     let minX = 0;
     let maxX = wardrobe.width;
     let minY = 46;
@@ -402,6 +402,13 @@ export default class PanelShape extends Shape {
       this.jointToBack.type === Shape.PANEL &&
       this.jointToFront.type === Shape.PANEL
     );
+  }
+
+  getSingleDimensionData(){
+    const firstPoint = this.vertical ? {x: this.rect.x + this.thickness / 2, y: this.rect.y} : {x: this.rect.x, y: this.rect.y + this.thickness / 2}
+    const secondPoint = this.vertical ? {x: this.rect.x + this.thickness / 2, y: this.rect.last.y} : {x: this.rect.last.x, y: this.rect.last.y - this.thickness / 2}
+    const midPoint = { x: (firstPoint.x + secondPoint.x) / 2, y: (firstPoint.y + secondPoint.y) / 2 }
+    return {hasDimension: true, vertical: this.vertical, firstPoint, secondPoint, midPoint}
   }
 
   isInSelectionRect({ topLeft, bottomRight }) {

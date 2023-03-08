@@ -47,10 +47,10 @@ export class PanelCreateHandler extends MouseHandler {
         p.x = p.x - this.movePoint.dx;
         p.y = p.y + this.movePoint.dy;
         p.x = Math.trunc(p.x);
-        p.y = Math.trunc(p.y);
+        p.y = this.activeShape.vertical ? Math.trunc(p.y) : Math.trunc(p.y - this.activeShape.thickness / 2);
         this.canBePlaced = this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)
         if (this.canBePlaced) {
-            const res = this.activeShape.findDimensions(p.x, p.y, appData.panels, appData.wardrobe)
+            const res = this.activeShape.findConstraints(p.x, p.y, appData.panels, appData.wardrobe)
             this.canBePlaced = (this.activeShape.length >= this.activeShape.minLength)
             this.canBePlaced = res
         }

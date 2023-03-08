@@ -8,10 +8,8 @@ viewBox="0 0 10.3 7.44"
  <defs>
   <style type="text/css">
    <![CDATA[
-    .str1 {stroke:#2B2A29;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
     .str0 {stroke:#2B2A29;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
-    .fil2 {fill:none}
-    .fil3 {fill:#FEFEFE}
+    .fil2 {fill:#FEFEFE}
     .fil1 {fill:#2B2A29}
     .fil0 {fill:#FEFEFE}
    ]]>
@@ -19,48 +17,32 @@ viewBox="0 0 10.3 7.44"
  </defs>
  <g id="Слой_x0020_1">
   <metadata id="CorelCorpID_0Corel-Layer"/>
-  <g id="_1817595581648">
+  <g id="_1948419379328">
    <polygon class="fil0" points="0,0 10.3,0 10.3,7.44 0,7.44 "/>
    <path id="_1" class="fil1" d="M0 0l10.3 0 0 7.44 -10.3 0 0 -7.44zm10.19 0.11l-10.08 0 0 7.22 10.08 0 0 -7.22z"/>
   </g>
  </g>
  <g id="Слой_x0020_1_0">
   <metadata id="CorelCorpID_1Corel-Layer"/>
-  <g id="_1817595581744">
-   <line class="fil2 str0" x1="1.74" y1="5.12" x2="6.36" y2= "5.27" />
-   <line class="fil2 str0" x1="1.74" y1="5.12" x2="4.36" y2= "6.32" />
-   <line class="fil2 str0" x1="6.36" y1="5.27" x2="8.89" y2= "6.32" />
-   <line class="fil2 str0" x1="4.36" y1="6.32" x2="8.89" y2= "6.32" />
-   <line class="fil2 str0" x1="1.74" y1="5.56" x2="1.74" y2= "5.12" />
-   <line class="fil2 str0" x1="1.74" y1="5.56" x2="4.36" y2= "6.76" />
-   <line class="fil2 str0" x1="8.89" y1="6.32" x2="8.89" y2= "6.76" />
-   <line class="fil2 str0" x1="4.36" y1="6.76" x2="8.89" y2= "6.76" />
-   <line class="fil2 str0" x1="4.36" y1="6.32" x2="4.36" y2= "6.76" />
-   <g>
-    <polygon class="fil3 str1" points="2.91,1.82 4.87,2.62 4.47,2.63 2.51,1.83 "/>
-    <polygon class="fil3 str1" points="6.3,1.82 8.26,2.62 7.85,2.63 5.89,1.83 "/>
-    <polygon class="fil3 str1" points="6.21,1.96 7.85,2.63 7.85,3.83 6.21,3.16 "/>
-    <rect class="fil3 str1" x="4.78" y="2.52" width="3.82" height="1.65"/>
-    <rect class="fil3 str1" transform="matrix(0.567456 -0 0.0716693 0.025632 4.46656 2.41126)" width="6.74" height="4.32"/>
-    <rect class="fil3 str1" transform="matrix(0.0459758 0.0123615 -0 0.381377 4.46658 2.43877)" width="6.74" height="4.32"/>
-    <polygon class="fil3 str1" points="2.51,1.83 4.47,2.63 4.47,3.83 2.51,3.03 "/>
-    <polygon class="fil3 str1" points="2.91,1.82 5.89,1.83 6.21,1.96 3.22,1.93 "/>
-   </g>
-   <g>
-    <polygon class="fil3 str1" points="2.91,3.75 4.87,4.55 4.47,4.56 2.51,3.76 "/>
-    <polygon class="fil3 str1" points="7.29,4.17 8.26,4.55 7.85,4.56 6.85,4.16 "/>
-    <polygon class="fil3 str1" points="6.85,4.16 7.85,4.56 7.85,5.76 6.85,5.36 "/>
-    <rect class="fil3 str1" x="4.78" y="4.45" width="3.82" height="1.65"/>
-    <rect class="fil3 str1" transform="matrix(0.567456 -0 0.0716693 0.025632 4.46656 4.34184)" width="6.74" height="4.32"/>
-    <rect class="fil3 str1" transform="matrix(0.0459758 0.0123615 -0 0.381377 4.46658 4.36934)" width="6.74" height="4.32"/>
-    <polygon class="fil3 str1" points="2.51,3.76 4.47,4.56 4.47,5.76 2.51,4.96 "/>
-    <polygon class="fil3 str1" points="2.91,3.75 4.23,3.76 4.47,3.88 3.22,3.86 "/>
-   </g>
-   <g>
-    <polygon class="fil3 str1" points="4.35,2.24 8.87,2.24 8.87,1.8 4.35,1.8 "/>
-    <polygon class="fil3 str1" points="4.35,1.8 8.87,1.8 5.75,0.62 1.8,0.64 "/>
-    <polygon class="fil3 str1" points="1.8,1.08 4.36,2.24 4.36,1.8 1.8,0.64 "/>
-   </g>
+  <g id="_1948419379520">
+   <polygon class="fil2 str0" points="1.55,0.85 4.15,1.91 3.61,1.92 1.01,0.86 "/>
+   <polygon class="fil2 str0" points="6.05,0.85 8.65,1.91 8.11,1.92 5.51,0.86 "/>
+   <polygon class="fil2 str0" points="5.93,1.03 8.11,1.92 8.11,3.52 5.93,2.62 "/>
+   <rect class="fil2 str0" x="4.03" y="1.78" width="5.08" height="2.19"/>
+   <rect class="fil2 str0" transform="matrix(0.754095 -0 0.0952416 0.0340625 3.61362 1.62901)" width="6.74" height="4.32"/>
+   <rect class="fil2 str0" transform="matrix(0.0610975 0.0164272 -0 0.506814 3.61363 1.66556)" width="6.74" height="4.32"/>
+   <polygon class="fil2 str0" points="1.01,0.86 3.61,1.92 3.61,3.52 1.01,2.45 "/>
+   <polygon class="fil2 str0" points="1.55,0.85 5.51,0.86 5.93,1.03 1.96,0.99 "/>
+  </g>
+  <g id="_1948419377984">
+   <polygon class="fil2 str0" points="1.55,3.41 4.15,4.47 3.61,4.48 1.01,3.42 "/>
+   <polygon class="fil2 str0" points="7.37,3.97 8.65,4.47 8.11,4.48 6.78,3.95 "/>
+   <polygon class="fil2 str0" points="6.78,3.95 8.11,4.48 8.11,6.08 6.78,5.55 "/>
+   <rect class="fil2 str0" x="4.03" y="4.34" width="5.08" height="2.19"/>
+   <rect class="fil2 str0" transform="matrix(0.754095 -0 0.0952416 0.0340625 3.61362 4.19456)" width="6.74" height="4.32"/>
+   <rect class="fil2 str0" transform="matrix(0.0610975 0.0164272 -0 0.506814 3.61363 4.23112)" width="6.74" height="4.32"/>
+   <polygon class="fil2 str0" points="1.01,3.42 3.61,4.48 3.61,6.08 1.01,5.02 "/>
+   <polygon class="fil2 str0" points="1.55,3.41 3.3,3.42 3.61,3.58 1.96,3.56 "/>
   </g>
  </g>
 </svg>

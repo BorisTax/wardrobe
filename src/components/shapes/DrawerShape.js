@@ -33,4 +33,8 @@ export default class DrawerShape extends PanelShape {
         props.find(p => p.key === "depth").value = this.width - 50
         return props
     }
+    getSingleDimensionData(){
+
+        return {hasDimension: false}
+      }
 }

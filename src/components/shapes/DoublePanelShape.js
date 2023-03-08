@@ -34,4 +34,5 @@ export default class DoublePanelShape extends PanelShape {
     ctx.strokeRect(x, y, width / 2, height);
     ctx.strokeRect(x, y, width, height);
   }
+
 }

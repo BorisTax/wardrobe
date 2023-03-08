@@ -3,9 +3,9 @@ import Shape from "./Shape";
 import PanelShape from './PanelShape';
 import { PropertyTypes } from './PropertyData';
 export default class DrawerBlockShape extends PanelShape {
-    type = Shape.PANEL
+    type = Shape.DRAWER
     constructor(data) {
-        super({ ...data, vertical: false, thickness: 423, name: "Ящичный блок" });
+        super({ ...data, vertical: false, thickness: 391, name: "Ящичный блок" });
         this.properties = [
             {key: "name", type: PropertyTypes.STRING},
             {key: "drawerWidth", type: PropertyTypes.INTEGER_POSITIVE_NUMBER},
@@ -19,11 +19,9 @@ export default class DrawerBlockShape extends PanelShape {
         this.refreshStyle(ctx)
         if (this.state.selected || this.state.highlighted) { this.getStyle().setWidth(2) } else { this.getStyle().setWidth(1) }
         const distanceBetween = 37
-        const bottomPanel = { x: this.rect.x, y: this.rect.y, last: { x: this.rect.last.x, y: this.rect.y + 16} }
-        const bottomDrawer = { x: this.rect.x + 4, y: bottomPanel.last.y + distanceBetween, last: { x: this.rect.last.x - 4, y: bottomPanel.last.y + distanceBetween + 140 } }
-        const topDrawer = { x: this.rect.x + 4, y: bottomDrawer.last.y + distanceBetween, last: { x: this.rect.last.x - 4, y: bottomDrawer.last.y + distanceBetween + 140 } }
-        const topPanel = { x: this.rect.x, y: topDrawer.last.y + distanceBetween, last: { x: this.rect.last.x, y: this.rect.last.y} }
-        for(let rect of [bottomPanel, bottomDrawer, topDrawer, topPanel]){   
+        const bottomDrawer = { x: this.rect.x + 8, y: this.rect.y + distanceBetween, last: { x: this.rect.last.x - 8, y: this.rect.y + distanceBetween + 140 } }
+        const topDrawer = { x: this.rect.x + 8, y: bottomDrawer.last.y + distanceBetween, last: { x: this.rect.last.x - 8, y: this.rect.last.y - distanceBetween } }
+        for(let rect of [bottomDrawer, topDrawer]){   
             const topLeft = Geometry.realToScreen(rect, realRect, screenRect);
             const bottomRight = Geometry.realToScreen(rect.last, realRect, screenRect);
             const width = bottomRight.x - topLeft.x
@@ -39,4 +37,9 @@ export default class DrawerBlockShape extends PanelShape {
         props.find(p => p.key === "depth").value = this.width - 50
         return props
     }
+    
+    getSingleDimensionData(){
+
+        return {hasDimension: false}
+      }
 }

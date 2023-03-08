@@ -3,7 +3,6 @@ import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
 import SinglePanelDimension from "../components/shapes/SinglePanelDimension";
-import TwoPanelDimension from "../components/shapes/TwoPanelDimension";
 import DimensionCursor from "../components/shapes/cursors/DimensionCursor";
 export class SinglePanelDimensionCreateHandler extends MouseHandler {
     constructor(state) {
@@ -28,22 +27,23 @@ export class SinglePanelDimensionCreateHandler extends MouseHandler {
             case 0: {
                 for (let p of appData.panels) {
                     if (!p.state.selectable) continue;
-                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio) && !p.singleDimension) {
+                    const { hasDimension } = p.getSingleDimensionData()
+                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio) && hasDimension && !p.singleDimension) {
                         p.setState({ highlighted: true })
-                        appData.cursor.setType(p.vertical?DimensionCursor.VERT:DimensionCursor.HOR)
+                        appData.cursor.setType(p.vertical ? DimensionCursor.VERT : DimensionCursor.HOR)
                     } else {
                         p.setState({ highlighted: false })
-                        
+
                     }
                 }
                 break;
             }
             case 1: {
-                const offset = this.activePanel.vertical ? this.coord.x - this.activePanel.rect.x : this.coord.y - this.activePanel.rect.y
-                const { midPoint } = TwoPanelDimension.getPoints(this.activePanel, this.activePanel)
-                const offsetPoint = this.activePanel.vertical ? { x: midPoint.x + offset, y: midPoint.y } : { x: midPoint.x, y: midPoint.y + offset }
+                const offset = this.activePanel.vertical ? this.coord.x - this.firstPoint.x : this.coord.y - this.firstPoint.y
+                //const { midPoint } = TwoPanelDimension.getPoints(this.activePanel, this.activePanel)
+                const offsetPoint = this.vertical ? { x: this.midPoint.x + offset, y: this.midPoint.y } : { x: this.midPoint.x, y: this.midPoint.y + offset }
                 this.curShape.setOffsetPoint(offsetPoint, appData.wardrobe)
-                appData.cursor.setType(this.curShape.vertical?DimensionCursor.VERT:DimensionCursor.HOR)
+                appData.cursor.setType(this.curShape.vertical ? DimensionCursor.VERT : DimensionCursor.HOR)
                 break;
             }
             default: { }
@@ -65,11 +65,17 @@ export class SinglePanelDimensionCreateHandler extends MouseHandler {
         switch (this.clickCount) {
             case 1: {
                 this.activePanel = null;
-                this.firstPoint = this.coord
+                //this.firstPoint = this.coord
                 for (let p of appData.panels) {
                     if (!p.state.selectable) continue;
-                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio) && !p.singleDimension) {
+                    const { hasDimension } = p.getSingleDimensionData()
+                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio) && hasDimension && !p.singleDimension) {
                         this.activePanel = p;
+                        const { vertical, firstPoint, secondPoint, midPoint } = p.getSingleDimensionData()
+                        this.firstPoint = firstPoint
+                        this.secondPoint = secondPoint
+                        this.midPoint = midPoint
+                        this.vertical = vertical
                         this.curShape = new SinglePanelDimension(p)
                     }
                 }
@@ -100,7 +106,7 @@ export class SinglePanelDimensionCreateHandler extends MouseHandler {
         return super.keypress(code)
     }
     up({ button, appActions }) {
-        if(button === 2) return appActions.cancel()
+        if (button === 2) return appActions.cancel()
         this.drag = false;
         appActions.updateState()
     }
