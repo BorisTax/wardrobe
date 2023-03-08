@@ -401,7 +401,7 @@ export default class PanelShape extends Shape {
     this.refresh();
     return (
       this.jointToBack.type === Shape.PANEL &&
-      this.jointToFront.type === Shape.PANEL
+      this.jointToFront.type === Shape.PANEL && this.length >= this.minLength
     );
   }
 
