@@ -297,7 +297,7 @@ export default class PanelShape extends Shape {
     let maxY = 0;
     for (let par of this.parallelFromBack) {
       if(prevPanel === par) continue
-      if (par.rect.x + par.thicknes > maxX && this.vertical) {
+      if (par.rect.x + par.thickness > maxX && this.vertical) {
         nearestFromBack = par;
         maxX = par.rect.x;
       }
@@ -334,7 +334,7 @@ export default class PanelShape extends Shape {
     this.parallelFromFront = new Set();
     for (let panel of panels) {
       if (!(panel.vertical === this.vertical)) continue;
-      if (isPanelIntersect(this, panel)) continue;
+      if (!isPanelIntersect(this, panel)) continue;
       const margin = Math.max(this.panelMargin, panel.panelMargin);
       if (this.vertical) {
         if (x >= panel.rect.x) {

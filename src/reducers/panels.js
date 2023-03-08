@@ -3,18 +3,10 @@ import Shape from "../components/shapes/Shape";
 export function isPanelIntersect(source, target) {
   let d;
   if (source.vertical)
-    d =
-      Math.max(
-        source.rect.y + source.length,
-        target.rect.y + target.length
-      ) - Math.min(source.rect.y, target.rect.y);
+    d = Math.max(source.rect.last.y, target.rect.last.y) - Math.min(source.rect.y, target.rect.y);
   else
-    d =
-      Math.max(
-        source.rect.x + source.length,
-        target.rect.x + target.length
-      ) - Math.min(source.rect.x, target.rect.x);
-  return d > source.length + target.length;
+    d = Math.max(source.rect.last.x, target.rect.last.x) - Math.min(source.rect.x, target.rect.x);
+  return d <= source.length + target.length;
 }
 
 export function updateParallelPanels(panels) {
@@ -22,7 +14,7 @@ export function updateParallelPanels(panels) {
     for (let target of panels) {
       if (source === target) continue;
       if (!(source.vertical === target.vertical)) continue;
-      if (isPanelIntersect(source, target)) continue;
+      if (!isPanelIntersect(source, target)) continue;
       if (source.vertical) {
         if (target.rect.x + target.thickness <= source.rect.x)
           source.parallelFromBack.add(target);

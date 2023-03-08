@@ -11,15 +11,16 @@ export default function MoveButtonsPanel() {
     const appData = useSelector(store => store)
     const appActions = useActions()
     const panels = Array.from(appData.selectedPanels).filter(p => p.type !== Shape.DIMENSION)
+    const every = panels.every(p => p.vertical) || panels.every(p => !p.vertical)
     const fixed = panels.some(p => p.state.fixed_move)
     //appData.selectedPanels.forEach(p => panels.push(p))
     const enabledButtons = { left: false, right: false, up: false, down: false }
     //const panel = panels[0]
-    if (panels.length > 0 && !fixed) {
-        enabledButtons.left = panels.vertical
-        enabledButtons.right = panels.vertical
-        enabledButtons.up = !panels.vertical
-        enabledButtons.down = !panels.vertical
+    if (panels.length > 0 && !fixed && every) {
+        enabledButtons.left = panels[0].vertical
+        enabledButtons.right = panels[0].vertical
+        enabledButtons.up = !panels[0].vertical
+        enabledButtons.down = !panels[0].vertical
     }
 
     return <div className='moveButtons'>
