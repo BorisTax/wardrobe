@@ -123,8 +123,8 @@ $statusBarIconWidth : 20px;
   width: 30px;
 }
 
-$table_icon_width: 58px;
-$table_icon_height: 41px;
+$table_icon_width: 50px;
+$table_icon_height: 35px;
 
 @mixin instruments_button {
   width: $table_icon_width;
@@ -143,8 +143,8 @@ $table_icon_height: 41px;
 }
 
 @mixin move_button {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: auto;
@@ -275,6 +275,11 @@ $table_icon_height: 41px;
 
 .resetView {
   background-image: url($icon-url+'resetView.svg');
+  @include instruments_button();
+}
+
+.distribute {
+  background-image: url($icon-url+'distribute.svg');
   @include instruments_button();
 }
 

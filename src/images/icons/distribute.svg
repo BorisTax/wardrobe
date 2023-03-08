@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2020 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="169px" height="122px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 171.11 123.58"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#393185;stroke-width:1.01;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str2 {stroke:#2B2A29;stroke-width:1.52;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .str1 {stroke:#393185;stroke-width:1.01;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .fil2 {fill:none}
+    .fil3 {fill:#FEFEFE}
+    .fil1 {fill:#2B2A29}
+    .fil0 {fill:#FEFEFE}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_2074163761408">
+   <polygon class="fil0" points="0,0 171.11,0 171.11,123.58 0,123.58 "/>
+   <path id="_1" class="fil1" d="M0 0l171.11 0 0 123.58 -171.11 0 0 -123.58zm169.31 1.8l-167.51 0 0 119.98 167.51 0 0 -119.98z"/>
+  </g>
+ </g>
+ <g id="Слой_x0020_1_0">
+  <metadata id="CorelCorpID_1Corel-Layer"/>
+  <line class="fil2 str0" x1="127.37" y1="25.43" x2="140.57" y2= "25.43" />
+  <line class="fil2 str0" x1="127.37" y1="45.66" x2="140.57" y2= "45.66" />
+  <line class="fil2 str1" x1="136.57" y1="43.14" x2="136.57" y2= "26.8" />
+  <line class="fil2 str0" x1="135.2" y1="29.03" x2="136.57" y2= "26.8" />
+  <line class="fil2 str0" x1="137.94" y1="29.03" x2="136.57" y2= "26.8" />
+  <line class="fil2 str0" x1="135.2" y1="40.92" x2="136.57" y2= "43.14" />
+  <line class="fil2 str0" x1="137.94" y1="40.92" x2="136.57" y2= "43.14" />
+  <line class="fil2 str0" x1="127.37" y1="53.16" x2="140.57" y2= "53.16" />
+  <line class="fil2 str0" x1="127.37" y1="73.38" x2="140.57" y2= "73.38" />
+  <line class="fil2 str1" x1="136.57" y1="70.87" x2="136.57" y2= "54.53" />
+  <line class="fil2 str0" x1="135.2" y1="56.76" x2="136.57" y2= "54.53" />
+  <line class="fil2 str0" x1="137.94" y1="56.76" x2="136.57" y2= "54.53" />
+  <line class="fil2 str0" x1="135.2" y1="68.64" x2="136.57" y2= "70.87" />
+  <line class="fil2 str0" x1="137.94" y1="68.64" x2="136.57" y2= "70.87" />
+  <line class="fil2 str0" x1="127.37" y1="80.36" x2="140.57" y2= "80.36" />
+  <line class="fil2 str0" x1="127.37" y1="100.58" x2="140.57" y2= "100.58" />
+  <line class="fil2 str1" x1="136.57" y1="98.07" x2="136.57" y2= "81.73" />
+  <line class="fil2 str0" x1="135.2" y1="83.96" x2="136.57" y2= "81.73" />
+  <line class="fil2 str0" x1="137.94" y1="83.96" x2="136.57" y2= "81.73" />
+  <line class="fil2 str0" x1="135.2" y1="95.84" x2="136.57" y2= "98.07" />
+  <line class="fil2 str0" x1="137.94" y1="95.84" x2="136.57" y2= "98.07" />
+ </g>
+ <g id="Слой_x0020_1_1">
+  <metadata id="CorelCorpID_2Corel-Layer"/>
+  <polygon class="fil3 str2" points="28.4,107.84 124.52,107.84 124.52,100.46 28.4,100.46 "/>
+  <polygon class="fil3 str2" points="28.4,80.64 124.52,80.64 124.52,73.26 28.4,73.26 "/>
+  <polygon class="fil3 str2" points="28.4,53.45 124.52,53.45 124.52,46.07 28.4,46.07 "/>
+  <polygon class="fil3 str2" points="28.4,26.25 124.52,26.25 124.52,18.87 28.4,18.87 "/>
+ </g>
+</svg>

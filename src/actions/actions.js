@@ -23,6 +23,7 @@ export function getActions(dispatch) {
         createTwoPanelDimension: ({inside}) => dispatch(ShapeActions.createTwoPanelDimension({inside})),
         deleteSelected: () => dispatch(ShapeActions.deleteSelected()),
         deleteSelectedConfirm: ({isJoints}) => dispatch(ShapeActions.deleteSelectedConfirm({isJoints})),
+        distribute: () => dispatch(ShapeActions.distribute()),
         fixLength: (min, max) => dispatch(ShapeActions.fixLength(min, max)),
         logout: () => dispatch(UserActions.logout()),
         movePanel: (panel, movePoint) => dispatch(ShapeActions.movePanel(panel, movePoint)),

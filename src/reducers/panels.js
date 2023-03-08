@@ -9,6 +9,48 @@ export function isPanelIntersect(source, target) {
   return d <= source.length + target.length;
 }
 
+export function canBeDistributed(selected) {
+  let panels = Array.from(selected)
+  if(panels.some(p => (p.type !== Shape.PANEL)
+    || (p.jointFromBackSide.size !== 0)
+    || (p.jointFromFrontSide.size !== 0)
+    || (p.state.fixed_move === true))
+    ) return false
+
+  if (!panels.every(p => p.vertical) && !panels.every(p => !p.vertical)) return false
+  if (panels.length === 0) return false
+  const jointBack = panels[0].jointToBack
+  const jointFront = panels[0].jointToFront
+  if (!panels.every(p => p.jointToBack === jointBack)) return false
+  if (!panels.every(p => p.jointToFront === jointFront)) return false
+  if (panels[0].vertical)
+    panels.sort((p1, p2) => p1.rect.x - p2.rect.x);
+  else
+    panels.sort((p1, p2) => p1.rect.y - p2.rect.y);
+  for (let i = 0; i < panels.length - 1; i++) {
+    if (panels[i].getNearest().nearestFromFront !== panels[i + 1]) return false
+  }
+  return true
+}
+
+export function distribute(selected){
+  const panels = Array.from(selected)
+
+  if (panels[0].vertical){
+    panels.sort((p1, p2) => p1.rect.x - p2.rect.x);
+    panels.forEach(p => p.moveTo(-10000, 0))
+    const d = Math.round((panels.at(-1).getNearest().nearestFromFront.rect.x - panels.at(-1).rect.last.x) / (panels.length + 1))
+    for(let i = panels.length - 1; i >= 0; i--) panels[i].moveTo(d * (i + 1), 0)
+  }
+  else{
+    panels.sort((p1, p2) => p1.rect.y - p2.rect.y);
+    panels.forEach(p => p.moveTo(0, -10000))
+    const d = Math.round((panels.at(-1).getNearest().nearestFromFront.rect.y - panels.at(-1).rect.last.y) / (panels.length + 1))
+    for(let i = panels.length - 1; i >= 0; i--) panels[i].moveTo(0, d * (i + 1))
+  }
+
+}
+
 export function updateParallelPanels(panels) {
   for (let source of panels)
     for (let target of panels) {

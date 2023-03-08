@@ -14,7 +14,7 @@ import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimens
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
-import { deleteAllLinksToPanels, selectAllJointedPanels, updateParallelPanels } from "./panels";
+import { deleteAllLinksToPanels, distribute, selectAllJointedPanels, updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action) {
     switch (action.type) {
@@ -122,6 +122,10 @@ export default function panelReducer(state, action) {
             }
             const showConfirm = { show: true, messageKey: action.payload.isJoints ? "deleteJointedPanels" : "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
             return { result: true, newState: { ...state, showConfirm } };
+
+        case ShapeActions.DISTRIBUTE:
+            distribute(state.selectedPanels)
+            return { result: true, newState: { ...state } };
 
         case ShapeActions.FIX_LENGTH:
             state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.fixLength(action.payload) })

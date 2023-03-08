@@ -105,6 +105,7 @@ export const captions = {
       "moveUp": "Двигать вверх",
       "moveDown": "Двигать вниз",
       "resetView": "Центрировать вид",
+      "distribute": "Расставить равномерно",
     },
     "property": {
       "title": "Свойства",

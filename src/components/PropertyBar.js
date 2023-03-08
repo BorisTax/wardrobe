@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
 import { PropertyTypes } from './shapes/PropertyData';
 import Shape from './shapes/Shape';
+import MoveButtonsPanel from './MoveButtonsPanel';
 
 export default function PropertyBar() {
   const captions = useSelector(store => store.captions.toolbars.property)
@@ -35,6 +36,7 @@ export default function PropertyBar() {
   const buttons = !noSelected ? <div>
     <hr />
     <ToolButtonBar>
+      <MoveButtonsPanel/>
       <ToolButton title={fixed_move ? captions.unlock_move : captions.lock_move} disabled={noFix} pressed={fixed_move} pressedStyle={"lockmovebutton_pressed"} unpressedStyle={"lockmovebutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed_move: !fixed_move }) }} />
       <ToolButton title={fixedLengthMin ? captions.unlock_minlength : captions.lock_minlength} disabled={noFix} pressed={fixedLengthMin} pressedStyle={"lockminlengthbutton_pressed"} unpressedStyle={"lockminlengthbutton_unpressed"} onClick={() => { appActions.fixLength(!fixedLengthMin, fixedLengthMax) }} />
       <ToolButton title={fixedLengthMax ? captions.unlock_maxlength : captions.lock_maxlength} disabled={noFix} pressed={fixedLengthMax} pressedStyle={"lockmaxlengthbutton_pressed"} unpressedStyle={"lockmaxlengthbutton_unpressed"} onClick={() => { appActions.fixLength(fixedLengthMin, !fixedLengthMax) }} />
