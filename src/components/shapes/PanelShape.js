@@ -148,7 +148,7 @@ export default class PanelShape extends Shape {
     );
   }
 
-  moveTo(dx, dy, onGabaritChange = () => { }, doNotMove = false) {
+  moveTo(dx, dy, onGabaritChange = () => { }, doNotMove = false, prevPanel) {
     const { x, y } = this.getPosition();
     if (this.vertical) dy = 0;
     else dx = 0;
@@ -158,7 +158,7 @@ export default class PanelShape extends Shape {
     let newY = y + dy;
     let result;
 
-    ; ({ result, newX, newY, dx, dy } = this.isMoveAvailable({ newX, newY, dx, dy }));
+    ; ({ result, newX, newY, dx, dy } = this.isMoveAvailable({ newX, newY, dx, dy, prevPanel }));
     if (doNotMove) return { result, newX, newY, newDX: dx, newDY: dy }
     if (result) {
       this.setPosition(newX, newY);
@@ -175,9 +175,9 @@ export default class PanelShape extends Shape {
     } else return { result: false };
   }
 
-  isMoveAvailable({ newX: x, newY: y, dx, dy }) {
+  isMoveAvailable({ newX: x, newY: y, dx, dy, prevPanel }) {
     if (this.state.fixed_move) return { result: false };
-    const resultNear = this.snapToNearest({ newX: x, newY: y, dx, dy });
+    const resultNear = this.snapToNearest({ newX: x, newY: y, dx, dy, prevPanel });
     const resultJoint = this.snapToMinJointLength({ newX: x, newY: y, dx, dy });
     if (resultNear.result === true) {
       if (resultJoint.result === false) return { ...resultNear };
@@ -255,8 +255,8 @@ export default class PanelShape extends Shape {
     return { result: false, newX: x, newY: y, dx, dy };
   }
 
-  snapToNearest({ newX: x, newY: y, dx, dy }) {
-    const { nearestFromBack, nearestFromFront } = this.getNearest();
+  snapToNearest({ newX: x, newY: y, dx, dy, prevPanel }) {
+    const { nearestFromBack, nearestFromFront } = this.getNearest(prevPanel);
     let near = nearestFromBack;
     if (near) {
       const margin = Math.max(this.panelMargin, near.panelMargin);
@@ -290,17 +290,18 @@ export default class PanelShape extends Shape {
     return { result: false, newX: x, newY: y, dx, dy };
   }
 
-  getNearest() {
+  getNearest(prevPanel) {
     let nearestFromBack = Array.from(this.parallelFromBack)[0];
     let nearestFromFront = Array.from(this.parallelFromFront)[0];
-    let maxX = 0,
-      maxY = 0;
+    let maxX = 0
+    let maxY = 0;
     for (let par of this.parallelFromBack) {
-      if (par.rect.x > maxX && this.vertical) {
+      if(prevPanel === par) continue
+      if (par.rect.x + par.thicknes > maxX && this.vertical) {
         nearestFromBack = par;
         maxX = par.rect.x;
       }
-      if (par.rect.y > maxY && !this.vertical) {
+      if (par.rect.y + par.thickness > maxY && !this.vertical) {
         nearestFromBack = par;
         maxY = par.rect.y;
       }
@@ -308,6 +309,7 @@ export default class PanelShape extends Shape {
     maxX = 1000000;
     maxY = 1000000;
     for (let par of this.parallelFromFront) {
+      if(prevPanel === par) continue
       if (par.rect.x < maxX && this.vertical) {
         nearestFromFront = par;
         maxX = par.rect.x;

@@ -108,14 +108,16 @@ export function moveSelectedPanels(dx, dy, active, selected, onGabaritChange = (
     panels.sort((p1, p2) => dy < 0 ? p1.rect.y - p2.rect.y : p2.rect.y - p1.rect.y);
   let maxDX = 1000000;
   let maxDY = 1000000;
+  let prevPanel
   for (let p of panels) {
-    const res = p.moveTo(dx, dy, onGabaritChange, true);
+    const res = p.moveTo(dx, dy, onGabaritChange, true, prevPanel);
     if (vertical && Math.abs(res.newDX) < Math.abs(maxDX)) {
       maxDX = res.newDX;
     }
     if (!vertical && Math.abs(res.newDY) < Math.abs(maxDY)) {
       maxDY = res.newDY;
     }
+    prevPanel = p
   }
   for (let p of panels) {
     p.moveTo(maxDX, maxDY, onGabaritChange);
