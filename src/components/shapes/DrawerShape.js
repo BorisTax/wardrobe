@@ -6,6 +6,7 @@ export default class DrawerShape extends PanelShape {
     type = Shape.DRAWER
     constructor(data) {
         super({ ...data, vertical: false, thickness: 140, panelMargin: 10, name: "Ящик" });
+        this.state.measurable = false
         this.properties = [
             {key: "name", type: PropertyTypes.STRING},
             {key: "drawerWidth", type: PropertyTypes.INTEGER_POSITIVE_NUMBER},

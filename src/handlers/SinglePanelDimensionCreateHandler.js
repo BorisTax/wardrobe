@@ -27,8 +27,8 @@ export class SinglePanelDimensionCreateHandler extends MouseHandler {
             case 0: {
                 for (let p of appData.panels) {
                     if (!p.state.selectable) continue;
-                    const { hasDimension } = p.getSingleDimensionData()
-                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio) && hasDimension && !p.singleDimension) {
+                    if (!p.state.measurable) continue
+                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio) && !p.singleDimension) {
                         p.setState({ highlighted: true })
                         appData.cursor.setType(p.vertical ? DimensionCursor.VERT : DimensionCursor.HOR)
                     } else {
@@ -68,8 +68,8 @@ export class SinglePanelDimensionCreateHandler extends MouseHandler {
                 //this.firstPoint = this.coord
                 for (let p of appData.panels) {
                     if (!p.state.selectable) continue;
-                    const { hasDimension } = p.getSingleDimensionData()
-                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio) && hasDimension && !p.singleDimension) {
+                    if (!p.state.measurable) continue
+                    if (p.isUnderCursor(this.coord, viewPortData.pixelRatio) && !p.singleDimension) {
                         this.activePanel = p;
                         const { vertical, firstPoint, secondPoint, midPoint } = p.getSingleDimensionData()
                         this.firstPoint = firstPoint

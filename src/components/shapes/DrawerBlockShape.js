@@ -6,6 +6,7 @@ export default class DrawerBlockShape extends PanelShape {
     type = Shape.DRAWER
     constructor(data) {
         super({ ...data, vertical: false, thickness: 391, name: "Ящичный блок" });
+        this.state.measurable = false
         this.properties = [
             {key: "name", type: PropertyTypes.STRING},
             {key: "drawerWidth", type: PropertyTypes.INTEGER_POSITIVE_NUMBER},
@@ -37,7 +38,7 @@ export default class DrawerBlockShape extends PanelShape {
         props.find(p => p.key === "depth").value = this.width - 50
         return props
     }
-    
+
     getSingleDimensionData(){
 
         return {hasDimension: false}
