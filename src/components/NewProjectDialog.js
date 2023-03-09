@@ -7,7 +7,7 @@ import Modal from './Modal';
 import ComboBox from './ComboBox';
 const { NUMBER } = PropertyTypes
 
-export default function NewProjectDialog() {
+export default function NewProjectDialog({start = false}) {
     const appActions = useActions()
     const captions = useSelector(store => store.captions)
     const wardrobeCaps = captions.toolbars.project.wardrobe
@@ -26,7 +26,7 @@ export default function NewProjectDialog() {
                 </div>
                 <div className='flex-center'>
                     <button onClick={() => appActions.newProject({ wardrobe: { width, depth, height, double } })}>{"OK"}</button>
-                    <button onClick={() => appActions.showDialog(false)}>{captions.buttons.cancel}</button>
+                    {start ? <></> : <button onClick={() => appActions.showDialog(false)}>{captions.buttons.cancel}</button>}
                 </div>
             </Modal>
 

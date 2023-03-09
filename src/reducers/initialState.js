@@ -19,7 +19,8 @@ if (token) {
 }
 
 
-function createNewState({ wardrobe = { width: 3000, height: 2200, depth: 600, double: true } }) {
+function createNewState({ wardrobe }) {
+  if(!wardrobe) return {wardrobe: {}, panels:[]}
   const width = wardrobe.double ? wardrobe.width / 2 : wardrobe.width
   const leg = 30
   let panels
@@ -92,7 +93,7 @@ export function getInitialState(data) {
     deleteConfirm: true,
     getViewportData:false,
     wardrobe,
-    panelMargin: 0,
+    //panelMargin: 0,
     toolButtonsPressed: {
       createVertical: false,
       createHorizontal: false,
@@ -100,11 +101,15 @@ export function getInitialState(data) {
       createTwoPanelDimension: false,
     },
     information: { order: "", plan: "", currentDate: getNewDate() },
-    resetView: true,
+    materials: {
+      DSPColors: ["венге магия","дуб сонома", "белый110"],
+      activeDSPColorIndex: 0
+    },
+    resetView: panels.length > 0,
     showLoading: false,
     showConfirm: { show: false, message: "" },
     showAlert: { show: false, message: "" },
-    showDialog: { show: false, dialog: null },
+    showDialog: { show: false },
     status: Status.FREE,
     statusBar: 5,
     statusParams: { creator: null, picker: null },

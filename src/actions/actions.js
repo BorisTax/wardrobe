@@ -28,7 +28,7 @@ export function getActions(dispatch) {
         logout: () => dispatch(UserActions.logout()),
         movePanel: (panel, movePoint) => dispatch(ShapeActions.movePanel(panel, movePoint)),
         open: () => dispatch(ModelActions.openProject()),
-        newProjectConfirm: () => dispatch(ModelActions.newProjectConfirm()),
+        newProjectConfirm: (start) => dispatch(ModelActions.newProjectConfirm(start)),
         newProject: (data) => dispatch(ModelActions.newProject(data)),
         print: ({ save }) => dispatch(ScreenActions.print({ save })),
         resetView: () => dispatch(ScreenActions.resetView()),

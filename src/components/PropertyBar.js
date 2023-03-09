@@ -23,7 +23,7 @@ export default function PropertyBar() {
   const fixedLengthMax = selectedPanels.some(s => s.state.fixedLength.max)
   let contents = <></>
   if (selectedCount === 1) {
-    contents = <div className='detailPropertyContent'>
+    contents = <div className='gridContent'>
       {getProperties(selected[0], captions, appActions.updateState)}
     </div>
   }

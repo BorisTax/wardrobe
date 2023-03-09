@@ -11,7 +11,7 @@ import PrintPreviewBar from "../components/PrintPreviewBar";
 export default function projectReducer(state, action) {
     switch (action.type) {
         case ModelActions.NEW_PROJECT_CONFIRM:
-            let showDialog = { show: true, dialog: <NewProjectDialog /> }
+            let showDialog = { show: true, dialog: <NewProjectDialog start = {action.payload}/> }
             return { result: true, newState: { ...state, showDialog } };
 
         case ModelActions.NEW_PROJECT:
@@ -19,7 +19,7 @@ export default function projectReducer(state, action) {
             initialState.mouseHandler = new StatusFreeHandler(initialState)
             return {
                 result: true,
-                newState: { ...initialState }
+                newState: { ...initialState, showDialog: {show: false} }
             };
 
             

@@ -23,9 +23,10 @@ export const ModelActions = {
             payload: data
         }
     },
-    newProjectConfirm() {
+    newProjectConfirm(start) {
         return {
-            type: ModelActions.NEW_PROJECT_CONFIRM
+            type: ModelActions.NEW_PROJECT_CONFIRM,
+            payload: start
         }
     },
     saveProject() {

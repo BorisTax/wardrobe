@@ -60,6 +60,10 @@ export const captions = {
   "toolbars": {
     "hide": "Свернуть",
     "unhide": "Развернуть",
+    "materials":{
+      "title":"Материалы",
+      "DSPColor" : "Цвет ДСП",
+    },
     "project": {
       "title": "Проект",
       "new": "Новый проект",
