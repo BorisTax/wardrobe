@@ -12,6 +12,7 @@ import {
   isUserEmailExist,
   isUserNameExist
 } from "./users.js";
+import {getMaterials} from './materials.js'
 
 import { getCaptions } from "./options.js";
 
@@ -43,6 +44,12 @@ router.post("/register", async (req, res) => {
 router.post("/users", async (req, res) => {
   var result
   result = await getUsers();
+  res.json(result);
+});
+
+router.post("/materials", async (req, res) => {
+  var result
+  result = await getMaterials();
   res.json(result);
 });
 
