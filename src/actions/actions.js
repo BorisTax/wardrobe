@@ -39,6 +39,7 @@ export function getActions(dispatch) {
         setInformation: (info) => dispatch(ModelActions.setInformation(info)),
         setLanguage: (captions) => dispatch(AppActions.setLanguage(captions)),
         setMaterial: (mat) => dispatch(ModelActions.setMaterial(mat)),
+        setLoadedMaterials: (mat) => dispatch(ModelActions.setLoadedMaterials(mat)),
         setPanelState: (state) => dispatch(ShapeActions.setPanelState(state)),
         setPrevStatus: () => dispatch(ScreenActions.setPrevStatus()),
         setProperty: (key, value) => dispatch(ShapeActions.setProperty(key, value)),

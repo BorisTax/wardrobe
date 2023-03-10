@@ -19,7 +19,7 @@ export default function projectReducer(state, action) {
             initialState.mouseHandler = new StatusFreeHandler(initialState)
             return {
                 result: true,
-                newState: { ...initialState, showDialog: {show: false} }
+                newState: { ...initialState, materials: state.materials, showDialog: {show: false} }
             };
 
             

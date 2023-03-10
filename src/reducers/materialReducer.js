@@ -5,6 +5,9 @@ export default function materialReducer(state, action){
         case ModelActions.SET_MATERIAL:
             return { result: true, newState: {...state, materials: {...state.materials, ...action.payload}} };
 
+        case ModelActions.SET_LOADED_MATERIALS:
+            return { result: true, newState: {...state, materials: {...state.materials, ...action.payload}} };
+
         default: {
             return {result: false, newState: state}
         }

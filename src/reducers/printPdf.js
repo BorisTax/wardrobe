@@ -33,7 +33,7 @@ export function printToPDF(appData, printState) {
         [{ text: [`  ${captions.depth} ${dims.depth}`], frame: true, align: 'left' }],
         [{ text: [`  ${captions.height} ${dims.height}`], frame: true, align: 'left' }],
         [{ text: [captions.DSPcolor], frame: true, align: 'left', weight: TextShape.BOLD }],
-        [{ text: [`  ${captions.DSPcorpus} ${materials.DSPColors[materials.activeDSPColorIndex]}`], frame: true, align: 'left' }],
+        [{ text: [`  ${captions.DSPcorpus} ${materials.DSPColors[materials.activeDSPColorIndex].name}`], frame: true, align: 'left' }],
         [{ text: [`  ${captions.DSPext}`], frame: true, align: 'left' }],
     ]
 

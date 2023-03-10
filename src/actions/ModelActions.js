@@ -7,6 +7,7 @@ export const ModelActions = {
     SET_PROJECT: "SET_PROJECT",
     SET_INFORMATION: 'SET_INFORMATION',
     SET_MATERIAL: 'SET_MATERIAL',
+    SET_LOADED_MATERIALS: 'SET_LOADED_MATERIALS',
     SET_WARDROBE_DIMENSIONS: 'SET_WARDROBE_DIMENSIONS',
     LOAD_DETAIL_LIST: 'LOAD_DETAIL_LIST',
     SET_DELETE_CONFIRM: 'SET_DELETE_CONFIRM',
@@ -73,6 +74,12 @@ export const ModelActions = {
         return {
             type: ModelActions.SET_MATERIAL,
             payload: mat,
+        }
+    },
+    setLoadedMaterials: (mat) => {
+        return {
+            type: ModelActions.SET_LOADED_MATERIALS,
+            payload: mat
         }
     },
     setDeleteConfirm: (value) => {
