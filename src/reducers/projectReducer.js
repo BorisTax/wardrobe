@@ -1,12 +1,11 @@
 import { ModelActions } from "../actions/ModelActions";
-import { ScreenActions } from "../actions/ScreenActions";
 import NewProjectDialog from "../components/NewProjectDialog";
 import PanelShape from "../components/shapes/PanelShape";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { getNewDate } from "./functions";
 import { getInitialState } from "./initialState";
 import React from "react";
-import PrintPreviewBar from "../components/PrintPreviewBar";
+import { exportProject } from "./printPdf";
 
 export default function projectReducer(state, action) {
     switch (action.type) {
@@ -23,16 +22,16 @@ export default function projectReducer(state, action) {
             };
 
             
-        case ScreenActions.PRINT:
-            showDialog = { show: true, dialog: <PrintPreviewBar /> }
+        // case ScreenActions.PRINT:
+        //     showDialog = { show: true, dialog: <PrintPreviewBar /> }
             
-            return { result: true, newState: { ...state, showDialog } };
+        //     return { result: true, newState: { ...state, showDialog } };
 
         case ModelActions.SET_INFORMATION:
             return { result: true, newState: { ...state, information: { ...action.payload } } }
 
         case ModelActions.SAVE_PROJECT:
-            saveCurrentState(state);
+            exportProject(state);
             return { result: true, newState: state };
 
         case ModelActions.SET_PROJECT:
@@ -51,27 +50,18 @@ export default function projectReducer(state, action) {
     }
 }
 
-export function saveCurrentState(state) {
+export function saveCurrentState(state, image) {
     const saveState = {
-        tableMarginLength: state.tableMarginLength,
-        tableMarginWidth: state.tableMarginWidth,
-        panelMargin: state.panelMargin,
-        panels: state.panels.map(p => p.model),
-        activeTable: state.activeTable,
-        tables: state.tables.map(t => t.model),
-        detailList: {
-            primary: state.detailList["primary"],
-            secondary: state.detailList["secondary"]
-        },
-        information: { ...state.information },
-        material: { ...state.material },
-        drawModuleInCaption: state.drawModuleInCaption
+        //panels: state.panels.map(p => p.model),
     };
     const project = { project: 1.0, state: saveState }
-    var contents = JSON.stringify(project);
+    //var contents = JSON.stringify(project);
     var link = document.createElement('a');
-    link.setAttribute('download', "project.json");
-    link.href = makeTextFile(contents);
+    //link.setAttribute('download', "project.json");
+    //link.href = makeTextFile(contents);
+    //link.click()
+    link.setAttribute('download', "project.png");
+    link.setAttribute("href", image.replace("image/png", "image/octet-stream"));
     link.click()
 }
 

@@ -16,7 +16,7 @@ export default function ProjectBar({disabled}){
         <ToolButtonBar>
             <ToolButton icon="new" title={captions.new} onClick={()=>{appActions.newProjectConfirm()}} disabled={disabled}/>
             <ToolButton icon="open" title={captions.open + disTitle} onClick={()=>{appActions.open()}} disabled={disabledAll}/>
-            <ToolButton icon="save" title={captions.save + disTitle} onClick={()=>{appActions.save()}} disabled={disabledAll}/>
+            <ToolButton icon="save" title={captions.save + disTitle} onClick={()=>{appActions.save()}} disabled={false}/>
             <ToolButtonSeparator/>
             <ToolButton icon="preview" title={captions.preview + disTitle} onClick={()=>{appActions.print({save:false})}} disabled={false}/>
             <ToolButton icon="save-pdf" title={captions.savePdf + disTitle} onClick={()=>{appActions.print({save:true})}} disabled={disabledAll}/>

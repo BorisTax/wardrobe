@@ -12,7 +12,7 @@ export default function PrintPreviewBar(){
     const [isLoading, setLoading] = useState(true)
     useEffect(()=>{
         setTimeout(()=>{
-            printToPDF(appData); 
+            //printToPDF(appData); 
             setLoading(false)
 
         },1)

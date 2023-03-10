@@ -8,7 +8,7 @@ export function paint(ctx, viewPortData, appData, print = false) {
     ctx.lineJoin = 'round';
     ctx.strokeStyle = "black"
     ctx.fillRect(0, 0, viewPortData.viewPortWidth, viewPortData.viewPortHeight);
-    ctx.strokeRect(0, 0, viewPortData.viewPortWidth-1, viewPortData.viewPortHeight-1);
+    //ctx.strokeRect(0, 0, viewPortData.viewPortWidth-1, viewPortData.viewPortHeight-1);
     const { topLeft, bottomRight, viewPortWidth, viewPortHeight, marginRight, marginTop, marginLeft, marginBottom } = viewPortData;
     const realRect = getRealRect(topLeft, bottomRight)
     const screenRect = getScreenRect(viewPortWidth, viewPortHeight)
