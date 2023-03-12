@@ -100,7 +100,7 @@ export default class Dimension extends Shape {
         this.hidden = hidden
     }
     setOffsetPoint(offsetPoint, wardrobe) {
-        const max = 500
+        const max = 200
         this.offsetPoint = offsetPoint
         if (this.offsetPoint.x < -max) this.offsetPoint.x = -max
         if (this.offsetPoint.x > wardrobe.width + max) this.offsetPoint.x = wardrobe.width + max

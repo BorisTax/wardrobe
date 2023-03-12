@@ -1,10 +1,12 @@
+import React from "react";
+import JSZip from 'jszip'
+import FileSaver from 'file-saver'
 import { ModelActions } from "../actions/ModelActions";
 import NewProjectDialog from "../components/NewProjectDialog";
 import PanelShape from "../components/shapes/PanelShape";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
 import { getNewDate } from "./functions";
 import { getInitialState } from "./initialState";
-import React from "react";
 import { exportProject } from "./printPdf";
 
 export default function projectReducer(state, action) {
@@ -55,14 +57,13 @@ export function saveCurrentState(state, image) {
         //panels: state.panels.map(p => p.model),
     };
     const project = { project: 1.0, state: saveState }
-    //var contents = JSON.stringify(project);
-    var link = document.createElement('a');
-    //link.setAttribute('download', "project.json");
-    //link.href = makeTextFile(contents);
-    //link.click()
-    link.setAttribute('download', "project.png");
-    link.setAttribute("href", image.replace("image/png", "image/octet-stream"));
-    link.click()
+    var contents = JSON.stringify(project);
+    const img = image.split(",")[1]
+    const zip = new JSZip()
+    zip.file('project.json', contents)
+    zip.file('project.png', img, {base64: true})
+    zip.generateAsync({type: 'blob'}).then(cont => FileSaver.saveAs(cont, 'project.zip'))
+
 }
 
 export function loadCurrentState(state, oldState) {
@@ -77,13 +78,3 @@ export function loadCurrentState(state, oldState) {
     };
     return newState;
 }
-
-var textFile = null
-var makeTextFile = function (text) {
-    var data = new Blob([text], { type: 'application/json' });
-    if (textFile !== null) {
-        window.URL.revokeObjectURL(textFile);
-    }
-    textFile = window.URL.createObjectURL(data);
-    return textFile;
-};
