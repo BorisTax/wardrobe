@@ -12,7 +12,7 @@ import MoveButtonsPanel from './MoveButtonsPanel';
 export default function PropertyBar() {
   const captions = useSelector(store => store.captions.toolbars.property)
   const appActions = useActions()
-  const selected = Array.from(useSelector(store => store.selectedPanels))
+  const selected = Array.from(useSelector(store => store).selectedPanels)
   const selectedPanels = selected.filter(p => p.type !== Shape.DIMENSION)
   const selectedCount = selected.length
   const isJoints = selectedPanels.find(p => p.jointFromBackSide.size > 0 || p.jointFromFrontSide.size > 0);
@@ -37,10 +37,10 @@ export default function PropertyBar() {
     <hr />
     <ToolButtonBar>
       <MoveButtonsPanel/>
-      <ToolButton title={fixed_move ? captions.unlock_move : captions.lock_move} disabled={noFix} pressed={fixed_move} pressedStyle={"lockmovebutton_pressed"} unpressedStyle={"lockmovebutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed_move: !fixed_move }) }} />
-      <ToolButton title={fixedLengthMin ? captions.unlock_minlength : captions.lock_minlength} disabled={noFix} pressed={fixedLengthMin} pressedStyle={"lockminlengthbutton_pressed"} unpressedStyle={"lockminlengthbutton_unpressed"} onClick={() => { appActions.fixLength(!fixedLengthMin, fixedLengthMax) }} />
-      <ToolButton title={fixedLengthMax ? captions.unlock_maxlength : captions.lock_maxlength} disabled={noFix} pressed={fixedLengthMax} pressedStyle={"lockmaxlengthbutton_pressed"} unpressedStyle={"lockmaxlengthbutton_unpressed"} onClick={() => { appActions.fixLength(fixedLengthMin, !fixedLengthMax) }} />
-      <ToolButton title={captions.delete} disabled={noDelete} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm({ isJoints }) }} />
+      <ToolButton key = {1} title={fixed_move ? captions.unlock_move : captions.lock_move} disabled={noFix} pressed={fixed_move} pressedStyle={"lockmovebutton_pressed"} unpressedStyle={"lockmovebutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed_move: !fixed_move }) }} />
+      <ToolButton key = {2} title={fixedLengthMin ? captions.unlock_minlength : captions.lock_minlength} disabled={noFix} pressed={fixedLengthMin} pressedStyle={"lockminlengthbutton_pressed"} unpressedStyle={"lockminlengthbutton_unpressed"} onClick={() => { appActions.fixLength(!fixedLengthMin, fixedLengthMax) }} />
+      <ToolButton key = {3} title={fixedLengthMax ? captions.unlock_maxlength : captions.lock_maxlength} disabled={noFix} pressed={fixedLengthMax} pressedStyle={"lockmaxlengthbutton_pressed"} unpressedStyle={"lockmaxlengthbutton_unpressed"} onClick={() => { appActions.fixLength(fixedLengthMin, !fixedLengthMax) }} />
+      <ToolButton key = {4} title={captions.delete} disabled={noDelete} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm({ isJoints }) }} />
     </ToolButtonBar>
   </div> : <></>
   return <ToolBar caption={captions.title}>

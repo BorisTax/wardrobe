@@ -51,7 +51,7 @@ export function exportProject(appData, printState) {
     ctx.fillRect(0, 0, viewPortData.viewPortWidth, viewPortData.viewPortHeight)
     dataTable.setPosition(0, 0)
     const fontSize = 12
-    const marginRight = 10
+    const marginRight = 20
     const marginTop = 50
     const {totalWidth} = dataTable.getTableDimensions(ctx, fontSize)
     ctx.save()
@@ -59,9 +59,9 @@ export function exportProject(appData, printState) {
     dataTable.draw(ctx, fontSize)
     ctx.restore()
     realWidth = Geometry.screenToRealLength(viewPortData.viewPortWidth - totalWidth - marginRight, viewPortData.realWidth, viewPortData.viewPortWidth)
-    viewPortData = setDimensions(viewPortData.viewPortWidth - totalWidth - marginRight, viewPortData.viewPortHeight, realWidth, viewPortData)
+    viewPortData = setDimensions(viewPortData.viewPortWidth - totalWidth - marginRight, viewPortData.viewPortHeight - 150, realWidth, viewPortData)
     viewPortData = zoomToRect({ ...wardrobeRect }, viewPortData)
-    viewPortData = setTopLeft(wardrobeRect.topLeft, viewPortData)
+    //viewPortData = setTopLeft(wardrobeRect.topLeft, viewPortData)
     ctx.save()
     ctx.translate(0, marginTop)
     paint(ctx, viewPortData, appData, true)

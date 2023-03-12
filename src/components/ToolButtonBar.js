@@ -5,6 +5,5 @@ export default function ToolButtonBar(props) {
                 <div style={{ display: "flex", gap: "0.2em",alignItems: "stretch" }}>
                         {props.children}
                 </div>
-                <hr />
         </>
 }

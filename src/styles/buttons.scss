@@ -7,8 +7,9 @@ $icon-url: '../images/icons/';
   position: relative;
   background-size: 100%;
   background-position: center;
-  width: 27px;
-  height: 27px;
+  background-repeat: no-repeat;
+  width: 31px;
+  height: 39px;
   cursor: pointer;
 }
 
@@ -31,7 +32,7 @@ $icon-url: '../images/icons/';
   position: relative;
   bottom: 1px;
   margin: 0;
-  width: 1px;
+  width: 3px;
   border: inset 1px;
 }
 
@@ -52,18 +53,19 @@ $icon-url: '../images/icons/';
 
 .help {
   background: url($icon-url+'help.png') no-repeat;
+  height: 31px;
 }
 
 .new {
-  background: url($icon-url+'new.png') no-repeat;
+  background-image: url($icon-url+'new.png');
 }
 
 .open {
-  background: url($icon-url+'open.png') no-repeat;
+  background-image: url($icon-url+'open.png');
 }
 
 .save {
-  background: url($icon-url+'save.png') no-repeat;
+  background-image: url($icon-url+'save.png');
 }
 
 .save-pdf {
