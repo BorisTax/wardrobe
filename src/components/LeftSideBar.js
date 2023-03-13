@@ -8,7 +8,7 @@ export default function LeftSideBar() {
     <div className="left-sidebar">
       <div className="sidebar-content">
       <InformationBar/>
-        <MaterialBar/>
+        
         <PropertyBar/>
         </div>
     </div>

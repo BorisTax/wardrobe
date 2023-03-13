@@ -12,7 +12,7 @@ export function getViewPortState(){
     curCanvasPoint: { x: 225, y: 225 },
     gridStep: 10,
     gridStepPixels: 1,
-    marginTop: 15, marginLeft: 0, marginBottom: 0, marginRight: 0,
+    marginTop: 0, marginLeft: 0, marginBottom: 0, marginRight: 0,
     ratio: 1, pixelRatio: 1,
     realWidth: 3000, realHeight: 2600,
     viewPortHeight: 400,

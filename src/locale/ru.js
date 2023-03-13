@@ -86,9 +86,18 @@ export const captions = {
     },
     "info": {
       "title": "Общая информация",
-      "order": "Заказ:",
-      "plan": "План:",
-      "date": "Дата:",
+      "wardrobe": {
+        "title": "Габариты",
+        "width": "Ширина",
+        "depth": "Глубина",
+        "height": "Высота",
+      },
+      "materials": {
+        "title": "Материалы",
+        "width": "Цвет ДСП",
+        "depth": "Глубина",
+        "height": "Высота",
+      }
 
     },
     "instruments": {

@@ -23,11 +23,9 @@ export default function MaterialBar({ disabled }) {
         })
         .catch(e => { console.error(e);});
     }, [])
-    return <ToolBar caption={captions.title}>
-        <div className='gridContent'>
+    return <div className='gridContent'>
            
             <ComboBox title={captions.DSPColor} value={activeDSPColor} items={DSPColors} onChange={(index)=>appActions.setMaterial({activeDSPColorIndex: index})}/>
 
         </div>
-    </ToolBar>
 }
