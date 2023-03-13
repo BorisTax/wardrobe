@@ -5,6 +5,7 @@ export const ShapeActions = {
     CREATE_PANEL: 'CREATE_PANEL',
     CREATE_SINGLE_DIMENSION: 'CREATE_SINGLE_DIMENSION',
     CREATE_TWO_PANEL_DIMENSION: 'CREATE_TWO_PANEL_DIMENSION',
+    CREATE_TUBE: 'CREATE_TUBE',
     DELETE_SELECTED: "DELETE_SELECTED",
     DELETE_SELECTED_CONFIRM: "DELETE_SELECTED_CONFIRM",
     DISTRIBUTE: "DISTRIBUTE",
@@ -44,6 +45,11 @@ export const ShapeActions = {
         return {
             type: ShapeActions.CREATE_TWO_PANEL_DIMENSION,
             payload: {inside}
+        }
+    },
+    createTube: () => {
+        return {
+            type: ShapeActions.CREATE_TUBE,
         }
     },
     deleteSelected: () => {

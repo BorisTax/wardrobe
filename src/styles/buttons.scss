@@ -226,6 +226,11 @@ $table_icon_height: 35px;
   @include instruments_button();
 }
 
+.createTube {
+  background: url($icon-url+'tube.svg');
+  @include instruments_button();
+}
+
 .moveButtons {
   @include instruments_button();
   display: grid;

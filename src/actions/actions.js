@@ -21,6 +21,7 @@ export function getActions(dispatch) {
         createPanel: (options) => dispatch(ShapeActions.createPanel(options)),
         createSingleDimension: () => dispatch(ShapeActions.createSingleDimension()),
         createTwoPanelDimension: ({inside}) => dispatch(ShapeActions.createTwoPanelDimension({inside})),
+        createTube: () => dispatch(ShapeActions.createTube()),
         deleteSelected: () => dispatch(ShapeActions.deleteSelected()),
         deleteSelectedConfirm: ({isJoints}) => dispatch(ShapeActions.deleteSelectedConfirm({isJoints})),
         distribute: () => dispatch(ShapeActions.distribute()),

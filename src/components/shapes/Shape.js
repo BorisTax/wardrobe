@@ -5,6 +5,7 @@ export default class Shape {
     static DOUBLE_PANEL = "DOUBLE_PANEL"
     static DIMENSION = "DIMENSION"
     static DRAWER = "DRAWER"
+    static TUBE = "TUBE"
 
     constructor() {
         this.style = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID);
@@ -72,4 +73,8 @@ export default class Shape {
     getState() {
         return this.state;
     }
+    getSingleDimensionData(){
+
+        return {hasDimension: false}
+      }
 }

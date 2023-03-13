@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
-import Shape from './shapes/Shape';
 import ToolButton from './ToolButton';
 import ToolButtonBar from './ToolButtonBar';
 
@@ -14,8 +13,9 @@ export default function InstrumentsBar(){
         <ToolButtonBar>
             <ToolButton icon={"createPanelVertical"} pressed={vert} {...pressedStyle} title={captions.createVertical} onClick={()=>{appActions.createPanel({vertical: true})}}/>
             <ToolButton icon={"createPanelHorizontal"} pressed={hor} {...pressedStyle} title={captions.createHorizontal} onClick={()=>{appActions.createPanel({vertical: false})}}/>
-            <ToolButton icon={"createDrawer"} pressed={drawer} {...pressedStyle} title={captions.createDrawer} onClick={()=>{appActions.createDrawer(Shape.DRAWER_OPTIONS)}}/>
-            <ToolButton icon={"createDrawerBlock"} pressed={drawerBlock} {...pressedStyle} title={captions.createDrawerBlock} onClick={()=>{appActions.createDrawerBlock(Shape.DRAWERBLOCK_OPTIONS)}}/>
+            <ToolButton icon={"createDrawer"} pressed={drawer} {...pressedStyle} title={captions.createDrawer} onClick={()=>{appActions.createDrawer()}}/>
+            <ToolButton icon={"createDrawerBlock"} pressed={drawerBlock} {...pressedStyle} title={captions.createDrawerBlock} onClick={()=>{appActions.createDrawerBlock()}}/>
+            <ToolButton icon={"createTube"} pressed={drawerBlock} {...pressedStyle} title={captions.createTube} onClick={()=>{appActions.createTube()}}/>
         </ToolButtonBar>
         </>
 }

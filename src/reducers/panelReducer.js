@@ -8,6 +8,7 @@ import DrawerBlockShape from "../components/shapes/DrawerBlockShape";
 import DrawerShape from "../components/shapes/DrawerShape";
 import PanelShape from "../components/shapes/PanelShape"
 import Shape from "../components/shapes/Shape";
+import TubeShape from "../components/shapes/TubeShape";
 import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
 import { PanelMoveHandler } from "../handlers/PanelMoveHandler";
 import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimensionCreateHandler";
@@ -64,6 +65,18 @@ export default function panelReducer(state, action) {
                 toolButtonsPressed: getButtonPressed({
                     createVertical: action.payload.vertical,
                     createHorizontal: !action.payload.vertical,
+                })
+            }
+            return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
+
+        case ShapeActions.CREATE_TUBE:
+            state.selectedPanels = new Set()
+            newState = {
+                ...state, curShape: new TubeShape({ wardrobe: state.wardrobe }),
+                cursor: new DragCursor(state.curRealPoint),
+                status: Status.CREATE,
+                toolButtonsPressed: getButtonPressed({
+                    createTube: true,
                 })
             }
             return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
@@ -166,6 +179,7 @@ function getButtonPressed(buttons){
         createVertical: false,
         createHorizontal: false,
         createDrawer: false,
+        createTube: false,
         createSingleDimension: false,
         createTwoPanelDimensionInside: false,
         createTwoPanelDimensionOutside: false

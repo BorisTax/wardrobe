@@ -98,6 +98,7 @@ export const captions = {
       "createHorizontal": "Добавить горизонтальную деталь",
       "createDrawer": "Добавить ящик",
       "createDrawerBlock": "Добавить ящичный блок",
+      "createTube": "Добавить трубу",
       "createSingleDimension": "Добавить размер для одной детали",
       "createTwoPanelDimensionInside": "Добавить размер между деталями изнутри",
       "createTwoPanelDimensionOutside": "Добавить размер между деталями снаружи",
