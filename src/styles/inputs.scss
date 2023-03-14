@@ -124,12 +124,13 @@ $scale: 0.5;
     width: 100%;
 }
 
-
+.combobox{
+  width:fit-content;
+}
 .language{
   border: none;
   background-color: transparent;
 }
-
 
 .language:focus{
   outline: none;

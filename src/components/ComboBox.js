@@ -5,7 +5,7 @@ export default function ComboBox(props){
         return (
         <>
         {props.title?<span>{props.title}</span>:<></>}
-        <select size={!props.size?1:props.size} 
+        <select className={'combobox'} size={!props.size?1:props.size} 
             disabled={props.disabled}
             onChange={(e)=>{
                         const index = props.items.findIndex(i=>i === e.target.value)||0

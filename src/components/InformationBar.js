@@ -1,10 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { TreeView, TreeItem } from '@mui/lab'
+import { TreeView } from '@material-ui/lab'
+import TreeItem from "@material-ui/lab/TreeItem";
 import  ExpandMoreIcon  from '@mui/icons-material/ExpandMore'
 import  ChevronRightIcon  from '@mui/icons-material/ChevronRight'
+import { withStyles } from "@material-ui/core/styles";
 import ToolBar from './ToolBar';
 import MaterialBar from './MaterialBar';
+
+// const TreeItem = withStyles({
+//     selected: {
+//       color: "red"
+//     }
+//   })(MuiTreeItem);
 
 export default function InformationBar({ disabled }) {
     const captions = useSelector(store => store.captions.toolbars.info)
@@ -24,7 +32,7 @@ export default function InformationBar({ disabled }) {
             defaultCollapseIcon={<ExpandMoreIcon />}
             defaultExpanded={['root']}
             defaultExpandIcon={<ChevronRightIcon />}
-            sx={{ flexGrow: 1 }}
+            
             >
                 {renderTree(d)}
             </TreeView>
