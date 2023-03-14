@@ -1,5 +1,14 @@
 import Shape from "../components/shapes/Shape";
 
+export function isPointInPanelArea(point, panel) {
+  let d;
+  if (panel.vertical)
+    d = (point.y - panel.rect.last.y) * (point.y - panel.rect.y);
+  else
+    d = (point.x - panel.rect.last.x) * (point.x - panel.rect.x);
+  return d <= 0;
+}
+
 export function isPanelIntersect(source, target) {
   let d;
   if (source.vertical)

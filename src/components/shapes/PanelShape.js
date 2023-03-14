@@ -2,7 +2,7 @@ import Geometry, { Intersection } from "../../utils/geometry";
 import Shape from "./Shape";
 import ShapeStyle from "./ShapeStyle";
 import { Color } from "../colors";
-import { getJointData, isPanelIntersect } from "../../reducers/panels";
+import { getJointData, isPanelIntersect, isPointInPanelArea } from "../../reducers/panels";
 import { PropertyTypes } from "./PropertyData";
 export default class PanelShape extends Shape {
   type = Shape.PANEL;
@@ -334,7 +334,7 @@ export default class PanelShape extends Shape {
     this.parallelFromFront = new Set();
     for (let panel of panels) {
       if (!(panel.vertical === this.vertical)) continue;
-      if (!isPanelIntersect(this, panel)) continue;
+      if (!isPointInPanelArea({x, y}, panel)) continue;
       const margin = Math.max(this.panelMargin, panel.panelMargin);
       if (this.vertical) {
         if (x >= panel.rect.x) {
