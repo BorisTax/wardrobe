@@ -42,14 +42,15 @@ export default function InformationBar({ disabled }) {
 
 function getInfoData(appData) {
     const caps = appData.captions.toolbars.info
+    const double = appData.wardrobe.double?` (${appData.wardrobe.width1}+${appData.wardrobe.width2})`:''
     const data = [
         {
                 id: "wardrobe",
                 name: caps.wardrobe.title,
                 children: [
-                    { id: "width", name: caps.wardrobe.width },
-                    { id: "depth", name: caps.wardrobe.depth },
-                    { id: "height", name: caps.wardrobe.height },
+                    { id: "width", name: `${caps.wardrobe.width}: ${appData.wardrobe.width}${double}`},
+                    { id: "depth", name: `${caps.wardrobe.depth}: ${appData.wardrobe.depth}`},
+                    { id: "height", name: `${caps.wardrobe.height}: ${appData.wardrobe.height}` },
                 ]
             },
             {

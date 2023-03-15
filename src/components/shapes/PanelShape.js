@@ -14,7 +14,7 @@ export default class PanelShape extends Shape {
     this.panelMargin = data.panelMargin || 0;
     if (!data.active) this.active = false;
     this.vertical = data.vertical;
-    this.name = data.name || (this.vertical ? "Стойка" : "Полка");
+    this.name = data.name || (this.vertical ? "Стойка внутр" : "Полка");
     this.defaultMinLength = data.minLength || 282;;
     this.defaultMaxLength = data.maxLength || 10000000;
     this.minLength = this.defaultMinLength
@@ -25,7 +25,9 @@ export default class PanelShape extends Shape {
     this.state.fixed_move = data.fixed_move === undefined ? false : data.fixed_move;
     this.state.fixedLength = data.fixedLength === undefined ? { min: false, max: false } : data.fixedLength;
     this.state.resizable = data.resizable === undefined ? true : data.resizable;
-    this.state.measurable = data.measurable === undefined ? true : data.resizable;
+    this.state.measurable = data.measurable === undefined ? true : data.measurable;
+    this.state.drillable = data.drillable === undefined ? true : data.drillable;
+    this.nodrill = data.nodrill === undefined ? false : data.nodrill;
     this.state.blocked = data.blocked === undefined ? false : data.fixed;
     this.state.hidden = data.hidden;
     this.thickness = data.thickness || 16;
@@ -44,6 +46,7 @@ export default class PanelShape extends Shape {
       { key: "name", type: PropertyTypes.STRING, editable: true, setValue: (value) => { this.name = value } },
       { key: "length", type: PropertyTypes.INTEGER_POSITIVE_NUMBER, editable: this.state.resizable, setValue: (value) => { this.resize(value) } },
       { key: "width", type: PropertyTypes.INTEGER_POSITIVE_NUMBER },
+      { key: "nodrill", type: PropertyTypes.BOOL, editable: true, hidden: !this.state.drillable, setValue: (value) => { this.nodrill = value }},
     ]
   }
 

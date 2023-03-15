@@ -24,7 +24,7 @@ export function exportProject(appData, printState) {
     ctx.scale(scale, scale)
     const dims = appData.wardrobe
     const captions = appData.captions.print.dataTable
-    const double = appData.wardrobe.double ? captions.double : captions.single 
+    const double = appData.wardrobe.double?` (${appData.wardrobe.width1}+${appData.wardrobe.width2})`:''
     const materials = appData.materials
     const dataList = [
         [{ text: [captions.title], frame: false, align: 'left', weight: TextShape.BOLD }],

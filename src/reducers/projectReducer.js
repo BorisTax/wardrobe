@@ -44,6 +44,10 @@ export default function projectReducer(state, action) {
 
         case ModelActions.SET_WARDROBE_DIMENSIONS:
             const dimensions = action.payload;
+            if(state.wardrobe.double){
+                dimensions.width1 = Array.from(state.panels)[0].length
+                dimensions.width2 = Array.from(state.panels)[1].length
+            }
             return { result: true, newState: { ...state, wardrobe: { ...state.wardrobe, ...dimensions } } };
 
         default: {

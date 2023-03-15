@@ -3,6 +3,7 @@ import ToolBar from './ToolBar';
 import ToolButton from './ToolButton';
 import InputField from './InputField'
 import ToolButtonBar from './ToolButtonBar';
+import CheckBox from './CheckBox'; 
 import { useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
 import { PropertyTypes } from './shapes/PropertyData';
@@ -52,6 +53,7 @@ export default function PropertyBar() {
 function getProperties(object, captions, updateState) {
   const props = [];
   for (let p of object.getProperties()) {
+    if(p.hidden) continue
     const value = getValueElement(p, updateState);
     const prop = (
       <>
@@ -67,8 +69,9 @@ function getProperties(object, captions, updateState) {
 function getValueElement(p, updateState) {
   if (p.editable) {
     switch (p.type) {
-      case PropertyTypes.STRING: return <input value={p.value} onChange={(e) => { p.setValue(e.target.value); updateState() }} />
+      case PropertyTypes.STRING: return <InputField type={p.type} value={p.value} setValue={(value) => { p.setValue(value); updateState() }} />
       case PropertyTypes.INTEGER_POSITIVE_NUMBER: return <InputField type={p.type} value={p.value} setValue={(value) => { p.setValue(value); updateState() }} />
+      case PropertyTypes.BOOL: return <CheckBox value={p.value} onChange={(value) => { p.setValue(value); updateState() }} />
       default:
     }
   } else {
