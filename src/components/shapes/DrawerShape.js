@@ -24,8 +24,8 @@ export default class DrawerShape extends PanelShape {
         const bottomRight = Geometry.realToScreen(rect.last, realRect, screenRect);
         const width = bottomRight.x - topLeft.x
         const height = bottomRight.y - topLeft.y
-        let x = Math.trunc(topLeft.x) + 0.5
-        let y = Math.trunc(topLeft.y) + 0.5
+        let x = topLeft.x
+        let y = topLeft.y
         ctx.strokeRect(x, y, width, height);
     }
     getProperties(){

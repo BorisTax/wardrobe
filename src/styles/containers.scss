@@ -118,7 +118,7 @@ body {
 
 .newproject-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: fit-content(100%) fit-content(100%);
 }
 
 .gridContent {

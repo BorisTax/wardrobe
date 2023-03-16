@@ -2,7 +2,7 @@ import Geometry, { Intersection } from "../../utils/geometry";
 import Shape from "./Shape";
 import ShapeStyle from "./ShapeStyle";
 import { Color } from "../colors";
-import { getJointData, isPanelIntersect, isPointInPanelArea } from "../../reducers/panels";
+import { getJointData, isPointInPanelArea } from "../../reducers/panels";
 import { PropertyTypes } from "./PropertyData";
 export default class PanelShape extends Shape {
   type = Shape.PANEL;
@@ -64,8 +64,8 @@ export default class PanelShape extends Shape {
     const bottomRight = Geometry.realToScreen(this.rect.last, realRect, screenRect);
     const width = bottomRight.x - topLeft.x;
     const height = bottomRight.y - topLeft.y;
-    let x = Math.trunc(topLeft.x) + 0.5;
-    let y = Math.trunc(topLeft.y) + 0.5;
+    let x = topLeft.x
+    let y = topLeft.y
     ctx.strokeRect(x, y, width, height);
     if(print) this.state = {...saveState}
   }

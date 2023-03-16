@@ -15,8 +15,8 @@ export default class RectangleShape extends Shape{
 
     drawSelf(ctx, realRect, screenRect,fill=false) {
         super.drawSelf(ctx,realRect, screenRect)
-        let x=Math.trunc(this.rect.topLeft.x)+0.5
-        let y=Math.trunc(this.rect.topLeft.y)+0.5
+        let x=this.rect.topLeft.x
+        let y=this.rect.topLeft.y
         if(fill){
             ctx.fillStyle=this.fillStyle;
             ctx.fillRect(x,y,this.rect.width,this.rect.height);

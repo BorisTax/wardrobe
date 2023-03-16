@@ -4,15 +4,8 @@ import { TreeView } from '@material-ui/lab'
 import TreeItem from "@material-ui/lab/TreeItem";
 import  ExpandMoreIcon  from '@mui/icons-material/ExpandMore'
 import  ChevronRightIcon  from '@mui/icons-material/ChevronRight'
-import { withStyles } from "@material-ui/core/styles";
 import ToolBar from './ToolBar';
 import MaterialBar from './MaterialBar';
-
-// const TreeItem = withStyles({
-//     selected: {
-//       color: "red"
-//     }
-//   })(MuiTreeItem);
 
 export default function InformationBar({ disabled }) {
     const captions = useSelector(store => store.captions.toolbars.info)

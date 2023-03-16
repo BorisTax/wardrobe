@@ -5,7 +5,7 @@ import InputField from './InputField';
 import { PropertyTypes } from './shapes/PropertyData';
 import Modal from './Modal';
 import ComboBox from './ComboBox';
-const { NUMBER } = PropertyTypes
+const { INTEGER_POSITIVE_NUMBER } = PropertyTypes
 
 export default function NewProjectDialog({start = false}) {
     const appActions = useActions()
@@ -17,11 +17,11 @@ export default function NewProjectDialog({start = false}) {
                 
                 <div className="newproject-content">
                     <div>{wardrobeCaps.width}</div>
-                    <InputField type={NUMBER} value={width} setValue={value => setWardrobe(prev => ({ ...prev, width: +value }))} />
+                    <InputField type={INTEGER_POSITIVE_NUMBER} value={width} setValue={value => setWardrobe(prev => ({ ...prev, width: +value }))} />
                     <div>{wardrobeCaps.depth}</div>
-                    <InputField type={NUMBER} value={depth} setValue={value => setWardrobe(prev => ({ ...prev, depth: +value }))} />
+                    <InputField type={INTEGER_POSITIVE_NUMBER} value={depth} setValue={value => setWardrobe(prev => ({ ...prev, depth: +value }))} />
                     <div>{wardrobeCaps.height}</div>
-                    <InputField type={NUMBER} value={height} setValue={value => setWardrobe(prev => ({ ...prev, height: +value }))} />
+                    <InputField type={INTEGER_POSITIVE_NUMBER} value={height} setValue={value => setWardrobe(prev => ({ ...prev, height: +value }))} />
                     <ComboBox title={wardrobeCaps.type.type} items={[wardrobeCaps.type.single, wardrobeCaps.type.double]} value={comboValue} onChange = {(index)=>setWardrobe(prev => ({ ...prev, double: !!index }))}/>
                 </div>
                 <div className='flex-center'>

@@ -39,6 +39,7 @@ export default function ViewPortContainer() {
         window.addEventListener('keypress', (e) => { keyPress(e, { mouseHandler }) })
         window.addEventListener('keydown', (e) => { keyDown(e, { appData: appDataRef.current, appActions }) })
         window.addEventListener('keyup', (e) => { keyUp(e, { appData }) })
+        appActions.loadMaterials()
         appActions.newProjectConfirm(true)
         }, [])
 

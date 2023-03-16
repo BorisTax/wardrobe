@@ -26,6 +26,7 @@ export function getActions(dispatch) {
         deleteSelectedConfirm: ({isJoints}) => dispatch(ShapeActions.deleteSelectedConfirm({isJoints})),
         distribute: () => dispatch(ShapeActions.distribute()),
         fixLength: (min, max) => dispatch(ShapeActions.fixLength(min, max)),
+        loadMaterials: () => dispatch(ModelActions.loadMaterials(dispatch)),
         logout: () => dispatch(UserActions.logout()),
         movePanel: (panel, movePoint) => dispatch(ShapeActions.movePanel(panel, movePoint)),
         open: () => dispatch(ModelActions.openProject()),
