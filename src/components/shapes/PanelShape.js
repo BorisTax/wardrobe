@@ -4,6 +4,7 @@ import ShapeStyle from "./ShapeStyle";
 import { Color } from "../colors";
 import { getJointData, isPointInPanelArea } from "../../reducers/panels";
 import { PropertyTypes } from "./PropertyData";
+import { PlaceErrorMessages } from "./PlaceErrors";
 export default class PanelShape extends Shape {
   type = Shape.PANEL;
   constructor(data) {
@@ -332,7 +333,7 @@ export default class PanelShape extends Shape {
       y < 46 ||
       y > wardrobe.height - 16
     )
-      return false;
+      return {result: false, reason: PlaceErrorMessages.OUTSIDE_AREA};
     this.parallelFromBack = new Set();
     this.parallelFromFront = new Set();
     for (let panel of panels) {
@@ -341,27 +342,27 @@ export default class PanelShape extends Shape {
       const margin = Math.max(this.panelMargin, panel.panelMargin);
       if (this.vertical) {
         if (x >= panel.rect.x) {
-          if (x - (panel.rect.x + panel.thickness) < margin) return false;
+          if (x - (panel.rect.x + panel.thickness) < margin) return {result: false, reason: PlaceErrorMessages.ON_PANEL}
           if (panel.rect.x + this.thickness <= x)
             this.parallelFromBack.add(panel);
         }
         if (x < panel.rect.x) {
-          if (panel.rect.x - (x + this.thickness) < margin) return false;
+          if (panel.rect.x - (x + this.thickness) < margin) return {result: false, reason: PlaceErrorMessages.ON_PANEL}
           if (panel.rect.x >= x) this.parallelFromFront.add(panel);
         }
       } else {
         if (y >= panel.rect.y) {
-          if (y - (panel.rect.y + panel.thickness) < margin) return false;
+          if (y - (panel.rect.y + panel.thickness) < margin) return {result: false, reason: PlaceErrorMessages.ON_PANEL}
           if (panel.rect.y + this.thickness <= y)
             this.parallelFromBack.add(panel);
         }
         if (y < panel.rect.y) {
-          if (panel.rect.y - (y + this.thickness) < margin) return false;
+          if (panel.rect.y - (y + this.thickness) < margin) return {result: false, reason: PlaceErrorMessages.ON_PANEL}
           if (panel.rect.y >= y) this.parallelFromFront.add(panel);
         }
       }
     }
-    return true;
+    return {result: true};
   }
   findConstraints(x, y, panels, wardrobe) {
     let minX = 0;
@@ -404,10 +405,11 @@ export default class PanelShape extends Shape {
     this.length = this.vertical ? maxY - minY : maxX - minX;
     this.rect = this.vertical ? { x, y: minY } : { x: minX, y };
     this.refresh();
-    return (
+    const result = (
       this.jointToBack.type === Shape.PANEL &&
-      this.jointToFront.type === Shape.PANEL && this.length >= this.minLength
+      this.jointToFront.type === Shape.PANEL// && this.length >= this.minLength
     );
+    return result? {result} : {result, reason: PlaceErrorMessages.NO_JOINTS}
   }
 
   getSingleDimensionData(){

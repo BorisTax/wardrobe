@@ -4,6 +4,7 @@ import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import DragCursor from "../components/shapes/cursors/DragCursor";
+import { PlaceErrorMessages } from "../components/shapes/PlaceErrors";
 export class PanelCreateHandler extends MouseHandler {
     constructor(state) {
         super(state);
@@ -48,14 +49,20 @@ export class PanelCreateHandler extends MouseHandler {
         p.y = p.y + this.movePoint.dy;
         p.x = Math.trunc(p.x);
         p.y = this.activeShape.vertical ? Math.trunc(p.y) : Math.trunc(p.y - this.activeShape.thickness / 2);
-        this.canBePlaced = this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)
+        let res = this.activeShape.canBePlaced(p.x, p.y, appData.panels, appData.wardrobe)
+        this.canBePlaced = res.result
         if (this.canBePlaced) {
-            const res = this.activeShape.findConstraints(p.x, p.y, appData.panels, appData.wardrobe)
-            this.canBePlaced = (this.activeShape.length >= this.activeShape.minLength)
-            this.canBePlaced = res
+            res = this.activeShape.findConstraints(p.x, p.y, appData.panels, appData.wardrobe)
+            this.canBePlaced = res.result
+            if (this.canBePlaced) {
+                this.canBePlaced = (this.activeShape.length >= this.activeShape.minLength)
+                if (!this.canBePlaced) res.reason = PlaceErrorMessages.DONT_FIT
+            }
+            
         }
         this.activeShape.setHidden(!this.canBePlaced)
-        appData.cursor.setType(this.canBePlaced ? DragCursor.DRAG : DragCursor.NODRAG)
+        const hint = this.canBePlaced ? "" : appData.captions.handlers.create[res.reason]
+        appData.cursor.setType(this.canBePlaced ? DragCursor.DRAG : DragCursor.NODRAG, hint)
         this.lastPoint = { ...this.coord };
     }
 

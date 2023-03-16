@@ -1,3 +1,4 @@
+import { PlaceErrorMessages } from '../components/shapes/PlaceErrors.js'
 import messages from '../messages.js'
 
 export const captions = {
@@ -163,6 +164,14 @@ export const captions = {
       "length": "Длина",
       "width": "Ширина",
       "count": "Кол-во",
+    }
+  },
+  "handlers": {
+    "create": {
+      [PlaceErrorMessages.OUTSIDE_AREA]: "выходит за границы",
+      [PlaceErrorMessages.ON_PANEL]: "попадает на деталь",
+      [PlaceErrorMessages.NO_JOINTS]: "нет соединения",
+      [PlaceErrorMessages.DONT_FIT]: "не помещается в размер",
     }
   },
   "title": "Конструктор шкафов-купе",

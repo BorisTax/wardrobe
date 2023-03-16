@@ -1,4 +1,5 @@
-export const PropertyTypes={VERTEX:'vertex',
+export const PropertyTypes={
+    VERTEX:'vertex',
     NUMBER:'NUMBER',
     POSITIVE_NUMBER:'POSITIVE_NUMBER',
     INTEGER_POSITIVE_NUMBER:'INTEGER_POSITIVE_NUMBER',

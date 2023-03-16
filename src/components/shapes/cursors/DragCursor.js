@@ -4,6 +4,7 @@ export default class DragCursor extends Cursor{
     static DRAG = "DRAG"
     static NODRAG = "NODRAG"
     type = DragCursor.DRAG
+    hint = ""
     drawSelf(ctx, realRect,  screenRect){
         this.refresh(realRect,screenRect);
         ctx.strokeStyle=this.getStyle().getColor();
@@ -13,9 +14,15 @@ export default class DragCursor extends Cursor{
         const path = new Path2D(cursor);        
         ctx.fill(path);
         ctx.stroke(path);
+        if (this.hint) {
+            ctx.fillStyle = "black"
+            ctx.font = "14px sans-serif"
+            ctx.fillText(this.hint, this.p0.x, this.p0.y + 30)
+        }
     }
-    setType(type) {
+    setType(type, hint) {
         this.type = type
+        this.hint = hint
     }
     getCursor(p) {
         const types = {
