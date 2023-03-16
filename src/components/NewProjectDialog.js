@@ -17,11 +17,11 @@ export default function NewProjectDialog({start = false}) {
                 
                 <div className="newproject-content">
                     <div>{wardrobeCaps.width}</div>
-                    <InputField type={INTEGER_POSITIVE_NUMBER} value={width} setValue={value => setWardrobe(prev => ({ ...prev, width: +value }))} />
+                    <InputField type={INTEGER_POSITIVE_NUMBER} value={width} max={5000} min={900} setValue={value => setWardrobe(prev => ({ ...prev, width: +value }))} />
                     <div>{wardrobeCaps.depth}</div>
-                    <InputField type={INTEGER_POSITIVE_NUMBER} value={depth} setValue={value => setWardrobe(prev => ({ ...prev, depth: +value }))} />
+                    <InputField type={INTEGER_POSITIVE_NUMBER} value={depth} max={700} min={400} setValue={value => setWardrobe(prev => ({ ...prev, depth: +value }))} />
                     <div>{wardrobeCaps.height}</div>
-                    <InputField type={INTEGER_POSITIVE_NUMBER} value={height} setValue={value => setWardrobe(prev => ({ ...prev, height: +value }))} />
+                    <InputField type={INTEGER_POSITIVE_NUMBER} value={height} max={3000} min={2000} setValue={value => setWardrobe(prev => ({ ...prev, height: +value }))} />
                     <ComboBox title={wardrobeCaps.type.type} items={[wardrobeCaps.type.single, wardrobeCaps.type.double]} value={comboValue} onChange = {(index)=>setWardrobe(prev => ({ ...prev, double: !!index }))}/>
                 </div>
                 <div className='flex-center'>

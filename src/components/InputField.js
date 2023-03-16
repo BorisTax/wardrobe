@@ -17,7 +17,7 @@ export default function InputField(props) {
     }
     const onKeyPress = (key, value) => {
         if (key === "Enter") {
-            const { correct } = test(value, props.type)
+            const { correct } = test(value, props.type, props.max, props.min)
             if (correct && value !== "") {
                 props.setValue(state.value);
                 setState({ ...state, prevValue: state.value });
@@ -49,9 +49,12 @@ export default function InputField(props) {
     />
 }
 
-function test(value, type) {
+function test(value, type, max, min) {
     const regexp = RegExp[type];
     const result = { value, correct: false }
     if ((`${value}`.match(regexp) !== null) || value === "") { result.correct = true }
+    if(min !== undefined) result.correct = value >= min
+    if(max !== undefined) result.correct = result.correct && (value <= max)
     return result;
 }
+
