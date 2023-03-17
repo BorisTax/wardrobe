@@ -41,18 +41,18 @@ export default class Dimension extends Shape {
             screenOffsetFirst = offsetPoint.x - first.x
             screenOffsetSecond = offsetPoint.x - second.x
             arrowSize = first.y - second.y
-            ctx.moveTo(first.x + 0.5, first.y + 0.5)
-            ctx.lineTo(first.x + 0.5 + screenOffsetFirst, first.y + 0.5)
-            ctx.moveTo(second.x + 0.5, second.y + 0.5)
-            ctx.lineTo(second.x + 0.5 + screenOffsetSecond, second.y + 0.5)
+            ctx.moveTo(first.x, first.y)
+            ctx.lineTo(first.x + screenOffsetFirst, first.y)
+            ctx.moveTo(second.x, second.y)
+            ctx.lineTo(second.x + screenOffsetSecond, second.y)
         } else {
             screenOffsetFirst = offsetPoint.y - first.y
             screenOffsetSecond = offsetPoint.y - second.y
             arrowSize = second.x - first.x
-            ctx.moveTo(first.x + 0.5, first.y + 0.5)
-            ctx.lineTo(first.x + 0.5, first.y + 0.5 + screenOffsetFirst)
-            ctx.moveTo(second.x + 0.5, second.y + 0.5)
-            ctx.lineTo(second.x + 0.5, second.y + 0.5 + screenOffsetSecond)
+            ctx.moveTo(first.x, first.y)
+            ctx.lineTo(first.x, first.y + screenOffsetFirst)
+            ctx.moveTo(second.x, second.y)
+            ctx.lineTo(second.x, second.y + screenOffsetSecond)
         }
         ctx.stroke()
         const prevStroke = this.getStyle().getStroke()
