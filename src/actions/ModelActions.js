@@ -11,7 +11,7 @@ export const ModelActions = {
     SET_WARDROBE_DIMENSIONS: 'SET_WARDROBE_DIMENSIONS',
     LOAD_MATERIALS: 'LOAD_MATERIALS',
     SET_DELETE_CONFIRM: 'SET_DELETE_CONFIRM',
-    SET_DETAIL_LIST: 'SET_DETAIL_LIST',
+    SET_WORKSPACE: 'SET_WORKSPACE',
     UPDATE_STATE: "UPDATE_STATE",
     updateState() {
         return {
@@ -85,6 +85,12 @@ export const ModelActions = {
     setDeleteConfirm: (value) => {
         return {
             type: ModelActions.SET_DELETE_CONFIRM,
+            payload: value
+        }
+    },
+    setWorkspace: (value) => {
+        return {
+            type: ModelActions.SET_WORKSPACE,
             payload: value
         }
     },

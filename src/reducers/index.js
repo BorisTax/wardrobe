@@ -1,4 +1,4 @@
-import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
+import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { getInitialState } from "./initialState";
 import statusReducer from "./statusReducer";
 import panelReducer from "./panelReducer";
@@ -10,7 +10,7 @@ import { userReducer } from "./userReducer";
 import materialReducer from "./materialReducer";
 
 const initialState = getInitialState({})
-initialState.mouseHandler = new StatusFreeHandler(initialState)
+initialState.mouseHandler = new PanelFreeHandler(initialState)
 export const rootReducer = (state = initialState, action) => {
     let newState = { ...state }
     let result;

@@ -1,4 +1,5 @@
 import ShapeStyle from '../components/shapes/ShapeStyle';
+import { WORKSPACE } from '../reducers/initialState';
 import { getRealRect, getScreenRect } from './viewPortFunctions'
 
 export function paint(ctx, viewPortData, appData, print = false) {
@@ -12,18 +13,19 @@ export function paint(ctx, viewPortData, appData, print = false) {
     const { topLeft, bottomRight, viewPortWidth, viewPortHeight, marginRight, marginTop, marginLeft, marginBottom } = viewPortData;
     const realRect = getRealRect(topLeft, bottomRight)
     const screenRect = getScreenRect(viewPortWidth, viewPortHeight)
+    const [panels, dimensions] = (appData.workspace === WORKSPACE.CORPUS) ? [appData.panels, appData.dimensions] : [appData.fasades, appData.fasadeDimensions]
     
-    for (let dimension of appData.dimensions) {
+    for (let dimension of dimensions) {
         dimension.setState({selected: appData.selectedPanels.has(dimension)})
         dimension.drawSelf(ctx, realRect, screenRect, print);
     }
-    let curShape = appData.mouseHandler.curShape;
-    if (curShape != null) curShape.drawSelf(ctx, realRect, screenRect);
-    for (let shape of appData.panels) {
+    for (let shape of panels) {
         shape.setState({selected: appData.selectedPanels.has(shape)})
         shape.drawSelf(ctx, realRect, screenRect, print);
     }
-
+    
+    let curShape = appData.mouseHandler.curShape;
+    if (curShape != null) curShape.drawSelf(ctx, realRect, screenRect);
     if (appData.curShape != null) appData.curShape.drawSelf(ctx, realRect, screenRect);
     ctx.lineWidth = 1;
     ctx.setLineDash(ShapeStyle.SOLID);

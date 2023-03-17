@@ -142,16 +142,16 @@ export const ScreenActions = {
       payload: p
     };
   },
-  startSelection(point){
+  startSelection(point, handler){
     return {
       type:ScreenActions.START_SELECTION,
-      payload:point
+      payload:{point, handler}
     }
   },
-  stopSelection(isSelectedPanels){
+  stopSelection(isSelectedPanels, handler){
     return {
       type:ScreenActions.STOP_SELECTION,
-      payload:isSelectedPanels
+      payload:{isSelectedPanels, handler}
     }
   },
 

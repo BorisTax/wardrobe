@@ -12,7 +12,7 @@ import TubeShape from "../components/shapes/TubeShape";
 import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
 import { PanelMoveHandler } from "../handlers/PanelMoveHandler";
 import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimensionCreateHandler";
-import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
+import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
 import { deleteAllLinksToPanels, distribute, selectAllJointedPanels, updateParallelPanels } from "./panels";
@@ -124,7 +124,7 @@ export default function panelReducer(state, action) {
                 ...state,
                 panels,
                 dimensions,
-                mouseHandler: new StatusFreeHandler(state),
+                mouseHandler: new PanelFreeHandler(state),
                 cursor: new SelectCursor()
             };
             return { result: true, newState: { ...newState } };

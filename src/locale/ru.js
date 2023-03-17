@@ -82,7 +82,8 @@ export const captions = {
           "type": "Тип",
           "single": "Одинарный",
           "double": "Двойной",
-        }
+        },
+        "fasadeCount": "Кол-во фасадов"
       }
     },
     "info": {
@@ -164,6 +165,10 @@ export const captions = {
       "length": "Длина",
       "width": "Ширина",
       "count": "Кол-во",
+    },
+    "workspace": {
+      "corpus": "КОРПУС",
+      "fasades": "ФАСАДЫ"
     }
   },
   "handlers": {

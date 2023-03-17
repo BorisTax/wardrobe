@@ -4,10 +4,11 @@ import FileSaver from 'file-saver'
 import { ModelActions } from "../actions/ModelActions";
 import NewProjectDialog from "../components/NewProjectDialog";
 import PanelShape from "../components/shapes/PanelShape";
-import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
+import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { getNewDate } from "./functions";
-import { getInitialState } from "./initialState";
+import { getInitialState, WORKSPACE } from "./initialState";
 import { exportProject } from "./printPdf";
+import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
 
 export default function projectReducer(state, action) {
     switch (action.type) {
@@ -17,17 +18,11 @@ export default function projectReducer(state, action) {
 
         case ModelActions.NEW_PROJECT:
             const initialState = getInitialState({ wardrobe: action.payload.wardrobe })
-            initialState.mouseHandler = new StatusFreeHandler(initialState)
+            initialState.mouseHandler = new PanelFreeHandler(initialState)
             return {
                 result: true,
                 newState: { ...initialState, materials: state.materials, showDialog: {show: false} }
             };
-
-            
-        // case ScreenActions.PRINT:
-        //     showDialog = { show: true, dialog: <PrintPreviewBar /> }
-            
-        //     return { result: true, newState: { ...state, showDialog } };
 
         case ModelActions.SET_INFORMATION:
             return { result: true, newState: { ...state, information: { ...action.payload } } }
@@ -49,6 +44,10 @@ export default function projectReducer(state, action) {
                 dimensions.width2 = Array.from(state.panels)[1].length
             }
             return { result: true, newState: { ...state, wardrobe: { ...state.wardrobe, ...dimensions } } };
+
+        case ModelActions.SET_WORKSPACE:
+            const mouseHandler = action.payload === WORKSPACE.CORPUS ? new PanelFreeHandler(state) : new FasadeFreeHandler(state)
+            return { result: true, newState: { ...state, workspace: action.payload, mouseHandler, selectedPanels: new Set() } };
 
         default: {
             return { result: false, newState: state }

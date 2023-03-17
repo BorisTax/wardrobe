@@ -6,6 +6,7 @@ import ProjectBar from './ProjectBar';
 import ToolBar from './ToolBar';
 import ToolButtonBar from './ToolButtonBar';
 import ToolButtonSeparator from './ToolButtonSeparator';
+import WorkspaceBar from './WorkspaceBar';
 
 export default function MainToolBar({disabled}) {
     return <ToolBar noTitle={true} font={"small"}>
@@ -17,6 +18,7 @@ export default function MainToolBar({disabled}) {
             <DimensionsBar/>
             <ToolButtonSeparator/>
             <OperationsBar/>
+            <WorkspaceBar/>
         </ToolButtonBar>
 
     </ToolBar>

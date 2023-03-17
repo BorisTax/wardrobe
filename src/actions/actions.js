@@ -50,12 +50,13 @@ export function getActions(dispatch) {
         setScreenStatus: (status, params) => dispatch(ScreenActions.setScreenStatus(status, params)),
         setToken: (token, remember) => dispatch(UserActions.setToken(token, remember)),
         setWardrobeDimensions: (dimensions) => dispatch(ModelActions.setWardrobeDimensions(dimensions)),
+        setWorkspace: (value) => dispatch(ModelActions.setWorkspace(value)),
         showAlert: (show, message) => dispatch(AppActions.showAlert(show, message)),
         showConfirm: (show, messageKey, actions) => dispatch(AppActions.showConfirm(show, messageKey, actions)),
         showDialog: (show, dialog) => dispatch(AppActions.showDialog(show, dialog)),
         showHelp: (show) => dispatch(AppActions.showHelp(show)),
-        startSelection: (point) => dispatch(ScreenActions.startSelection(point)),
-        stopSelection: (isSelectedPanels) => dispatch(ScreenActions.stopSelection(isSelectedPanels)),
+        startSelection: (point, handler) => dispatch(ScreenActions.startSelection(point, handler)),
+        stopSelection: (isSelectedPanels, handler) => dispatch(ScreenActions.stopSelection(isSelectedPanels, handler)),
         updateState: () => dispatch(ModelActions.updateState()),
     }
 }

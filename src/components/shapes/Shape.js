@@ -6,7 +6,8 @@ export default class Shape {
     static DIMENSION = "DIMENSION"
     static DRAWER = "DRAWER"
     static TUBE = "TUBE"
-
+    static FASADE = "FASADE"
+    
     constructor() {
         this.style = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID);
         this.selectedStyle = new ShapeStyle(Color.SELECTED, ShapeStyle.SOLID);

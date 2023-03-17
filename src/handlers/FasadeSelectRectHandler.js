@@ -4,7 +4,8 @@ import ShapeStyle from "../components/shapes/ShapeStyle";
 import { Rectangle } from "../utils/geometry";
 import { Color } from "../components/colors";
 import { setCurCoord } from "../functions/viewPortFunctions";
-export class StatusSelectHandler extends MouseHandler {
+import { FasadeFreeHandler } from "./FasadeFreeHandler";
+export class FasadeSelectRectHandler extends MouseHandler {
     constructor(point, state) {
         super(state)
         this.x0 = point.x
@@ -31,8 +32,8 @@ export class StatusSelectHandler extends MouseHandler {
 
         this.curShape.setCorners({ x: this.x0, y: this.y0 }, this.coord)
         this.selectPanels({ topLeft: this.curShape.model.topLeft, bottomRight: this.curShape.model.bottomRight },
-            appData.panels,
-            appData.dimensions,
+            appData.fasades,
+            appData.fasadeDimensions,
             appData.selectedPanels,
             crossSelect
         );
@@ -46,7 +47,7 @@ export class StatusSelectHandler extends MouseHandler {
     click({ button, curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.click({ curPoint, viewPortData });
         if (button !== 0) return
-        for (let p of [...appData.panels, ...appData.dimensions]) {
+        for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 if (keys.shiftKey) {
                     if(appData.selectedPanels.has(p)) appData.selectedPanels.delete(p);
@@ -61,7 +62,7 @@ export class StatusSelectHandler extends MouseHandler {
             }
         }
         this.isSelectedPanels = appData.selectedPanels.size > 0
-        if (button === 0) appActions.stopSelection(this.isSelectedPanels);
+        if (button === 0) appActions.stopSelection(this.isSelectedPanels, FasadeFreeHandler);
         appActions.updateState()
     }
     leave({appActions}){
@@ -69,9 +70,9 @@ export class StatusSelectHandler extends MouseHandler {
         appActions.cancel()
     }
 
-    selectPanels(rect, panels, dimensions, selectedPanels, crossSelect) {
+    selectPanels(rect, fasades, fasadeDimensions, selectedPanels, crossSelect) {
         this.isSelectedPanels = false
-        for (let p of [...panels, ...dimensions]) {
+        for (let p of [...fasades, ...fasadeDimensions]) {
             //selectedPanels.delete(p)
             const { full, cross } = p.isInSelectionRect(rect)
             if (full) { selectedPanels.add(p); this.isSelectedPanels = true }

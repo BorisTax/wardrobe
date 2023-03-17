@@ -2,9 +2,8 @@ import { ModelActions } from "../actions/ModelActions";
 import { ScreenActions } from "../actions/ScreenActions";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
-import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
+import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { StatusPanHandler } from "../handlers/StatusPanHandler";
-import { StatusSelectHandler } from "../handlers/StatusSelectHandler";
 import { Status } from "./functions";
 
 export default function statusReducer(state, action) {
@@ -14,7 +13,7 @@ export default function statusReducer(state, action) {
                 result: true,
                 newState: {
                     ...state, status: Status.FREE, curShape: null, cursor: new SelectCursor(state.curRealPoint),
-                    mouseHandler: new StatusFreeHandler(state)
+                    mouseHandler: new PanelFreeHandler(state)
                 }
             }
 
@@ -28,7 +27,7 @@ export default function statusReducer(state, action) {
                 status: Status.FREE,
                 curShape: null,
                 cursor: new SelectCursor(state.curRealPoint),
-                mouseHandler: new StatusFreeHandler(state),
+                mouseHandler: new PanelFreeHandler(state),
                 toolButtonsPressed: {
                     createVertical: false,
                     createHorizontal: false,
@@ -43,7 +42,7 @@ export default function statusReducer(state, action) {
                 newState: {
                     ...state,
                     status: Status.FREE, curShape: null, cursor: new SelectCursor(state.curRealPoint),
-                    mouseHandler: new StatusFreeHandler(state)
+                    mouseHandler: new PanelFreeHandler(state)
                 }
             }
 
@@ -112,19 +111,19 @@ export default function statusReducer(state, action) {
                     ...state,
                     cursor: new SelectCursor(state.curRealPoint),
                     status: Status.SELECT,
-                    mouseHandler: new StatusSelectHandler(action.payload, state)
+                    mouseHandler: new action.payload.handler(action.payload.point, state)
                 }
             }
 
         case ScreenActions.STOP_SELECTION:
-            const selectedPanels = action.payload ? state.selectedPanels : new Set()
+            const selectedPanels = action.payload.isSelectedPanels ? state.selectedPanels : new Set()
             return {
                 result: true, newState: {
                     ...state,
                     status: Status.FREE,
                     selectedPanels,
                     cursor: new SelectCursor(state.curRealPoint),
-                    mouseHandler: new StatusFreeHandler(state),
+                    mouseHandler: new action.payload.handler(state),
                 }
             };
 

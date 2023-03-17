@@ -3,8 +3,8 @@ import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
-import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
-export class StatusFreeHandler extends MouseHandler {
+import { FasadeSelectRectHandler } from "./FasadeSelectRectHandler";
+export class FasadeFreeHandler extends MouseHandler {
     constructor(state) {
         super(state);
         this.setStatusBar()
@@ -22,25 +22,18 @@ export class StatusFreeHandler extends MouseHandler {
     }
     move({ curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.move({ curPoint, viewPortData });
-        if (this.drag) {
-            //if (!keys.shiftKey) appData.selectedPanels = new Set()
-            appData.selectedPanels.add(this.activeShape)
-            if (!this.activeShape.state.fixed) appActions.movePanel(this.activeShape, this.dragPos);
-            return;
-        } else {
-            this.activeShape = null;
-            for (let p of [...appData.panels, ...appData.dimensions]) {
-                if (!p.state.selectable) continue;
-                if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
-                    if (!p.state.fixed_move) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
-                    p.setState({ highlighted: true })
-                    this.activeShape = p;
-                } else {
-                    p.setState({ highlighted: false })
-                }
+        this.activeShape = null;
+        for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
+            if (!p.state.selectable) continue;
+            if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
+                //if (!p.state.fixed_move) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
+                p.setState({ highlighted: true })
+                this.activeShape = p;
+            } else {
+                p.setState({ highlighted: false })
             }
-            if (!this.activeShape) appActions.setCursor(new SelectCursor(this.coord));
         }
+        if (!this.activeShape) appActions.setCursor(new SelectCursor(this.coord));
         setViewPortData(prevData => setCurCoord(this.coord, this.curPoint, prevData));
 
     }
@@ -54,7 +47,7 @@ export class StatusFreeHandler extends MouseHandler {
         }
         if (button !== 0) return
         this.activeShape = null;
-        for (let p of [...appData.panels, ...appData.dimensions]) {
+        for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
             if (!p.state.selectable) continue;
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 this.activeShape = p;
@@ -71,12 +64,12 @@ export class StatusFreeHandler extends MouseHandler {
             this.drag = true;
             this.dragPos = { dx, dy }
         } else
-        if (!appData.isMobile) { appActions.startSelection(this.coord) }
+        if (!appData.isMobile) { appActions.startSelection(this.coord, FasadeSelectRectHandler) }
     }
     click({ button, curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.click({ curPoint, viewPortData });
         if (button !== 0) return
-        for (let p of [...appData.panels, ...appData.dimensions]) {
+        for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 if (keys.shiftKey) {
                     if(appData.selectedPanels.has(p)) appData.selectedPanels.delete(p);
@@ -132,7 +125,7 @@ export class StatusFreeHandler extends MouseHandler {
         }
         if (tm.getTouchCount() === 1) {
             if (this.drag) {
-                appData.panels.forEach(p => p.state.selected = false)
+                appData.fasades.forEach(p => p.state.selected = false)
                 this.activeShape.state.selected = true
                 appActions.movePanel(this.activeShape, this.dragPos);
                 return;
