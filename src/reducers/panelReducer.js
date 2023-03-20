@@ -174,7 +174,7 @@ export default function panelReducer(state, action) {
     }
 }
 
-function getButtonPressed(buttons){
+export function getButtonPressed(buttons){
     const buttonPressed = {
         createVertical: false,
         createHorizontal: false,
@@ -182,7 +182,7 @@ function getButtonPressed(buttons){
         createTube: false,
         createSingleDimension: false,
         createTwoPanelDimensionInside: false,
-        createTwoPanelDimensionOutside: false
+        createTwoPanelDimensionOutside: false,
     }
     return {buttonPressed, ...buttons}
 }

@@ -1,5 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { WORKSPACE } from '../reducers/initialState';
 import DimensionsBar from './DimensionsBar';
+import FasadInstrumentsBar from './FasadInstrumentsBar';
 import InstrumentsBar from './InstrumentsBar';
 import OperationsBar from './OperationsBar';
 import ProjectBar from './ProjectBar';
@@ -9,16 +12,24 @@ import ToolButtonSeparator from './ToolButtonSeparator';
 import WorkspaceBar from './WorkspaceBar';
 
 export default function MainToolBar({disabled}) {
+    const workspace = useSelector(store => store.workspace)
     return <ToolBar noTitle={true} font={"small"}>
         <ToolButtonBar>
             <ProjectBar/>
-            <ToolButtonSeparator/>
-            <InstrumentsBar/>
-            <ToolButtonSeparator/>
-            <DimensionsBar/>
+            <WorkspaceBar/>
+            {workspace === WORKSPACE.CORPUS?
+                <>
+                    <ToolButtonSeparator/>
+                    <InstrumentsBar/>
+                    <ToolButtonSeparator/>
+                    <DimensionsBar/>
+                </>:
+                <>
+                <FasadInstrumentsBar/>
+                </>
+            }
             <ToolButtonSeparator/>
             <OperationsBar/>
-            <WorkspaceBar/>
         </ToolButtonBar>
 
     </ToolBar>

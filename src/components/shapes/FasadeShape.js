@@ -24,7 +24,7 @@ export default class FasadeShape extends Shape {
     this.setStyle(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID));
     this.dimensions = new Set();
     this.properties = [
-      { key: "name", type: PropertyTypes.STRING, editable: true, setValue: (value) => { this.name = value } },
+      { key: "name", type: PropertyTypes.STRING, editable: false },
       { key: "length", type: PropertyTypes.INTEGER_POSITIVE_NUMBER, editable: this.state.resizable, setValue: (value) => {  } },
       { key: "width", type: PropertyTypes.INTEGER_POSITIVE_NUMBER },
     ]

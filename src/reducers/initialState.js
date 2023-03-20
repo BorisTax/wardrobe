@@ -4,6 +4,7 @@ import { getNewDate, isMobile, Status } from "./functions";
 import jwtDecode from "jwt-decode";
 import { getViewPortState } from "../components/ViewPortContainer";
 import { createFasades, createNewState } from "./createNewState";
+import { getButtonPressed } from "./panelReducer";
 
 var user = { name: "", activated: false };
 var token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -38,12 +39,7 @@ export function getInitialState(data) {
     getViewportData:false,
     wardrobe,
     //panelMargin: 0,
-    toolButtonsPressed: {
-      createVertical: false,
-      createHorizontal: false,
-      createSingleDimension: false,
-      createTwoPanelDimension: false,
-    },
+    toolButtonsPressed: getButtonPressed(),
     information: { order: "", plan: "", currentDate: getNewDate() },
     materials: {
       DSPColors: ["венге магия","дуб сонома", "белый110"],

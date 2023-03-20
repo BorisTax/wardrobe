@@ -231,6 +231,16 @@ $table_icon_height: 35px;
   @include instruments_button();
 }
 
+.divideFasadHor {
+  background: url($icon-url+'fasade_divide_hor.svg');
+  @include instruments_button();
+}
+
+.divideFasadVert {
+  background: url($icon-url+'fasade_divide_vert.svg');
+  @include instruments_button();
+}
+
 .moveButtons {
   @include instruments_button();
   display: grid;
