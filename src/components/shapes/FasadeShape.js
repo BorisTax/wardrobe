@@ -6,11 +6,16 @@ import { getJointData, isPointInPanelArea } from "../../reducers/panels";
 import { PropertyTypes } from "./PropertyData";
 import { PlaceErrorMessages } from "./PlaceErrors";
 export default class FasadeShape extends Shape {
+  static DSP = "dsp"
+  static GLASS = "glass"
   type = Shape.FASADE;
   constructor(data) {
     super();
     this.length = data.length;
     this.width = data.width;
+    this.level = data.level === undefined ? 0 : data.level;
+    this.parent = data.parent;
+    this.base = data.base === undefined ? FasadeShape.GLASS : data.base;
     this.children = []
     this.name = data.name || "Фасад"
     this.state.selectable = data.selectable === undefined ? true : data.selectable;
@@ -46,7 +51,10 @@ export default class FasadeShape extends Shape {
     const height = bottomRight.y - topLeft.y;
     let x = topLeft.x
     let y = topLeft.y
-    ctx.strokeRect(x, y, width, height);
+    if (this.children.length > 0)
+        this.children.forEach(c => c.drawSelf(ctx, realRect, screenRect));
+        else
+        ctx.strokeRect(x, y, width, height);
     if(print) this.state = {...saveState}
   }
   refresh(realRect, screenRect) {
@@ -62,6 +70,7 @@ export default class FasadeShape extends Shape {
     return super.getProperties()
 
   }
+
   setPosition(x, y) {
     this.rect.x = x;
     this.rect.y = y;

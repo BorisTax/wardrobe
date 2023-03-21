@@ -15,7 +15,7 @@ import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimens
 import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
-import { deleteAllLinksToPanels, distribute, selectAllJointedPanels, updateParallelPanels } from "./panels";
+import { deleteAllLinksToPanels, distribute, divideFasadesHor, selectAllJointedPanels, updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action) {
     switch (action.type) {
@@ -139,6 +139,12 @@ export default function panelReducer(state, action) {
         case ShapeActions.DISTRIBUTE:
             distribute(state.selectedPanels)
             return { result: true, newState: { ...state } };
+
+        case ShapeActions.DIVIDE_FASAD_HOR:
+            const newFasades = divideFasadesHor(state.selectedPanels, action.payload)
+            newFasades.forEach(f => state.fasades.add(f))
+            return { result: true, newState: { ...state, selectedPanels: new Set() } };
+    
 
         case ShapeActions.FIX_LENGTH:
             state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.fixLength(action.payload) })

@@ -25,6 +25,7 @@ export class FasadeFreeHandler extends MouseHandler {
         this.activeShape = null;
         for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
             if (!p.state.selectable) continue;
+            if(p.children && p.children.length > 0 ) continue
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 //if (!p.state.fixed_move) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
                 p.setState({ highlighted: true })
@@ -49,6 +50,7 @@ export class FasadeFreeHandler extends MouseHandler {
         this.activeShape = null;
         for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
             if (!p.state.selectable) continue;
+            if(p.children && p.children.length > 0 ) continue
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 this.activeShape = p;
                 if(!p.state.selected && !keys.shiftKey) appData.selectedPanels = new Set()
@@ -70,6 +72,7 @@ export class FasadeFreeHandler extends MouseHandler {
         super.click({ curPoint, viewPortData });
         if (button !== 0) return
         for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
+            if(p.children && p.children.length > 0 ) continue
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 if (keys.shiftKey) {
                     if(appData.selectedPanels.has(p)) appData.selectedPanels.delete(p);
@@ -127,7 +130,7 @@ export class FasadeFreeHandler extends MouseHandler {
             if (this.drag) {
                 appData.fasades.forEach(p => p.state.selected = false)
                 this.activeShape.state.selected = true
-                appActions.movePanel(this.activeShape, this.dragPos);
+                //appActions.movePanel(this.activeShape, this.dragPos);
                 return;
             }
             appActions.setScreenStatus(Status.PAN, { startPoint: this.coord, prevStatus: Status.FREE, prevMouseHandler: this })

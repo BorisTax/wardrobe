@@ -9,6 +9,8 @@ export const ShapeActions = {
     DELETE_SELECTED: "DELETE_SELECTED",
     DELETE_SELECTED_CONFIRM: "DELETE_SELECTED_CONFIRM",
     DISTRIBUTE: "DISTRIBUTE",
+    DIVIDE_FASAD_HOR: "DIVIDE_FASAD_HOR",
+    DIVIDE_FASAD_VERT: "DIVIDE_FASAD_VERT",
     FIX_LENGTH: "FIX_LENGTH",
     MOVE_PANEL: "MOVE_PANEL",
     SELECT_PANEL: 'SELECT_PANEL',
@@ -66,6 +68,18 @@ export const ShapeActions = {
     distribute: () => {
         return {
             type: ShapeActions.DISTRIBUTE,
+        };
+    },
+    divideFasadHor: (count) => {
+        return {
+            type: ShapeActions.DIVIDE_FASAD_HOR,
+            payload: count
+        };
+    },
+    divideFasadVert: (count) => {
+        return {
+            type: ShapeActions.DIVIDE_FASAD_VERT,
+            payload: count
         };
     },
     fixLength: (min, max) => {

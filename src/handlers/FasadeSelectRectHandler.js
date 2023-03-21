@@ -48,6 +48,7 @@ export class FasadeSelectRectHandler extends MouseHandler {
         super.click({ curPoint, viewPortData });
         if (button !== 0) return
         for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
+            if(p.children && p.children.length > 0 ) continue
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 if (keys.shiftKey) {
                     if(appData.selectedPanels.has(p)) appData.selectedPanels.delete(p);
@@ -74,6 +75,7 @@ export class FasadeSelectRectHandler extends MouseHandler {
         this.isSelectedPanels = false
         for (let p of [...fasades, ...fasadeDimensions]) {
             //selectedPanels.delete(p)
+            if(p.children && p.children.length > 0 ) continue
             const { full, cross } = p.isInSelectionRect(rect)
             if (full) { selectedPanels.add(p); this.isSelectedPanels = true }
             if (cross && crossSelect) { selectedPanels.add(p); this.isSelectedPanels = true }

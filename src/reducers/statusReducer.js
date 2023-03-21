@@ -2,9 +2,11 @@ import { ModelActions } from "../actions/ModelActions";
 import { ScreenActions } from "../actions/ScreenActions";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
+import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
 import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { StatusPanHandler } from "../handlers/StatusPanHandler";
 import { Status } from "./functions";
+import { WORKSPACE } from "./initialState";
 
 export default function statusReducer(state, action) {
     switch (action.type) {
@@ -13,7 +15,7 @@ export default function statusReducer(state, action) {
                 result: true,
                 newState: {
                     ...state, status: Status.FREE, curShape: null, cursor: new SelectCursor(state.curRealPoint),
-                    mouseHandler: new PanelFreeHandler(state)
+                    mouseHandler: state.workspace === WORKSPACE.CORPUS ? new PanelFreeHandler(state) : new FasadeFreeHandler(state),
                 }
             }
 
@@ -27,7 +29,7 @@ export default function statusReducer(state, action) {
                 status: Status.FREE,
                 curShape: null,
                 cursor: new SelectCursor(state.curRealPoint),
-                mouseHandler: new PanelFreeHandler(state),
+                mouseHandler: state.workspace === WORKSPACE.CORPUS ? new PanelFreeHandler(state) : new FasadeFreeHandler(state),
                 toolButtonsPressed: {
                     createVertical: false,
                     createHorizontal: false,
@@ -42,7 +44,7 @@ export default function statusReducer(state, action) {
                 newState: {
                     ...state,
                     status: Status.FREE, curShape: null, cursor: new SelectCursor(state.curRealPoint),
-                    mouseHandler: new PanelFreeHandler(state)
+                    mouseHandler: state.workspace === WORKSPACE.CORPUS ? new PanelFreeHandler(state) : new FasadeFreeHandler(state),
                 }
             }
 

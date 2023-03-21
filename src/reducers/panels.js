@@ -1,3 +1,4 @@
+import FasadeShape from "../components/shapes/FasadeShape";
 import Shape from "../components/shapes/Shape";
 
 export function isPointInPanelArea(point, panel) {
@@ -58,6 +59,40 @@ export function distribute(selected){
     for(let i = panels.length - 1; i >= 0; i--) panels[i].moveTo(0, d * (i + 1))
   }
 
+}
+
+export function divideFasadesHor(fasades, count){
+  const newFasades = new Set()
+  for(let f of fasades){
+    if (f.level > 2) continue
+    const profile = f.base === FasadeShape.DSP ? 1 : 3
+    const partLen = Math.round((f.length - profile * (count - 1)) / count )
+    let total = 0
+    let pos = f.getPosition()
+    let options = {
+      width: f.width, 
+      level: f.level + 1, 
+      parent: f, 
+      base: f.base, 
+      name: "Элемент фасада",
+      position: {x: pos.x, y: pos.y}
+    }
+    for(let i = 1; i < count; i++){
+      options.length = partLen
+      let fasade = new FasadeShape(options)
+      newFasades.add(fasade)
+      f.children.push(fasade)
+      total += (partLen + profile)
+      options.position.y = pos.y + total
+      
+    }
+    options.length = f.length - total
+    options.position.y = pos.y + total
+    let fasade = new FasadeShape(options)
+    newFasades.add(fasade)
+    f.children.push(fasade)
+  }
+  return newFasades
 }
 
 export function updateParallelPanels(panels) {
