@@ -81,7 +81,7 @@ export function createFasades({ wardrobe }) {
     const length = wardrobe.height - 157
     const fasades = []
     for(let i=0; i < wardrobe.fasadeCount; i++)
-        fasades.push(new FasadeShape({length, width, position: {x: i * width, y: 0} }))
+        fasades.push(new FasadeShape({length, width, position: {x: i * width, y: 0}, deletable: false }))
     return fasades
 }
 

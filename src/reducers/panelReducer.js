@@ -15,7 +15,7 @@ import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimens
 import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
-import { deleteAllLinksToPanels, distribute, divideFasadesHor, selectAllJointedPanels, updateParallelPanels } from "./panels";
+import { deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, selectAllJointedPanels, updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action) {
     switch (action.type) {
@@ -100,7 +100,7 @@ export default function panelReducer(state, action) {
             return { result: true, newState: { ...newState, mouseHandler: new TwoPanelDimensionCreateHandler(newState, action.payload.inside) } };
 
         case ShapeActions.DELETE_SELECTED:
-            const panels = new Set()
+            let panels = new Set()
             deleteAllLinksToPanels(state.panels, state.selectedPanels)
             state.panels.forEach((p) => {
                 if (!state.selectedPanels.delete(p)) {
@@ -112,7 +112,7 @@ export default function panelReducer(state, action) {
                     p.dimensions = new Set()
                 }
             });
-            const dimensions = new Set()
+            let dimensions = new Set()
             state.dimensions.forEach((p) => {
                 if (!state.selectedPanels.delete(p)) {
                     dimensions.add(p)
@@ -133,18 +133,63 @@ export default function panelReducer(state, action) {
             for (let p of state.selectedPanels) {
                 if (p.type !== Shape.DIMENSION) selectAllJointedPanels(p, state.selectedPanels)
             }
-            const showConfirm = { show: true, messageKey: action.payload.isJoints ? "deleteJointedPanels" : "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
+            let showConfirm = { show: true, messageKey: action.payload.isJoints ? "deleteJointedPanels" : "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
             return { result: true, newState: { ...state, showConfirm } };
+
+
+        case ShapeActions.DELETE_SELECTED_FASADES:
+            panels = new Set()
+            deleteAllLinksToPanels(state.panels, state.selectedPanels)
+            state.panels.forEach((p) => {
+                if (!state.selectedPanels.delete(p)) {
+                    panels.add(p);
+                }
+                else {
+                    p.dimensions.forEach(d => { d.delete(); state.dimensions.delete(d) })
+                    if (p.singleDimension) { state.dimensions.delete(p.singleDimension); p.singleDimension.delete(); }
+                    p.dimensions = new Set()
+                }
+            });
+            dimensions = new Set()
+            state.dimensions.forEach((p) => {
+                if (!state.selectedPanels.delete(p)) {
+                    dimensions.add(p)
+                }
+                else state.dimensions.forEach(d => d.delete())
+            });
+
+            newState = {
+                ...state,
+                panels,
+                dimensions,
+                mouseHandler: new PanelFreeHandler(state),
+                cursor: new SelectCursor()
+            };
+            return { result: true, newState: { ...newState } };
+    
+        case ShapeActions.DELETE_SELECTED_FASADES_CONFIRM:
+            for (let p of state.selectedPanels) {
+                if (p.type !== Shape.DIMENSION) selectAllJointedPanels(p, state.selectedPanels)
+            }
+            showConfirm = { show: true, messageKey: action.payload.isJoints ? "deleteJointedPanels" : "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
+            return { result: true, newState: { ...state, showConfirm } };
+
+
 
         case ShapeActions.DISTRIBUTE:
             distribute(state.selectedPanels)
             return { result: true, newState: { ...state } };
 
         case ShapeActions.DIVIDE_FASAD_HOR:
-            const newFasades = divideFasadesHor(state.selectedPanels, action.payload)
+            let newFasades = divideFasadesHor(state.selectedPanels, action.payload)
             newFasades.forEach(f => state.fasades.add(f))
             return { result: true, newState: { ...state, selectedPanels: new Set() } };
     
+        case ShapeActions.DIVIDE_FASAD_VERT:
+            newFasades = divideFasadesVert(state.selectedPanels, action.payload)
+            newFasades.forEach(f => state.fasades.add(f))
+            return { result: true, newState: { ...state, selectedPanels: new Set() } };
+
 
         case ShapeActions.FIX_LENGTH:
             state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.fixLength(action.payload) })

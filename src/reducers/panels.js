@@ -95,6 +95,40 @@ export function divideFasadesHor(fasades, count){
   return newFasades
 }
 
+export function divideFasadesVert(fasades, count){
+  const newFasades = new Set()
+  for(let f of fasades){
+    if (f.level > 2) continue
+    const profile = f.base === FasadeShape.DSP ? 1 : 3
+    const partWidth = Math.round((f.width - profile * (count - 1)) / count )
+    let total = 0
+    let pos = f.getPosition()
+    let options = {
+      length: f.length, 
+      level: f.level + 1, 
+      parent: f, 
+      base: f.base, 
+      name: "Элемент фасада",
+      position: {x: pos.x, y: pos.y}
+    }
+    for(let i = 1; i < count; i++){
+      options.width = partWidth
+      let fasade = new FasadeShape(options)
+      newFasades.add(fasade)
+      f.children.push(fasade)
+      total += (partWidth + profile)
+      options.position.x = pos.x + total
+      
+    }
+    options.width = f.width - total
+    options.position.x = pos.x + total
+    let fasade = new FasadeShape(options)
+    newFasades.add(fasade)
+    f.children.push(fasade)
+  }
+  return newFasades
+}
+
 export function updateParallelPanels(panels) {
   for (let source of panels)
     for (let target of panels) {

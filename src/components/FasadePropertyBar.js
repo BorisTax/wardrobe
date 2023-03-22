@@ -32,7 +32,7 @@ export default function FasadePropertyBar() {
   const buttons = !noSelected ? <div>
     <hr />
     <ToolButtonBar>
-      <ToolButton key = {4} title={captions.delete} disabled={noDelete} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm({isJoints: false }) }} />
+      <ToolButton key = {4} title={captions.delete} disabled={noDelete} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedFasadesConfirm() }} />
     </ToolButtonBar>
   </div> : <></>
   return <ToolBar caption={captions.title}>

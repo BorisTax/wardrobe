@@ -13,7 +13,7 @@ export default function FasadInstrumentsBar() {
     return <>
         <ToolButtonBar>
             <ToolButton icon={"divideFasadHor"} pressed={false} {...pressedStyle} title={captions.divideFasadHor} onClick={() => {appActions.divideFasadHor(divider) }} />
-            <ToolButton icon={"divideFasadVert"} pressed={false} {...pressedStyle} title={captions.divideFasadVert} onClick={() => { }} />
+            <ToolButton icon={"divideFasadVert"} pressed={false} {...pressedStyle} title={captions.divideFasadVert} onClick={() => {appActions.divideFasadVert(divider)  }} />
             <Counter value={divider} min={2} max={4} setValue={(value) => { setDivider(value) }} />
         </ToolButtonBar>
     </>

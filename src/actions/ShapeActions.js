@@ -8,8 +8,11 @@ export const ShapeActions = {
     CREATE_TUBE: 'CREATE_TUBE',
     DELETE_SELECTED: "DELETE_SELECTED",
     DELETE_SELECTED_CONFIRM: "DELETE_SELECTED_CONFIRM",
+    DELETE_SELECTED_FASADES: "DELETE_SELECTED_FASADES",
+    DELETE_SELECTED_FASADES_CONFIRM: "DELETE_SELECTED_FASADES_CONFIRM",
     DISTRIBUTE: "DISTRIBUTE",
     DIVIDE_FASAD_HOR: "DIVIDE_FASAD_HOR",
+    DIVIDE_FASAD_VERT: "DIVIDE_FASAD_VERT",
     DIVIDE_FASAD_VERT: "DIVIDE_FASAD_VERT",
     FIX_LENGTH: "FIX_LENGTH",
     MOVE_PANEL: "MOVE_PANEL",
@@ -65,6 +68,17 @@ export const ShapeActions = {
           payload: {isJoints}
         };
       },
+    deleteSelectedFasades: () => {
+        return {
+          type: ShapeActions.DELETE_SELECTED_FASADES
+        };
+      },
+    deleteSelectedFasadesConfirm: () => {
+        return {
+          type: ShapeActions.DELETE_SELECTED_FASADES_CONFIRM,
+         // payload: {isJoints}
+        };
+      },
     distribute: () => {
         return {
             type: ShapeActions.DISTRIBUTE,
@@ -73,6 +87,12 @@ export const ShapeActions = {
     divideFasadHor: (count) => {
         return {
             type: ShapeActions.DIVIDE_FASAD_HOR,
+            payload: count
+        };
+    },
+    divideFasadVert: (count) => {
+        return {
+            type: ShapeActions.DIVIDE_FASAD_VERT,
             payload: count
         };
     },
