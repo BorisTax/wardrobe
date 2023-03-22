@@ -13,9 +13,10 @@ import { PanelCreateHandler } from "../handlers/PanelCreateHandler";
 import { PanelMoveHandler } from "../handlers/PanelMoveHandler";
 import { SinglePanelDimensionCreateHandler } from "../handlers/SinglePanelDimensionCreateHandler";
 import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
+import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
-import { deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, selectAllJointedPanels, updateParallelPanels } from "./panels";
+import { deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, selectAllChildrenFasades, selectAllJointedPanels, updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action) {
     switch (action.type) {
@@ -138,43 +139,37 @@ export default function panelReducer(state, action) {
 
 
         case ShapeActions.DELETE_SELECTED_FASADES:
-            panels = new Set()
-            deleteAllLinksToPanels(state.panels, state.selectedPanels)
-            state.panels.forEach((p) => {
+            let fasades = new Set()
+            const extSelectedFasades = selectAllChildrenFasades(state.selectedPanels)
+            extSelectedFasades.forEach(s => state.selectedPanels.add(s))
+            state.fasades.forEach((p) => {
                 if (!state.selectedPanels.delete(p)) {
-                    panels.add(p);
+                    fasades.add(p);
                 }
                 else {
                     p.dimensions.forEach(d => { d.delete(); state.dimensions.delete(d) })
-                    if (p.singleDimension) { state.dimensions.delete(p.singleDimension); p.singleDimension.delete(); }
                     p.dimensions = new Set()
                 }
             });
-            dimensions = new Set()
-            state.dimensions.forEach((p) => {
+            let fasadeDimensions = new Set()
+            state.fasadeDimensions.forEach((p) => {
                 if (!state.selectedPanels.delete(p)) {
-                    dimensions.add(p)
+                    fasadeDimensions.add(p)
                 }
-                else state.dimensions.forEach(d => d.delete())
+                else state.fasadeDimensions.forEach(d => d.delete())
             });
-
             newState = {
                 ...state,
-                panels,
-                dimensions,
-                mouseHandler: new PanelFreeHandler(state),
+                fasades,
+                fasadeDimensions,
+                mouseHandler: new FasadeFreeHandler(state),
                 cursor: new SelectCursor()
             };
             return { result: true, newState: { ...newState } };
     
         case ShapeActions.DELETE_SELECTED_FASADES_CONFIRM:
-            for (let p of state.selectedPanels) {
-                if (p.type !== Shape.DIMENSION) selectAllJointedPanels(p, state.selectedPanels)
-            }
-            showConfirm = { show: true, messageKey: action.payload.isJoints ? "deleteJointedPanels" : "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelected }] }
+            showConfirm = { show: true, messageKey: "deletePanels", actions: [{ caption: "OK", onClick: ShapeActions.deleteSelectedFasades }] }
             return { result: true, newState: { ...state, showConfirm } };
-
-
 
         case ShapeActions.DISTRIBUTE:
             distribute(state.selectedPanels)

@@ -24,6 +24,8 @@ export function getActions(dispatch) {
         createTube: () => dispatch(ShapeActions.createTube()),
         deleteSelected: () => dispatch(ShapeActions.deleteSelected()),
         deleteSelectedConfirm: ({ isJoints }) => dispatch(ShapeActions.deleteSelectedConfirm({ isJoints })),
+        deleteSelectedFasades: () => dispatch(ShapeActions.deleteSelectedFasades()),
+        deleteSelectedFasadesConfirm: () => dispatch(ShapeActions.deleteSelectedFasadesConfirm()),
         divideFasadHor: (count) => dispatch(ShapeActions.divideFasadHor(count)),
         divideFasadVert: (count) => dispatch(ShapeActions.divideFasadVert(count)),
         distribute: () => dispatch(ShapeActions.distribute()),

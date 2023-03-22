@@ -129,6 +129,32 @@ export function divideFasadesVert(fasades, count){
   return newFasades
 }
 
+export function selectAllChildrenFasades(selected){
+  function selectChildren(parent){
+    const children = new Set()
+    for(let c of parent.children){
+      if (c.children && c.children.length > 0) {
+        selectChildren(c).forEach(child => children.add(child))
+        c.children = []
+      }
+      else children.add(c)
+    }
+    children.add(parent)
+    return children
+  }
+  const allSelected = new Set()
+  for(let s of selected){
+      for(let c of s.parent.children)
+        if (c.children && c.children.length > 0) {
+          selectChildren(c).forEach(child => allSelected.add(child));
+          c.children = []
+        }
+          else allSelected.add(c)
+      s.parent.children = []
+  }
+  return allSelected
+}
+
 export function updateParallelPanels(panels) {
   for (let source of panels)
     for (let target of panels) {
