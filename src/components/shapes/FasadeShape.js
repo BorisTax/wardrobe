@@ -8,6 +8,8 @@ import { PlaceErrorMessages } from "./PlaceErrors";
 export default class FasadeShape extends Shape {
   static DSP = "dsp"
   static GLASS = "glass"
+  static VERT = "vert"
+  static HOR = "hor"
   type = Shape.FASADE;
   constructor(data) {
     super();
@@ -17,6 +19,7 @@ export default class FasadeShape extends Shape {
     this.parent = data.parent;
     this.base = data.base === undefined ? FasadeShape.GLASS : data.base;
     this.children = []
+    this.division = data.division
     this.name = data.name || "Фасад"
     this.state.selectable = data.selectable === undefined ? true : data.selectable;
     this.state.deletable = data.deletable === undefined ? true : data.deletable;

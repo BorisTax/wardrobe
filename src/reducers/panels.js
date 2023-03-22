@@ -91,6 +91,7 @@ export function divideFasadesHor(fasades, count){
     let fasade = new FasadeShape(options)
     newFasades.add(fasade)
     f.children.push(fasade)
+    f.divided = FasadeShape.HOR
   }
   return newFasades
 }
@@ -125,6 +126,7 @@ export function divideFasadesVert(fasades, count){
     let fasade = new FasadeShape(options)
     newFasades.add(fasade)
     f.children.push(fasade)
+    f.divided = FasadeShape.VERT
   }
   return newFasades
 }

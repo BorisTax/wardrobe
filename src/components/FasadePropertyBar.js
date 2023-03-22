@@ -8,12 +8,14 @@ import { useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
 import { PropertyTypes } from './shapes/PropertyData';
 import Shape from './shapes/Shape';
+import FasadeShape from './shapes/FasadeShape';
 
 export default function FasadePropertyBar() {
   const captions = useSelector(store => store.captions.toolbars.property)
   const appActions = useActions()
   const selected = Array.from(useSelector(store => store).selectedPanels)
   const selectedPanels = selected.filter(p => p.type !== Shape.DIMENSION)
+
   const selectedCount = selected.length
   const noFix = selected.some(s => !s.state.fixable)
   const noDelete = selected.some(s => !s.state.deletable)

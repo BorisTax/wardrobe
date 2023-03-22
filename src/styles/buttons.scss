@@ -24,7 +24,7 @@ $icon-url: '../images/icons/';
 }
 
 .button-disabled {
-
+  cursor: not-allowed;
   mix-blend-mode: multiply;
 }
 
