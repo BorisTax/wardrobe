@@ -17,6 +17,7 @@ export const ShapeActions = {
     FIX_LENGTH: "FIX_LENGTH",
     MOVE_PANEL: "MOVE_PANEL",
     SELECT_PANEL: 'SELECT_PANEL',
+    SELECT_PARENT: 'SELECT_PARENT',
     SET_PANEL_STATE: 'SET_PANEL_STATE',
     SET_PROPERTY: 'SET_PROPERTY',
     addDimension: (dimension) => {
@@ -113,6 +114,12 @@ export const ShapeActions = {
             type: ShapeActions.MOVE_PANEL,
             payload: { panel, movePoint }
         };
+    },
+    selectParent: (fasade) => {
+        return {
+            type: ShapeActions.SELECT_PARENT,
+            payload: fasade,
+        }
     },
     setPanelState: (state) => {
         return {

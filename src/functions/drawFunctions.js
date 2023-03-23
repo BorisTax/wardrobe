@@ -23,7 +23,6 @@ export function paint(ctx, viewPortData, appData, print = false) {
         shape.setState({selected: appData.selectedPanels.has(shape)})
         shape.drawSelf(ctx, realRect, screenRect, print);
     }
-    
     let curShape = appData.mouseHandler.curShape;
     if (curShape != null) curShape.drawSelf(ctx, realRect, screenRect);
     if (appData.curShape != null) appData.curShape.drawSelf(ctx, realRect, screenRect);

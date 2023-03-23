@@ -4,6 +4,7 @@ import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
 import { FasadeSelectRectHandler } from "./FasadeSelectRectHandler";
+import { bringSelectedToFront } from "../reducers/panels";
 export class FasadeFreeHandler extends MouseHandler {
     constructor(state) {
         super(state);
@@ -86,6 +87,7 @@ export class FasadeFreeHandler extends MouseHandler {
                 }
             }
         }
+        appData.fasades = bringSelectedToFront(appData.fasades, appData.selectedPanels)
         appActions.updateState()
     }
     doubleClick({ button, curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {

@@ -16,7 +16,7 @@ import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
-import { deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, selectAllChildrenFasades, selectAllJointedPanels, updateParallelPanels } from "./panels";
+import { bringSelectedToFront, deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, selectAllChildrenFasades, selectAllJointedPanels, updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action) {
     switch (action.type) {
@@ -202,6 +202,12 @@ export default function panelReducer(state, action) {
                     mouseHandler: new PanelMoveHandler(newState, false, action.payload.movePoint)
                 }
             };
+
+        case ShapeActions.SELECT_PARENT:
+            action.payload.parent.state.hidden = false
+            state.selectedPanels = new Set([action.payload.parent])
+            state.fasades = bringSelectedToFront(state.fasades, state.selectedPanels)
+            return { result: true, newState: { ...state } };
 
         case ShapeActions.SET_PANEL_STATE:
             state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.setState(action.payload) })

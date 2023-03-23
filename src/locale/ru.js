@@ -142,6 +142,7 @@ export const captions = {
       "lock_maxlength": "Сделать текущий размер максимальным",
       "unlock_maxlength": "Убрать максимальный размер",
       "delete": "Удалить",
+      "levelup": "Перейти на уровень выше",
     },
     "settings": {
       "title": "Настройки",

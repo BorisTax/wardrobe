@@ -15,7 +15,7 @@ export default function FasadePropertyBar() {
   const appActions = useActions()
   const selected = Array.from(useSelector(store => store).selectedPanels)
   const selectedPanels = selected.filter(p => p.type !== Shape.DIMENSION)
-
+  const levelUpEnabled = selectedPanels.length === 1 && selectedPanels[0].parent
   const selectedCount = selected.length
   const noFix = selected.some(s => !s.state.fixable)
   const noDelete = selected.some(s => !s.state.deletable)
@@ -34,7 +34,8 @@ export default function FasadePropertyBar() {
   const buttons = !noSelected ? <div>
     <hr />
     <ToolButtonBar>
-      <ToolButton key = {4} title={captions.delete} disabled={noDelete} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedFasadesConfirm() }} />
+      <ToolButton title={captions.delete} disabled={noDelete} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedFasadesConfirm() }} />
+      <ToolButton title={captions.levelup} disabled={!levelUpEnabled} pressedStyle={"levelUpButton"} unpressedStyle={"levelUpButton"} onClick={() => { appActions.selectParent(selectedPanels[0]) }} />
     </ToolButtonBar>
   </div> : <></>
   return <ToolBar caption={captions.title}>

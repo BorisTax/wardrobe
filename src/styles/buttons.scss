@@ -206,6 +206,11 @@ $table_icon_height: 35px;
   background-image: url($icon-url+'delete.svg');
 }
 
+.levelUpButton {
+  @include property_button;
+  background-image: url($icon-url+'level_up.png');
+}
+
 .createPanelVertical {
   background-image: url($icon-url+'vertical.svg');
   @include instruments_button();

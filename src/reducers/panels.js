@@ -92,6 +92,7 @@ export function divideFasadesHor(fasades, count){
     newFasades.add(fasade)
     f.children.push(fasade)
     f.divided = FasadeShape.HOR
+    f.state.hidden = true
   }
   return newFasades
 }
@@ -127,6 +128,7 @@ export function divideFasadesVert(fasades, count){
     newFasades.add(fasade)
     f.children.push(fasade)
     f.divided = FasadeShape.VERT
+    f.state.hidden = true
   }
   return newFasades
 }
@@ -156,6 +158,13 @@ export function selectAllChildrenFasades(selected){
   }
   return allSelected
 }
+
+export function bringSelectedToFront(fasades, selected){
+  const newFasades = [...fasades]
+  newFasades.sort((f1, f2) => !selected.has(f2) ? 1 : -1)
+  return new Set(newFasades)
+}
+
 
 export function updateParallelPanels(panels) {
   for (let source of panels)

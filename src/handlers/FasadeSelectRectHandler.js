@@ -5,6 +5,7 @@ import { Rectangle } from "../utils/geometry";
 import { Color } from "../components/colors";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import { FasadeFreeHandler } from "./FasadeFreeHandler";
+import { bringSelectedToFront } from "../reducers/panels";
 export class FasadeSelectRectHandler extends MouseHandler {
     constructor(point, state) {
         super(state)
@@ -37,6 +38,7 @@ export class FasadeSelectRectHandler extends MouseHandler {
             appData.selectedPanels,
             crossSelect
         );
+        appData.fasades = bringSelectedToFront(appData.fasades, appData.selectedPanels)
     }
     up({ button, appActions }) {
 
@@ -62,6 +64,7 @@ export class FasadeSelectRectHandler extends MouseHandler {
                 }
             }
         }
+        appData.fasades = bringSelectedToFront(appData.fasades, appData.selectedPanels)
         this.isSelectedPanels = appData.selectedPanels.size > 0
         if (button === 0) appActions.stopSelection(this.isSelectedPanels, FasadeFreeHandler);
         appActions.updateState()
@@ -80,6 +83,7 @@ export class FasadeSelectRectHandler extends MouseHandler {
             if (full) { selectedPanels.add(p); this.isSelectedPanels = true }
             if (cross && crossSelect) { selectedPanels.add(p); this.isSelectedPanels = true }
         }
+        
     }
 
 }

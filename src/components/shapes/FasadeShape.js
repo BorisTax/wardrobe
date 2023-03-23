@@ -39,7 +39,7 @@ export default class FasadeShape extends Shape {
   }
 
   drawSelf(ctx, realRect, screenRect, print = false) {
-    if (this.state.hidden) return;
+    
     let saveState = {...this.state}
     if(print) this.state = {...this.state, selected: false, highlighted: false}  
     super.drawSelf(ctx, realRect, screenRect);
@@ -54,10 +54,9 @@ export default class FasadeShape extends Shape {
     const height = bottomRight.y - topLeft.y;
     let x = topLeft.x
     let y = topLeft.y
-    if (this.children.length > 0)
-        this.children.forEach(c => c.drawSelf(ctx, realRect, screenRect));
-        else
-        ctx.strokeRect(x, y, width, height);
+    if (this.children.length > 0)this.children.forEach(c => c.drawSelf(ctx, realRect, screenRect));
+    this.refreshStyle(ctx)
+    if (!this.state.hidden) ctx.strokeRect(x, y, width, height);
     if(print) this.state = {...saveState}
   }
   refresh(realRect, screenRect) {
