@@ -58,6 +58,13 @@ export default class Shape {
     setFillStyle(fill) {
         this.fillStyle = fill;
     }
+    onAddToSelection(){
+        this.state.selected = true
+      }
+      
+    onDeleteFromSelection(){
+        this.state.selected = false
+    }
     setState(state) {
         this.state = { ...this.state, ...state };
         if (this.state.selected === true) {

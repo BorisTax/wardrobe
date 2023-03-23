@@ -5,6 +5,7 @@ import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
 import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 import { PanelSelectRectHandler } from "./PanelSelectRectHandler";
+import { SelectionSet } from "../reducers/panels";
 export class PanelFreeHandler extends MouseHandler {
     constructor(state) {
         super(state);
@@ -24,7 +25,7 @@ export class PanelFreeHandler extends MouseHandler {
     move({ curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.move({ curPoint, viewPortData });
         if (this.drag) {
-            //if (!keys.shiftKey) appData.selectedPanels = new Set()
+            //if (!keys.shiftKey) appData.selectedPanels.clear()
             appData.selectedPanels.add(this.activeShape)
             if (!this.activeShape.state.fixed) appActions.movePanel(this.activeShape, this.dragPos);
             return;
@@ -59,7 +60,7 @@ export class PanelFreeHandler extends MouseHandler {
             if (!p.state.selectable) continue;
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 this.activeShape = p;
-                if(!p.state.selected && !keys.shiftKey) appData.selectedPanels = new Set()
+                if(!p.state.selected && !keys.shiftKey) appData.selectedPanels.clear()
             } else {
                 //p.setState({ selected: false })
             }

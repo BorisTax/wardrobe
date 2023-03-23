@@ -1,6 +1,26 @@
 import FasadeShape from "../components/shapes/FasadeShape";
 import Shape from "../components/shapes/Shape";
 
+export class SelectionSet extends Set{
+    add(item){
+      const res = super.add(item)
+      if(item && item.onAddToSelection) item.onAddToSelection(res)
+      return res
+    }
+    delete(item){
+      const res = super.delete(item)
+      if(item && item.onDeleteFromSelection) item.onDeleteFromSelection(res)
+      return res
+    }
+    has(item){
+      return super.has(item)
+    }
+    clear(){
+      for(let p of this) if(p.onDeleteFromSelection) p.onDeleteFromSelection()
+      return super.clear()
+    }
+}
+
 export function isPointInPanelArea(point, panel) {
   let d;
   if (panel.vertical)
@@ -92,7 +112,7 @@ export function divideFasadesHor(fasades, count){
     newFasades.add(fasade)
     f.children.push(fasade)
     f.divided = FasadeShape.HOR
-    f.state.hidden = true
+    f.state.selectable = false
   }
   return newFasades
 }
@@ -128,7 +148,7 @@ export function divideFasadesVert(fasades, count){
     newFasades.add(fasade)
     f.children.push(fasade)
     f.divided = FasadeShape.VERT
-    f.state.hidden = true
+    f.state.selectable = false
   }
   return newFasades
 }
@@ -137,9 +157,10 @@ export function selectAllChildrenFasades(selected){
   function selectChildren(parent){
     const children = new Set()
     for(let c of parent.children){
-      if (c.children && c.children.length > 0) {
+      if (c.hasChildren()) {
         selectChildren(c).forEach(child => children.add(child))
         c.children = []
+        c.state.selectable = true
       }
       else children.add(c)
     }
@@ -149,12 +170,14 @@ export function selectAllChildrenFasades(selected){
   const allSelected = new Set()
   for(let s of selected){
       for(let c of s.parent.children)
-        if (c.children && c.children.length > 0) {
+        if (c.hasChildren()) {
           selectChildren(c).forEach(child => allSelected.add(child));
           c.children = []
+          c.state.selectable = true
         }
           else allSelected.add(c)
       s.parent.children = []
+      s.parent.state.selectable = true
   }
   return allSelected
 }

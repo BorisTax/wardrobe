@@ -9,6 +9,7 @@ import { getNewDate } from "./functions";
 import { getInitialState, WORKSPACE } from "./initialState";
 import { exportProject } from "./printPdf";
 import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
+import { SelectionSet } from "./panels";
 
 export default function projectReducer(state, action) {
     switch (action.type) {
@@ -47,7 +48,8 @@ export default function projectReducer(state, action) {
 
         case ModelActions.SET_WORKSPACE:
             const mouseHandler = action.payload === WORKSPACE.CORPUS ? new PanelFreeHandler(state) : new FasadeFreeHandler(state)
-            return { result: true, newState: { ...state, workspace: action.payload, mouseHandler, selectedPanels: new Set() } };
+            state.selectedPanels.clear()
+            return { result: true, newState: { ...state, workspace: action.payload, mouseHandler } };
 
         default: {
             return { result: false, newState: state }

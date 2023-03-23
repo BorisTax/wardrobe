@@ -1,6 +1,7 @@
 import DoublePanelShape from "../components/shapes/DoublePanelShape"
 import FasadeShape from "../components/shapes/FasadeShape"
 import PanelShape from "../components/shapes/PanelShape"
+import { SelectionSet } from "./panels"
 
 export function createNewState({ wardrobe }) {
     if (!wardrobe) return { wardrobe: {}, panels: [] }

@@ -5,6 +5,7 @@ import jwtDecode from "jwt-decode";
 import { getViewPortState } from "../components/ViewPortContainer";
 import { createFasades, createNewState } from "./createNewState";
 import { getButtonPressed } from "./panelReducer";
+import { SelectionSet } from "./panels";
 
 var user = { name: "", activated: false };
 var token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -30,7 +31,7 @@ export function getInitialState(data) {
     cursor: new SelectCursor({ x: 0, y: 0 }),
     curShape: null,
     prevStatus: Status.FREE,
-    selectedPanels: new Set(),
+    selectedPanels: new SelectionSet(),
     dimensions: new Set(),
     fasades: new Set(fasades),
     fasadeDimensions: new Set(),

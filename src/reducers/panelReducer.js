@@ -16,7 +16,7 @@ import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
-import { bringSelectedToFront, deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, selectAllChildrenFasades, selectAllJointedPanels, updateParallelPanels } from "./panels";
+import { bringSelectedToFront, deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, SelectionSet, selectAllChildrenFasades, selectAllJointedPanels, updateParallelPanels } from "./panels";
 
 export default function panelReducer(state, action) {
     switch (action.type) {
@@ -33,7 +33,7 @@ export default function panelReducer(state, action) {
             return { result: true, newState: { ...state, } };
 
         case ShapeActions.CREATE_DRAWER:
-            state.selectedPanels = new Set()
+            state.selectedPanels.clear()
             var newState = {
                 ...state, curShape: new DrawerShape({ wardrobe: state.wardrobe }),
                 cursor: new DragCursor(state.curRealPoint),
@@ -45,7 +45,7 @@ export default function panelReducer(state, action) {
             return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
 
         case ShapeActions.CREATE_DRAWERBLOCK:
-            state.selectedPanels = new Set()
+            state.selectedPanels.clear()
             newState = {
                 ...state, curShape: new DrawerBlockShape({ wardrobe: state.wardrobe }),
                 cursor: new DragCursor(state.curRealPoint),
@@ -58,7 +58,7 @@ export default function panelReducer(state, action) {
 
         case ShapeActions.CREATE_PANEL:
             state.panels.forEach(p => { p.setState({ selected: false }) })
-            state.selectedPanels = new Set()
+            state.selectedPanels.clear()
             newState = {
                 ...state, curShape: new PanelShape({ ...action.payload, wardrobe: state.wardrobe }),
                 cursor: new DragCursor(state.curRealPoint),
@@ -71,7 +71,7 @@ export default function panelReducer(state, action) {
             return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
 
         case ShapeActions.CREATE_TUBE:
-            state.selectedPanels = new Set()
+            state.selectedPanels.clear()
             newState = {
                 ...state, curShape: new TubeShape({ wardrobe: state.wardrobe }),
                 cursor: new DragCursor(state.curRealPoint),
@@ -178,12 +178,14 @@ export default function panelReducer(state, action) {
         case ShapeActions.DIVIDE_FASAD_HOR:
             let newFasades = divideFasadesHor(state.selectedPanels, action.payload)
             newFasades.forEach(f => state.fasades.add(f))
-            return { result: true, newState: { ...state, selectedPanels: new Set() } };
+            state.selectedPanels.clear()
+            return { result: true, newState: { ...state } };
     
         case ShapeActions.DIVIDE_FASAD_VERT:
             newFasades = divideFasadesVert(state.selectedPanels, action.payload)
             newFasades.forEach(f => state.fasades.add(f))
-            return { result: true, newState: { ...state, selectedPanels: new Set() } };
+            state.selectedPanels.clear()
+            return { result: true, newState: { ...state } };
 
 
         case ShapeActions.FIX_LENGTH:
@@ -205,7 +207,8 @@ export default function panelReducer(state, action) {
 
         case ShapeActions.SELECT_PARENT:
             action.payload.parent.state.hidden = false
-            state.selectedPanels = new Set([action.payload.parent])
+            state.selectedPanels.clear() 
+            state.selectedPanels.add(action.payload.parent)
             state.fasades = bringSelectedToFront(state.fasades, state.selectedPanels)
             return { result: true, newState: { ...state } };
 

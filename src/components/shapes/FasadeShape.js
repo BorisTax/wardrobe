@@ -2,7 +2,7 @@ import Geometry, { Intersection } from "../../utils/geometry";
 import Shape from "./Shape";
 import ShapeStyle from "./ShapeStyle";
 import { Color } from "../colors";
-import { getJointData, isPointInPanelArea } from "../../reducers/panels";
+import { getJointData, isPointInPanelArea, SelectionSet } from "../../reducers/panels";
 import { PropertyTypes } from "./PropertyData";
 import { PlaceErrorMessages } from "./PlaceErrors";
 export default class FasadeShape extends Shape {
@@ -54,7 +54,7 @@ export default class FasadeShape extends Shape {
     const height = bottomRight.y - topLeft.y;
     let x = topLeft.x
     let y = topLeft.y
-    if (this.children.length > 0)this.children.forEach(c => c.drawSelf(ctx, realRect, screenRect));
+    //if (this.children.length > 0)this.children.forEach(c => c.drawSelf(ctx, realRect, screenRect));
     this.refreshStyle(ctx)
     if (!this.state.hidden) ctx.strokeRect(x, y, width, height);
     if(print) this.state = {...saveState}
@@ -66,6 +66,10 @@ export default class FasadeShape extends Shape {
       x: this.rect.x + this.rect.width,
       y: this.rect.y + this.rect.height,
     };
+  }
+
+  hasChildren(){
+    return this.children.length > 0
   }
 
   getProperties() {

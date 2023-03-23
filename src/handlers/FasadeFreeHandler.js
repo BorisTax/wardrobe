@@ -4,7 +4,7 @@ import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
 import { FasadeSelectRectHandler } from "./FasadeSelectRectHandler";
-import { bringSelectedToFront } from "../reducers/panels";
+import { bringSelectedToFront, SelectionSet } from "../reducers/panels";
 export class FasadeFreeHandler extends MouseHandler {
     constructor(state) {
         super(state);
@@ -25,9 +25,8 @@ export class FasadeFreeHandler extends MouseHandler {
         super.move({ curPoint, viewPortData });
         this.activeShape = null;
         for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
-            if (!p.state.selectable) continue;
-            if(p.children && p.children.length > 0 ) continue
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
+                if (!p.state.selectable) continue;
                 //if (!p.state.fixed_move) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
                 p.setState({ highlighted: true })
                 this.activeShape = p;
@@ -50,11 +49,10 @@ export class FasadeFreeHandler extends MouseHandler {
         if (button !== 0) return
         this.activeShape = null;
         for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
-            if (!p.state.selectable) continue;
-            if(p.children && p.children.length > 0 ) continue
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
+                if (!p.state.selectable) continue;
                 this.activeShape = p;
-                if(!p.state.selected && !keys.shiftKey) appData.selectedPanels = new Set()
+                if(!p.state.selected && !keys.shiftKey) appData.selectedPanels.clear()
             } else {
                 //p.setState({ selected: false })
             }
@@ -73,8 +71,8 @@ export class FasadeFreeHandler extends MouseHandler {
         super.click({ curPoint, viewPortData });
         if (button !== 0) return
         for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
-            if(p.children && p.children.length > 0 ) continue
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
+                if(!p.state.selectable) continue
                 if (keys.shiftKey) {
                     if(appData.selectedPanels.has(p)) appData.selectedPanels.delete(p);
                             else appData.selectedPanels.add(p)

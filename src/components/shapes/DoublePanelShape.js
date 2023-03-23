@@ -2,6 +2,7 @@ import Geometry from "../../utils/geometry";
 import Shape from "./Shape";
 import { PropertyTypes } from "./PropertyData";
 import PanelShape from "./PanelShape";
+import { SelectionSet } from "../../reducers/panels";
 export default class DoublePanelShape extends PanelShape {
   type = Shape.PANEL;
   constructor(data) {

@@ -7,6 +7,7 @@ import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { StatusPanHandler } from "../handlers/StatusPanHandler";
 import { Status } from "./functions";
 import { WORKSPACE } from "./initialState";
+import { SelectionSet } from "./panels";
 
 export default function statusReducer(state, action) {
     switch (action.type) {
@@ -51,12 +52,12 @@ export default function statusReducer(state, action) {
         case ScreenActions.CANCEL_SELECTION:
             state.panels.forEach(s => s.setState({ selected: false, underCursor: false, highlighted: false, inSelection: false }))
             state.dimensions.forEach(s => s.setState({ selected: false, underCursor: false, highlighted: false, inSelection: false }))
+            state.selectedPanels.clear()
             return {
                 result: true,
                 newState: {
                     ...state,
                     status: Status.FREE,
-                    selectedPanels: new Set(),
                     curShape: null,
                     cursor: new SelectCursor(state.curRealPoint)
                 }
@@ -118,19 +119,18 @@ export default function statusReducer(state, action) {
             }
 
         case ScreenActions.STOP_SELECTION:
-            const selectedPanels = action.payload.isSelectedPanels ? state.selectedPanels : new Set()
+            if (!action.payload.isSelectedPanels) state.selectedPanels.clear()
             return {
                 result: true, newState: {
                     ...state,
                     status: Status.FREE,
-                    selectedPanels,
                     cursor: new SelectCursor(state.curRealPoint),
                     mouseHandler: new action.payload.handler(state),
                 }
             };
 
         case ModelActions.UPDATE_STATE:
-            //const selectedPanels = new Set()
+            //const selectedPanels.clear()
             //state.panels.forEach(p => {if(p.state.selected) selectedPanels.add(p)})
             return { result: true, newState: { ...state } }
 
