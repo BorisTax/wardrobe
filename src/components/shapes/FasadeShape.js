@@ -5,6 +5,7 @@ import { Color } from "../colors";
 import { getJointData, isPointInPanelArea, SelectionSet } from "../../reducers/panels";
 import { PropertyTypes } from "./PropertyData";
 import { PlaceErrorMessages } from "./PlaceErrors";
+import TextShape from "./TextShape";
 export default class FasadeShape extends Shape {
   static DSP = "dsp"
   static GLASS = "glass"
@@ -16,11 +17,12 @@ export default class FasadeShape extends Shape {
     this.length = data.length;
     this.width = data.width;
     this.level = data.level === undefined ? 0 : data.level;
+    if (this.level === 0) this.caption = new TextShape('ФАСАД', {x: data.position.x + data.width / 2, y: data.position.y - 50})
     this.parent = data.parent;
     this.base = data.base === undefined ? FasadeShape.GLASS : data.base;
     this.children = []
     this.division = data.division
-    this.name = data.name || "Фасад"
+    this.name = data.name || "ФАСАД"
     this.state.selectable = data.selectable === undefined ? true : data.selectable;
     this.state.deletable = data.deletable === undefined ? true : data.deletable;
     this.state.fixable = data.fixable === undefined ? true : data.fixable;
@@ -54,9 +56,8 @@ export default class FasadeShape extends Shape {
     const height = bottomRight.y - topLeft.y;
     let x = topLeft.x
     let y = topLeft.y
-    //if (this.children.length > 0)this.children.forEach(c => c.drawSelf(ctx, realRect, screenRect));
-    this.refreshStyle(ctx)
-    if (!this.state.hidden) ctx.strokeRect(x, y, width, height);
+    ctx.strokeRect(x, y, width, height);
+    if(this.caption) this.caption.drawSelf(ctx, realRect, screenRect, 14)
     if(print) this.state = {...saveState}
   }
   refresh(realRect, screenRect) {

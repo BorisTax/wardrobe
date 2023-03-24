@@ -203,7 +203,7 @@ $table_icon_height: 35px;
 
 .deletebutton {
   @include property_button;
-  background-image: url($icon-url+'delete.svg');
+  background-image: url($icon-url+'delete.png');
 }
 
 .levelUpButton {
