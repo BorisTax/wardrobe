@@ -165,7 +165,10 @@ export default function panelReducer(state, action) {
                     fasades.add(p);
                 }
                 else {
-                    p.dimensions.forEach(d => { d.delete(); state.dimensions.delete(d) })
+                    p.dimensions.forEach(d => { 
+                                d.delete(); 
+                                state.fasadeDimensions.delete(d) 
+                            })
                     p.dimensions = new Set()
                 }
             });
@@ -213,7 +216,7 @@ export default function panelReducer(state, action) {
         case ShapeActions.MOVE_PANEL:
             newState = {
                 ...state, curShape: action.payload.panel,
-                cursor: new ResizeCursor(state.curRealPoint, action.payload.panel.vertical),
+                //cursor: new ResizeCursor(state.curRealPoint, action.payload.panel.vertical),
             }
             return {
                 result: true,

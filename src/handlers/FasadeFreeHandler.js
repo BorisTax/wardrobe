@@ -68,12 +68,12 @@ export class FasadeFreeHandler extends MouseHandler {
                 //p.setState({ selected: false })
             }
         }
-        this.drag = false;
-        if (this.activeShape) {
+        this.drag = true;
+        if (this.activeShape && this.activeShape.type === Shape.DIMENSION) {
             const { x, y } = this.activeShape.getPosition()
             const dx = this.coord.x - x;
             const dy = y - this.coord.y;
-            this.drag = true;
+            //this.drag = true;
             this.dragPos = { dx, dy }
         } else
         if (!appData.isMobile) { appActions.startSelection(this.coord, FasadeSelectRectHandler) }

@@ -80,6 +80,7 @@ export class SingleFasadeDimensionCreateHandler extends MouseHandler {
                 break;
             }
             case 2: {
+                this.activePanel.dimensions.add(this.curShape)
                 appActions.addFasadeDimension(this.curShape)
                 appActions.cancel()
                 break;
