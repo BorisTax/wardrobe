@@ -16,12 +16,12 @@ export function paint(ctx, viewPortData, appData, print = false) {
     const [panels, dimensions] = (appData.workspace === WORKSPACE.CORPUS) ? [appData.panels, appData.dimensions] : [appData.fasades, appData.fasadeDimensions]
     
     for (let dimension of dimensions) {
-        dimension.setState({selected: appData.selectedPanels.has(dimension)})
+        //dimension.setState({selected: appData.selectedPanels.has(dimension)})
         dimension.drawSelf(ctx, realRect, screenRect, print);
     }
     for (let shape of panels) {
         //shape.setState({selected: appData.selectedPanels.has(shape)})
-        shape.drawSelf(ctx, realRect, screenRect, print);
+        if(!shape.hasChildren() || appData.selectedPanels.has(shape) || shape.level === 0) shape.drawSelf(ctx, realRect, screenRect, print);
     }
     let curShape = appData.mouseHandler.curShape;
     if (curShape != null) curShape.drawSelf(ctx, realRect, screenRect);

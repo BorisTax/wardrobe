@@ -4,6 +4,7 @@ import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import { moveSelectedPanels, setWardrobeDimensions } from "../reducers/panels";
+import { WORKSPACE } from "../reducers/initialState";
 export class PanelMoveHandler extends MouseHandler {
     constructor(state, newPanel, movePoint) {
         super(state);
@@ -58,9 +59,9 @@ export class PanelMoveHandler extends MouseHandler {
         p.y = Math.trunc(p.y);
         var { x, y } = this.activeShape.getPosition();
         var [dx, dy] = [p.x - x, p.y - y];
-        moveSelectedPanels(dx, dy, this.activeShape, appData.selectedPanels, () => { setWardrobeDimensions(appData, appActions) })
-
-        for (const shape of appData.dimensions) {
+        if (appData.workspace === WORKSPACE.CORPUS) moveSelectedPanels(dx, dy, this.activeShape, appData.selectedPanels, () => { setWardrobeDimensions(appData, appActions) })
+        const dimensions = appData.workspace === WORKSPACE.CORPUS ? appData.dimensions : appData.fasadeDimensions
+        for (const shape of dimensions) {
             if (!appData.selectedPanels.has(shape)) continue;
             shape.moveTo(dx, dy, appData.wardrobe)
         }

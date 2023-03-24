@@ -10,8 +10,8 @@ export default class Shape {
     
     constructor() {
         this.style = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID);
-        this.selectedStyle = new ShapeStyle(Color.SELECTED, ShapeStyle.SOLID);
-        this.highlightedStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 2);
+        this.selectedStyle = new ShapeStyle(Color.SELECTED, ShapeStyle.SOLID, 3);
+        this.highlightedStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 3);
         this.errorStyle = new ShapeStyle(Color.RED, ShapeStyle.SOLID)
         this.defaultStyle = new ShapeStyle(Color.BLACK, ShapeStyle.SOLID, 1)
         this.state = { selected: false, inSelection: false, underCursor: false, highlighted: false };
@@ -38,7 +38,9 @@ export default class Shape {
         this.refreshStyle(ctx)
     }
 
-
+    hasChildren(){
+        return false
+    }
     setColor(color) {
         this.style.setColor(color);
         this.fillStyle = color

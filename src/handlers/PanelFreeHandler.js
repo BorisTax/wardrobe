@@ -29,20 +29,20 @@ export class PanelFreeHandler extends MouseHandler {
             appData.selectedPanels.add(this.activeShape)
             if (!this.activeShape.state.fixed) appActions.movePanel(this.activeShape, this.dragPos);
             return;
-        } else {
-            this.activeShape = null;
-            for (let p of [...appData.panels, ...appData.dimensions]) {
-                if (!p.state.selectable) continue;
-                if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
-                    if (!p.state.fixed_move) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
-                    p.setState({ highlighted: true })
-                    this.activeShape = p;
-                } else {
-                    p.setState({ highlighted: false })
-                }
+        } 
+        this.activeShape = null;
+        for (let p of [...appData.panels, ...appData.dimensions]) {
+            if (!p.state.selectable) continue;
+            if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
+                if (!p.state.fixed_move) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
+                p.setState({ highlighted: true })
+                this.activeShape = p;
+            } else {
+                p.setState({ highlighted: false })
             }
-            if (!this.activeShape) appActions.setCursor(new SelectCursor(this.coord));
         }
+        if (!this.activeShape) appActions.setCursor(new SelectCursor(this.coord));
+        
         setViewPortData(prevData => setCurCoord(this.coord, this.curPoint, prevData));
 
     }

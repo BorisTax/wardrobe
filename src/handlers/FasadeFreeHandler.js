@@ -5,6 +5,8 @@ import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
 import { FasadeSelectRectHandler } from "./FasadeSelectRectHandler";
 import { bringSelectedToFront, SelectionSet } from "../reducers/panels";
+import Shape from "../components/shapes/Shape";
+import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 export class FasadeFreeHandler extends MouseHandler {
     constructor(state) {
         super(state);
@@ -23,11 +25,20 @@ export class FasadeFreeHandler extends MouseHandler {
     }
     move({ curPoint, viewPortData, setViewPortData, appActions, appData, keys }) {
         super.move({ curPoint, viewPortData });
+        if (this.drag) {
+            //if (!keys.shiftKey) appData.selectedPanels.clear()
+            appData.selectedPanels.add(this.activeShape)
+            if (!this.activeShape.state.fixed) appActions.movePanel(this.activeShape, this.dragPos);
+            return;
+        }
         this.activeShape = null;
         for (let p of [...appData.fasades, ...appData.fasadeDimensions]) {
             if (p.isUnderCursor(this.coord, viewPortData.pixelRatio)) {
                 if (!p.state.selectable) continue;
-                //if (!p.state.fixed_move) appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
+                if (!p.state.fixed_move && p.type === Shape.DIMENSION) 
+                        appActions.setCursor(new ResizeCursor(this.coord, p.vertical));
+                        else
+                        appActions.setCursor(new SelectCursor(this.coord));
                 p.setState({ highlighted: true })
                 this.activeShape = p;
             } else {
