@@ -63,10 +63,12 @@ export function saveCurrentState(state, image) {
     };
     const project = { project: 1.0, state: saveState }
     var contents = JSON.stringify(project);
-    const img = image.split(",")[1]
+    const img1 = image[0].split(",")[1]
+    const img2 = image[1].split(",")[1]
     const zip = new JSZip()
     zip.file('project.json', contents)
-    zip.file('project.png', img, {base64: true})
+    zip.file('корпус.png', img1, {base64: true})
+    zip.file('фасад.png', img2, {base64: true})
     zip.generateAsync({type: 'blob'}).then(cont => FileSaver.saveAs(cont, 'project.zip'))
 
 }

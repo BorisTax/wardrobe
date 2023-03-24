@@ -1,5 +1,6 @@
 import FasadeShape from "../components/shapes/FasadeShape";
 import Shape from "../components/shapes/Shape";
+import { WORKSPACE } from "./initialState";
 
 export class SelectionSet extends Set{
     add(item){
@@ -316,7 +317,8 @@ export function setWardrobeDimensions(appData, appActions) {
 export function getWardrobePrintArea(appData) {
   const { width, height } = appData.wardrobe
   const rect = { topLeft: { x: 0, y: height }, bottomRight: { x: width, y: 0 } }
-  for (let d of appData.dimensions) {
+  const dimensions = appData.workspace === WORKSPACE.CORPUS ? appData.dimensions : appData.fasadeDimensions
+  for (let d of dimensions) {
     const { x, y } = d.getPosition()
     if (d.vertical) {
       if (x < rect.topLeft.x) rect.topLeft.x = x
