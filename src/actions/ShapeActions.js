@@ -1,8 +1,10 @@
 export const ShapeActions = {
     ADD_DIMENSION: 'ADD_DIMENSION',
+    ADD_FASADE_DIMENSION: 'ADD_FASADE_DIMENSION',
     CREATE_DRAWER: 'CREATE_DRAWER',
     CREATE_DRAWERBLOCK: 'CREATE_DRAWERBLOCK',
     CREATE_PANEL: 'CREATE_PANEL',
+    CREATE_FASADE_DIMENSION: 'CREATE_FASADE_DIMENSION',
     CREATE_SINGLE_DIMENSION: 'CREATE_SINGLE_DIMENSION',
     CREATE_TWO_PANEL_DIMENSION: 'CREATE_TWO_PANEL_DIMENSION',
     CREATE_TUBE: 'CREATE_TUBE',
@@ -25,6 +27,12 @@ export const ShapeActions = {
             payload: dimension,
         }
     },
+    addFasadeDimension: (dimension) => {
+        return {
+            type: ShapeActions.ADD_FASADE_DIMENSION,
+            payload: dimension,
+        }
+    },
     createDrawer: () => {
         return {
             type: ShapeActions.CREATE_DRAWER,
@@ -39,6 +47,12 @@ export const ShapeActions = {
         return {
             type: ShapeActions.CREATE_PANEL,
             payload: options,
+        }
+    },
+    createFasadeDimension: (vertical) => {
+        return {
+            type: ShapeActions.CREATE_FASADE_DIMENSION,
+            payload: vertical
         }
     },
     createSingleDimension: () => {

@@ -17,12 +17,19 @@ import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
 import { bringSelectedToFront, deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, SelectionSet, selectAllChildrenFasades, selectAllJointedPanels, updateParallelPanels } from "./panels";
+import { SingleFasadeDimensionCreateHandler } from "../handlers/SingleFasadeDimensionCreateHandler";
 
 export default function panelReducer(state, action) {
     switch (action.type) {
         case ShapeActions.ADD_DIMENSION:
             const dimension = action.payload
             state.dimensions.add(dimension);
+
+            return { result: true, newState: { ...state, status: Status.FREE } };
+
+        case ShapeActions.ADD_FASADE_DIMENSION:
+            const fasadeDimension = action.payload
+            state.fasadeDimensions.add(fasadeDimension);
 
             return { result: true, newState: { ...state, status: Status.FREE } };
 
@@ -82,6 +89,16 @@ export default function panelReducer(state, action) {
             }
             return { result: true, newState: { ...newState, mouseHandler: new PanelCreateHandler(newState, true) } };
 
+        case ShapeActions.CREATE_FASADE_DIMENSION:
+            newState = {
+                ...state,
+                toolButtonsPressed: getButtonPressed({
+                    createFasadeLengthDimension: action.payload.vertical,
+                    createFasadeWidthDimension: !action.payload.vertical,
+                }), cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
+            }
+            return { result: true, newState: { ...newState, mouseHandler: new SingleFasadeDimensionCreateHandler(newState, action.payload) } };
+
         case ShapeActions.CREATE_SINGLE_DIMENSION:
             newState = {
                 ...state,
@@ -90,6 +107,7 @@ export default function panelReducer(state, action) {
                 }), cursor: new DimensionCursor(state.curRealPoint)//, status: Status.CREATE
             }
             return { result: true, newState: { ...newState, mouseHandler: new SinglePanelDimensionCreateHandler(newState) } };
+
         case ShapeActions.CREATE_TWO_PANEL_DIMENSION:
             newState = {
                 ...state,
@@ -238,6 +256,8 @@ export function getButtonPressed(buttons){
         createSingleDimension: false,
         createTwoPanelDimensionInside: false,
         createTwoPanelDimensionOutside: false,
+        createFasadeLengthDimension: false,
+        createFasadeWidthDimension: false,
     }
     return {buttonPressed, ...buttons}
 }

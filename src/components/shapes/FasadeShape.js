@@ -402,11 +402,11 @@ export default class FasadeShape extends Shape {
     return result? {result} : {result, reason: PlaceErrorMessages.NO_JOINTS}
   }
 
-  getSingleDimensionData(){
-    const firstPoint = this.vertical ? {x: this.rect.x + this.thickness / 2, y: this.rect.y} : {x: this.rect.x, y: this.rect.y + this.thickness / 2}
-    const secondPoint = this.vertical ? {x: this.rect.x + this.thickness / 2, y: this.rect.last.y} : {x: this.rect.last.x, y: this.rect.last.y - this.thickness / 2}
+  getSingleDimensionData(vertical){
+    const firstPoint = vertical ? {x: this.rect.x + this.width / 2, y: this.rect.y} : {x: this.rect.x, y: this.rect.y + this.length / 2}
+    const secondPoint = vertical ? {x: this.rect.x + this.width / 2, y: this.rect.last.y} : {x: this.rect.last.x, y: this.rect.last.y - this.length / 2}
     const midPoint = { x: (firstPoint.x + secondPoint.x) / 2, y: (firstPoint.y + secondPoint.y) / 2 }
-    return {vertical: this.vertical, firstPoint, secondPoint, midPoint}
+    return {firstPoint, secondPoint, midPoint}
   }
 
   isInSelectionRect({ topLeft, bottomRight }) {

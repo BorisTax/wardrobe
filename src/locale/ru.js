@@ -115,6 +115,8 @@ export const captions = {
       "createTwoPanelDimensionOutside": "Добавить размер между деталями снаружи",
       "divideFasadHor": "Разделить фасад по высоте",
       "divideFasadVert": "Разделить фасад по ширине",
+      "createFasadeLengthDimension": "Добавить размер фасада по высоте",
+      "createFasadeWidthDimension": "Добавить размер фасада по ширине",
     },
     "operations":{
       "title": "Операции",

@@ -295,6 +295,14 @@ $table_icon_height: 35px;
   @include instruments_button();
 }
 
+.createFasadeLengthDimension {
+  background-image: url($icon-url+'fasade_length_dimension.svg');
+  @include instruments_button();
+}
+.createFasadeWidthDimension {
+  background-image: url($icon-url+'fasade_width_dimension.svg');
+  @include instruments_button();
+}
 .resetView {
   background-image: url($icon-url+'resetView.svg');
   @include instruments_button();

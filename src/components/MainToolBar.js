@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { WORKSPACE } from '../reducers/initialState';
 import DimensionsBar from './DimensionsBar';
+import FasadeDimensionsBar from './FasadeDimensionsBar';
 import FasadInstrumentsBar from './FasadInstrumentsBar';
 import InstrumentsBar from './InstrumentsBar';
 import OperationsBar from './OperationsBar';
@@ -26,6 +27,8 @@ export default function MainToolBar({disabled}) {
                 </>:
                 <>
                 <FasadInstrumentsBar/>
+                <ToolButtonSeparator/>
+                <FasadeDimensionsBar/>
                 </>
             }
             <ToolButtonSeparator/>
