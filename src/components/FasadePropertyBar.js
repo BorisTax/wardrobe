@@ -61,7 +61,7 @@ function getProperties(object, captions, updateState) {
 }
 
 function getValueElement(p, updateState) {
-  if (p.editable) {
+  if (p.editable()) {
     switch (p.type) {
       case PropertyTypes.STRING: return <InputField type={p.type} value={p.value} setValue={(value) => { p.setValue(value); updateState() }} />
       case PropertyTypes.INTEGER_POSITIVE_NUMBER: return <InputField type={p.type} value={p.value} setValue={(value) => { p.setValue(value); updateState() }} />

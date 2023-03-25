@@ -24,6 +24,7 @@ export default class Dimension extends Shape {
         this.defaultStyle = new ShapeStyle(Color.DARK_GRAY, ShapeStyle.DASH, 1);
         this.selectedStyle = new ShapeStyle(Color.SELECTED, ShapeStyle.DASH, 2);
         this.highlightedStyle = new ShapeStyle(Color.BLACK, ShapeStyle.DASH, 1);
+        this.properties = []
     }
 
     drawSelf(ctx, realRect, screenRect, print = false) {

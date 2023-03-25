@@ -137,15 +137,7 @@ export default class PanelShape extends Shape {
     this.state.fixedLength = { min, max }
   }
 
-  isUnderCursor(p, pixelRatio) {
-    const mult = 2;
-    return (
-      p.x >= this.rect.x - pixelRatio * mult &&
-      p.x <= this.rect.x + this.rect.width + pixelRatio * mult &&
-      p.y >= this.rect.y - pixelRatio * mult &&
-      p.y <= this.rect.y + this.rect.height + pixelRatio * mult
-    );
-  }
+
 
   moveTo(dx, dy, onGabaritChange = () => { }, doNotMove = false, prevPanel) {
     const { x, y } = this.getPosition();
@@ -422,5 +414,15 @@ export default class PanelShape extends Shape {
     const full = inRect.every((i) => i === true);
     const cross = Intersection.RectangleRectangle(topLeft, bottomRight, this.rect, this.rect.last).length > 0;
     return { cross, full };
+  }
+  
+  isUnderCursor(p, pixelRatio) {
+    const mult = 2;
+    return (
+      p.x >= this.rect.x - pixelRatio * mult &&
+      p.x <= this.rect.x + this.rect.width + pixelRatio * mult &&
+      p.y >= this.rect.y - pixelRatio * mult &&
+      p.y <= this.rect.y + this.rect.height + pixelRatio * mult
+    );
   }
 }

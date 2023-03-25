@@ -154,6 +154,13 @@ export function divideFasadesVert(fasades, count){
   return newFasades
 }
 
+export function getProfile(base1, base2){
+  if(base1 === FasadeShape.DSP && base2 === FasadeShape.DSP) return 1
+  return 3
+  //if(type1 !== type2) return 3
+  //if(type1 === FasadeShape.GLASS && type2 === FasadeShape.GLASS) return 3
+}
+
 export function selectAllChildrenFasades(selected){
   function selectChildren(parent){
     const children = new Set()
