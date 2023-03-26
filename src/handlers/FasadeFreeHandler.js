@@ -4,7 +4,7 @@ import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
 import { FasadeSelectRectHandler } from "./FasadeSelectRectHandler";
-import { bringSelectedToFront, SelectionSet } from "../reducers/panels";
+import { bringSelectedToFront } from "../reducers/panels";
 import Shape from "../components/shapes/Shape";
 import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 export class FasadeFreeHandler extends MouseHandler {

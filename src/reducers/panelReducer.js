@@ -2,7 +2,6 @@ import { ScreenActions } from "../actions/ScreenActions";
 import { ShapeActions } from "../actions/ShapeActions";
 import DimensionCursor from "../components/shapes/cursors/DimensionCursor";
 import DragCursor from "../components/shapes/cursors/DragCursor";
-import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import DrawerBlockShape from "../components/shapes/DrawerBlockShape";
 import DrawerShape from "../components/shapes/DrawerShape";
@@ -16,7 +15,7 @@ import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
 import { TwoPanelDimensionCreateHandler } from "../handlers/TwoPanelDimensionCreateHandler";
 import { Status } from "./functions";
-import { bringSelectedToFront, deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, SelectionSet, selectAllChildrenFasades, selectAllJointedPanels, updateParallelPanels } from "./panels";
+import { bringSelectedToFront, deleteAllLinksToPanels, distribute, divideFasadesHor, divideFasadesVert, selectAllChildrenFasades, selectAllJointedPanels, updateParallelPanels } from "./panels";
 import { SingleFasadeDimensionCreateHandler } from "../handlers/SingleFasadeDimensionCreateHandler";
 
 export default function panelReducer(state, action) {

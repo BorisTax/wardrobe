@@ -128,3 +128,11 @@ body {
   grid-template-columns: 1fr 2fr;
   justify-items: start;
 }
+
+.propertyContent {
+  display: grid;
+  column-gap: 0.5em;
+  -ms-grid-column-align: end;
+  grid-template-columns: fit-content(100%) 2fr;
+  justify-items: start;
+}

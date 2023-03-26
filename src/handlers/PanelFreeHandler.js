@@ -5,7 +5,6 @@ import { setCurCoord } from "../functions/viewPortFunctions";
 import Geometry from "../utils/geometry";
 import ResizeCursor from "../components/shapes/cursors/ResizeCursor";
 import { PanelSelectRectHandler } from "./PanelSelectRectHandler";
-import { SelectionSet } from "../reducers/panels";
 export class PanelFreeHandler extends MouseHandler {
     constructor(state) {
         super(state);

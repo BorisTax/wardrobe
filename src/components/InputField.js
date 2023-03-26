@@ -31,6 +31,7 @@ export default function InputField(props) {
     const className = ((state.value !== state.prevValue) ? "input-cell-incorrect" : "input-cell") + (props.active?" active-input":"")
 
     return <input
+        type="text"
         className={className}
         disabled={props.disabled}
         value={state.value}

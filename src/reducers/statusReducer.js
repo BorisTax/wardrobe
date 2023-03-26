@@ -7,7 +7,6 @@ import { PanelFreeHandler } from "../handlers/PanelFreeHandler";
 import { StatusPanHandler } from "../handlers/StatusPanHandler";
 import { Status } from "./functions";
 import { WORKSPACE } from "./initialState";
-import { SelectionSet } from "./panels";
 
 export default function statusReducer(state, action) {
     switch (action.type) {

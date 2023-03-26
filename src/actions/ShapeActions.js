@@ -110,12 +110,6 @@ export const ShapeActions = {
             payload: count
         };
     },
-    divideFasadVert: (count) => {
-        return {
-            type: ShapeActions.DIVIDE_FASAD_VERT,
-            payload: count
-        };
-    },
     fixLength: (min, max) => {
         return {
             type: ShapeActions.FIX_LENGTH,

@@ -1,7 +1,6 @@
 import DoublePanelShape from "../components/shapes/DoublePanelShape"
 import FasadeShape from "../components/shapes/FasadeShape"
 import PanelShape from "../components/shapes/PanelShape"
-import { SelectionSet } from "./panels"
 
 export function createNewState({ wardrobe }) {
     if (!wardrobe) return { wardrobe: {}, panels: [] }
@@ -79,10 +78,10 @@ export function createNewState({ wardrobe }) {
 
 export function createFasades({ wardrobe }) {
     const width = getFasadeWidth(wardrobe.width, wardrobe.fasadeCount)
-    const length = wardrobe.height - 157
+    const height = wardrobe.height - 157
     const fasades = []
     for(let i=0; i < wardrobe.fasadeCount; i++)
-        fasades.push(new FasadeShape({length, width, position: {x: i * width, y: 0}, deletable: false }))
+        fasades.push(new FasadeShape({height, width, position: {x: i * width, y: 0}, deletable: false }))
     return fasades
 }
 

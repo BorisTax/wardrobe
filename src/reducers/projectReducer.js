@@ -9,7 +9,6 @@ import { getNewDate } from "./functions";
 import { getInitialState, WORKSPACE } from "./initialState";
 import { exportProject } from "./printPdf";
 import { FasadeFreeHandler } from "../handlers/FasadeFreeHandler";
-import { SelectionSet } from "./panels";
 
 export default function projectReducer(state, action) {
     switch (action.type) {

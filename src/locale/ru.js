@@ -133,6 +133,7 @@ export const captions = {
       "selected": "Выделено объектов: ",
       "name": "Название",
       "length": "Длина",
+      "height": "Высота",
       "drawerWidth": "Ширина проема",
       "depth": "Глубина",
       "width": "Ширина",
