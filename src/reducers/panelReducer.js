@@ -212,6 +212,14 @@ export default function panelReducer(state, action) {
             state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.fixLength(action.payload) })
             return { result: true, newState: { ...state } };
 
+        case ShapeActions.FIX_WIDTH:
+            state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.fixWidth(action.payload) })
+            return { result: true, newState: { ...state } };
+
+        case ShapeActions.FIX_HEIGHT:
+            state.selectedPanels.forEach(p => { if (p.type !== Shape.DIMENSION) p.fixHeight(action.payload) })
+            return { result: true, newState: { ...state } };
+        
         case ShapeActions.MOVE_PANEL:
             newState = {
                 ...state, curShape: action.payload.panel,

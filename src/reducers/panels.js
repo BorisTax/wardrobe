@@ -1,12 +1,13 @@
 import FasadeShape from "../components/shapes/FasadeShape";
 import Shape from "../components/shapes/Shape";
 import { WORKSPACE } from "./initialState";
+import { FasadBase } from "./materialReducer";
 
 export class SelectionSet extends Set{
     add(item){
       const res = super.add(item)
       if(item && item.onAddToSelection) item.onAddToSelection(res)
-      return res
+      return res 
     }
     delete(item){
       const res = super.delete(item)
@@ -86,7 +87,7 @@ export function divideFasadesHor(fasades, count){
   const newFasades = new Set()
   for(let f of fasades){
     if (f.level > 2) continue
-    const profile = f.base === FasadeShape.DSP ? 1 : 3
+    const profile = f.base === FasadBase.DSP ? 1 : 3
     const partLen = Math.round((f.height - profile * (count - 1)) / count )
     let total = 0
     let pos = f.getPosition()
@@ -122,7 +123,7 @@ export function divideFasadesVert(fasades, count){
   const newFasades = new Set()
   for(let f of fasades){
     if (f.level > 2) continue
-    const profile = f.base === FasadeShape.DSP ? 1 : 3
+    const profile = f.base === FasadBase.DSP ? 1 : 3
     const partWidth = Math.round((f.width - profile * (count - 1)) / count )
     let total = 0
     let pos = f.getPosition()
@@ -155,10 +156,10 @@ export function divideFasadesVert(fasades, count){
 }
 
 export function getProfile(base1, base2){
-  if(base1 === FasadeShape.DSP && base2 === FasadeShape.DSP) return 1
+  if(base1 === FasadBase.DSP && base2 === FasadBase.DSP) return 1
   return 3
   //if(type1 !== type2) return 3
-  //if(type1 === FasadeShape.GLASS && type2 === FasadeShape.GLASS) return 3
+  //if(type1 === FasadBase.GLASS && type2 === FasadBase.GLASS) return 3
 }
 
 export function selectAllChildrenFasades(selected){

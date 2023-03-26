@@ -201,6 +201,27 @@ $table_icon_height: 35px;
   background-image: url($icon-url+'unlock_maxlength.svg');
 }
 
+
+.lock_width_button_pressed {
+  @include property_button;
+  background-image: url($icon-url+'lock_width.png');
+}
+
+.lock_width_button_unpressed {
+  @include property_button;
+  background-image: url($icon-url+'unlock_width.png');
+}
+
+.lock_height_button_pressed {
+  @include property_button;
+  background-image: url($icon-url+'lock_height.png');
+}
+
+.lock_height_button_unpressed {
+  @include property_button;
+  background-image: url($icon-url+'unlock_height.png');
+}
+
 .deletebutton {
   @include property_button;
   background-image: url($icon-url+'delete.png');

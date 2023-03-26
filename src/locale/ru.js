@@ -99,6 +99,12 @@ export const captions = {
         "width": "Цвет ДСП",
         "depth": "Глубина",
         "height": "Высота",
+        "fasadBases" : {
+          "DSP": "ДСП",
+          "MIRROR": "Зеркало",
+          "SAND": "Песок",
+          "LACOBEL": "Лакобель",
+        }
       }
 
     },
@@ -137,7 +143,12 @@ export const captions = {
       "drawerWidth": "Ширина проема",
       "depth": "Глубина",
       "width": "Ширина",
+      "base": "Основа",
       "nodrill": "Не сверлить",
+      "lock_width": "Зафиксировать ширину",
+      "unlock_width": "Разблокировать ширину",
+      "lock_height": "Зафиксировать высоту",
+      "unlock_height": "Разблокировать высоту",
       "lock_move": "Блокировать перемещение",
       "unlock_move": "Разблокировать перемещение",
       "lock_minlength": "Сделать текущий размер минимальным",

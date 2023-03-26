@@ -32,6 +32,8 @@ export function getActions(dispatch) {
         divideFasadVert: (count) => dispatch(ShapeActions.divideFasadVert(count)),
         distribute: () => dispatch(ShapeActions.distribute()),
         fixLength: (min, max) => dispatch(ShapeActions.fixLength(min, max)),
+        fixWidth: (fix) => dispatch(ShapeActions.fixWidth(fix)),
+        fixHeight: (fix) => dispatch(ShapeActions.fixHeight(fix)),
         loadMaterials: () => dispatch(ModelActions.loadMaterials(dispatch)),
         logout: () => dispatch(UserActions.logout()),
         movePanel: (panel, movePoint) => dispatch(ShapeActions.movePanel(panel, movePoint)),

@@ -16,6 +16,8 @@ export const ShapeActions = {
     DIVIDE_FASAD_HOR: "DIVIDE_FASAD_HOR",
     DIVIDE_FASAD_VERT: "DIVIDE_FASAD_VERT",
     FIX_LENGTH: "FIX_LENGTH",
+    FIX_WIDTH: "FIX_WIDTH",
+    FIX_HEIGHT: "FIX_HEIGHT",
     MOVE_PANEL: "MOVE_PANEL",
     SELECT_PANEL: 'SELECT_PANEL',
     SELECT_PARENT: 'SELECT_PARENT',
@@ -114,6 +116,18 @@ export const ShapeActions = {
         return {
             type: ShapeActions.FIX_LENGTH,
             payload: {min, max}
+        };
+    },
+    fixWidth: (fix) => {
+        return {
+            type: ShapeActions.FIX_WIDTH,
+            payload: fix
+        };
+    },
+    fixHeight: (fix) => {
+        return {
+            type: ShapeActions.FIX_HEIGHT,
+            payload: fix
         };
     },
     movePanel: (panel, movePoint) => {

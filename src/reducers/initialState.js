@@ -6,6 +6,7 @@ import { getViewPortState } from "../components/ViewPortContainer";
 import { createFasades, createNewState } from "./createNewState";
 import { getButtonPressed } from "./panelReducer";
 import { SelectionSet } from "./panels";
+import { getFasadBases } from "./materialReducer";
 
 var user = { name: "", activated: false };
 var token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -44,6 +45,7 @@ export function getInitialState(data) {
     information: { order: "", plan: "", currentDate: getNewDate() },
     materials: {
       DSPColors: ["венге магия","дуб сонома", "белый110"],
+      fasadBases: getFasadBases(),
       activeDSPColorIndex: 0
     },
     resetView: panels.length > 0,

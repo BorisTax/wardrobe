@@ -1,5 +1,13 @@
 import { ModelActions } from "../actions/ModelActions";
 
+export const FasadBase = {
+    DSP: "DSP",
+    MIRROR: "MIRROR",
+    SAND: "SAND",
+    LACOBEL: "LACOBEL"
+}
+export const getFasadBases = () => [FasadBase.DSP, FasadBase.MIRROR, FasadBase.SAND, FasadBase.LACOBEL]
+
 export default function materialReducer(state, action){
     switch (action.type){
         case ModelActions.SET_MATERIAL:
