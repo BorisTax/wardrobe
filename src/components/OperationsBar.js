@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import useActions from '../customHooks/useActions';
 import { canBeDistributed } from '../reducers/panels';
-import ToolButton from './ToolButton';
+import ToolButton, { ToolButtonType } from './ToolButton';
 import ToolButtonBar from './ToolButtonBar';
 
 export default function OperationsBar(){
@@ -12,8 +12,8 @@ export default function OperationsBar(){
     const distributeEnabled = canBeDistributed(selected)
     return <>
         <ToolButtonBar>
-            <ToolButton icon="resetView" title={captions.resetView} onClick={()=>{appActions.resetView()}}/>
-            <ToolButton icon="distribute" disabled={!distributeEnabled} title={captions.distribute} onClick={()=>{appActions.distribute()}}/>
+            <ToolButton icon="resetView" title={captions.resetView} type={ToolButtonType.INSTRUMENTS} onClick={()=>{appActions.resetView()}}/>
+            <ToolButton icon="distribute" disabled={!distributeEnabled} type={ToolButtonType.INSTRUMENTS} title={captions.distribute} onClick={()=>{appActions.distribute()}}/>
         </ToolButtonBar>
         </>
 }

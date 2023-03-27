@@ -12,5 +12,5 @@ export default function Counter(props){
             props.setValue(props.value+1)
         }
         }}/>
-    return <span style={{display:"flex",alignItems:"center"}}>{decreaseButton}{props.value}{increaseButton}</span>
+    return <span style={{display:"flex",alignItems:"center", flexDirection: props.vertical ? "column" : "row"}}>{increaseButton}{props.value}{decreaseButton}</span>
 }

@@ -242,6 +242,7 @@ export default class PanelShape extends Shape {
         { result: true, newX: x, newY: y - maxLengthDelta, dx, dy: dy - maxLengthDelta }
     })
     result.sort((r1, r2) => r1.delta - r2.delta)
+    console.log(result)
     if (result[0].delta < 0) return result[0].result
     return { result: false, newX: x, newY: y, dx, dy };
   }

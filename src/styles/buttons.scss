@@ -164,12 +164,12 @@ $table_icon_height: 35px;
 
 .lockmovebutton_pressed {
   @include property_button;
-  background-image: url($icon-url+'lock_move.svg');
+  background-image: url($icon-url+'lock_move.png');
 }
 
 .lockmovebutton_unpressed {
   @include property_button;
-  background-image: url($icon-url+'unlock_move.svg');
+  background-image: url($icon-url+'unlock_move.png');
 }
 
 .locklengthbutton_pressed {
@@ -183,22 +183,22 @@ $table_icon_height: 35px;
 }
 .lockminlengthbutton_pressed {
   @include property_button;
-  background-image: url($icon-url+'lock_minlength.svg');
+  background-image: url($icon-url+'lock_minlength.png');
 }
 
 .lockminlengthbutton_unpressed {
   @include property_button;
-  background-image: url($icon-url+'unlock_minlength.svg');
+  background-image: url($icon-url+'unlock_minlength.png');
 }
 
 .lockmaxlengthbutton_pressed {
   @include property_button;
-  background-image: url($icon-url+'lock_maxlength.svg');
+  background-image: url($icon-url+'lock_maxlength.png');
 }
 
 .lockmaxlengthbutton_unpressed {
   @include property_button;
-  background-image: url($icon-url+'unlock_maxlength.svg');
+  background-image: url($icon-url+'unlock_maxlength.png');
 }
 
 
@@ -324,6 +324,7 @@ $table_icon_height: 35px;
   background-image: url($icon-url+'fasade_width_dimension.svg');
   @include instruments_button();
 }
+
 .resetView {
   background-image: url($icon-url+'resetView.svg');
   @include instruments_button();
