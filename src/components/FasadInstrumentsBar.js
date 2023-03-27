@@ -13,8 +13,8 @@ export default function FasadInstrumentsBar() {
     const captions = useSelector(store => store.captions.toolbars.instruments)
     const selected = Array.from(useSelector(store => store).selectedPanels)
     const selectedPanels = selected.filter(p => p.type !== Shape.DIMENSION)
-    const horDivideEnable = selectedPanels.every(p => !(p.parent && (p.parent.divided === FasadeShape.HOR)) && p.level < 3 && !p.hasChildren())
-    const vertDivideEnable = selectedPanels.every(p => !(p.parent && (p.parent.divided === FasadeShape.VERT)) && p.level < 3 && !p.hasChildren())
+    const horDivideEnable = selectedPanels.every(p => !(p.parent && (p.parent.divided === FasadeShape.HOR)) && p.level < 3 )
+    const vertDivideEnable = selectedPanels.every(p => !(p.parent && (p.parent.divided === FasadeShape.VERT)) && p.level < 3 )
     
     const pressedStyle = { pressedStyle: "instruments_button_pressed", unpressedStyle: "instruments_button_unpressed" }
     return <>

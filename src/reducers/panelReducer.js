@@ -196,12 +196,14 @@ export default function panelReducer(state, action) {
             return { result: true, newState: { ...state } };
 
         case ShapeActions.DIVIDE_FASAD_HOR:
+            state.selectedPanels.forEach(s => s.deleteAllChildren(state.fasades))
             let newFasades = divideFasadesHor(state.selectedPanels, action.payload)
             newFasades.forEach(f => state.fasades.add(f))
             state.selectedPanels.clear()
             return { result: true, newState: { ...state } };
     
         case ShapeActions.DIVIDE_FASAD_VERT:
+            state.selectedPanels.forEach(s => s.deleteAllChildren(state.fasades))
             newFasades = divideFasadesVert(state.selectedPanels, action.payload)
             newFasades.forEach(f => state.fasades.add(f))
             state.selectedPanels.clear()
