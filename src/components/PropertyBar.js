@@ -43,8 +43,8 @@ export default function PropertyBar() {
     <ToolButtonBar>
       <MoveButtonsPanel/>
       <ToolButton key = {1} title={fixed_move ? captions.unlock_move : captions.lock_move} disabled={noFix} pressed={fixed_move} pressedStyle={"lockmovebutton_pressed"} unpressedStyle={"lockmovebutton_unpressed"} onClick={() => { appActions.setPanelState({ fixed_move: !fixed_move }) }} />
-      <ToolButton key = {2} title={fixedLengthMin ? captions.unlock_minlength : captions.lock_minlength} disabled={noFix} pressed={fixedLengthMin} pressedStyle={"lockminlengthbutton_pressed"} unpressedStyle={"lockminlengthbutton_unpressed"} onClick={() => { appActions.fixLength(!fixedLengthMin, fixedLengthMax) }} />
-      <ToolButton key = {3} title={fixedLengthMax ? captions.unlock_maxlength : captions.lock_maxlength} disabled={noFix} pressed={fixedLengthMax} pressedStyle={"lockmaxlengthbutton_pressed"} unpressedStyle={"lockmaxlengthbutton_unpressed"} onClick={() => { appActions.fixLength(fixedLengthMin, !fixedLengthMax) }} />
+      <ToolButton key = {2} title={fixedLengthMin ? captions.unlock_minlength : captions.lock_minlength} disabled={noFix} pressed={fixedLengthMin} pressedStyle={"lockminlengthbutton_pressed"} unpressedStyle={"lockminlengthbutton_unpressed"} onClick={() => { appActions.fixMinLength(!fixedLengthMin) }} />
+      <ToolButton key = {3} title={fixedLengthMax ? captions.unlock_maxlength : captions.lock_maxlength} disabled={noFix} pressed={fixedLengthMax} pressedStyle={"lockmaxlengthbutton_pressed"} unpressedStyle={"lockmaxlengthbutton_unpressed"} onClick={() => { appActions.fixMaxLength(!fixedLengthMax) }} />
       <ToolButton key = {4} title={captions.delete} disabled={noDelete} pressedStyle={"deletebutton"} unpressedStyle={"deletebutton"} onClick={() => { appActions.deleteSelectedConfirm({ isJoints }) }} />
     </ToolButtonBar>
   </div> : <></>

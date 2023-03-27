@@ -5,6 +5,7 @@ import { Color } from "../colors";
 import { getJointData, isPointInPanelArea } from "../../reducers/panels";
 import { PropertyTypes } from "./PropertyData";
 import { PlaceErrorMessages } from "./PlaceErrors";
+import { CustomPaths, getCustomPath } from "./shapes";
 export default class PanelShape extends Shape {
   type = Shape.PANEL;
   constructor(data) {
@@ -63,6 +64,11 @@ export default class PanelShape extends Shape {
     let x = topLeft.x
     let y = topLeft.y
     ctx.strokeRect(x, y, width, height);
+    if(!print && (this.state.fixedLength.max || this.state.fixedLength.min || this.state.fixed_move)) {
+      ctx.lineWidth = 1
+      const path = new Path2D(getCustomPath({x: x + width / 2, y: y + height / 2}, CustomPaths.LOCK))
+      ctx.fill(path);
+    }
     if(print) this.state = {...saveState}
   }
   refresh(realRect, screenRect) {
@@ -131,12 +137,14 @@ export default class PanelShape extends Shape {
     return this.length;
   }
 
-  fixLength({ min, max }) {
-    this.minLength = min ? this.length : this.defaultMinLength;
-    this.maxLength = max ? this.length : this.defaultMaxLength
-    this.state.fixedLength = { min, max }
+  fixMinLength(fix) {
+    this.minLength = fix ? this.length : this.defaultMinLength;
+    this.state.fixedLength.min = fix
   }
-
+  fixMaxLength(fix) {
+    this.maxLength = fix ? this.length : this.defaultMaxLength
+    this.state.fixedLength.max = fix
+  }
 
 
   moveTo(dx, dy, onGabaritChange = () => { }, doNotMove = false, prevPanel) {
@@ -242,7 +250,6 @@ export default class PanelShape extends Shape {
         { result: true, newX: x, newY: y - maxLengthDelta, dx, dy: dy - maxLengthDelta }
     })
     result.sort((r1, r2) => r1.delta - r2.delta)
-    console.log(result)
     if (result[0].delta < 0) return result[0].result
     return { result: false, newX: x, newY: y, dx, dy };
   }

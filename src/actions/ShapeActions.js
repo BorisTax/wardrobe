@@ -15,7 +15,8 @@ export const ShapeActions = {
     DISTRIBUTE: "DISTRIBUTE",
     DIVIDE_FASAD_HOR: "DIVIDE_FASAD_HOR",
     DIVIDE_FASAD_VERT: "DIVIDE_FASAD_VERT",
-    FIX_LENGTH: "FIX_LENGTH",
+    FIX_MIN_LENGTH: "FIX_MIN_LENGTH",
+    FIX_MAX_LENGTH: "FIX_MAX_LENGTH",
     FIX_WIDTH: "FIX_WIDTH",
     FIX_HEIGHT: "FIX_HEIGHT",
     MOVE_PANEL: "MOVE_PANEL",
@@ -112,10 +113,16 @@ export const ShapeActions = {
             payload: count
         };
     },
-    fixLength: (min, max) => {
+    fixMinLength: (fix) => {
         return {
-            type: ShapeActions.FIX_LENGTH,
-            payload: {min, max}
+            type: ShapeActions.FIX_MIN_LENGTH,
+            payload: fix
+        };
+    },
+    fixMaxLength: (fix) => {
+        return {
+            type: ShapeActions.FIX_MAX_LENGTH,
+            payload: fix
         };
     },
     fixWidth: (fix) => {
