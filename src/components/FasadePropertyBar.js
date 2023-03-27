@@ -29,10 +29,10 @@ export default function FasadePropertyBar() {
   }
   let noSelected = false
   if (selectedCount === 0) {
-    contents = captions.noselected
+    contents = captions.property.noselected
     noSelected = true
   }
-  if (selectedCount > 1) contents = captions.selected + selectedCount
+  if (selectedCount > 1) contents = captions.property.selected + selectedCount
   const propCaps = captions.property
   const buttons = !noSelected ? <div>
     <hr />

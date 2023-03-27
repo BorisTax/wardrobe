@@ -55,9 +55,12 @@ export default class FasadeShape extends Shape {
     ctx.strokeRect(x, y, width, height);
     if(this.caption) this.caption.drawSelf(ctx, realRect, screenRect, 14)
     if(!print && (this.state.fixedWidth || this.state.fixedHeight)) {
-      ctx.lineWidth=1
-      const path = new Path2D(getCustomPath({x: x + width/2, y: y + height/2}, CustomPaths.LOCK))
-      ctx.stroke(path);
+      ctx.lineWidth = 1
+      let lock = (this.state.fixedWidth && !this.state.fixedHeight) ? CustomPaths.LOCK_WIDTH : 0
+      lock = (!this.state.fixedWidth && this.state.fixedHeight) ? CustomPaths.LOCK_HEIGHT : lock
+      lock = (this.state.fixedWidth && this.state.fixedHeight) ? CustomPaths.LOCK_BOTH : lock
+      const path = new Path2D(getCustomPath({x: x + width / 2, y: y + height / 2}, lock))
+      ctx.fill(path);
     }
     if(print) this.state = {...saveState}
   }
