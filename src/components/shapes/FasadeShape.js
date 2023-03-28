@@ -16,9 +16,11 @@ export default class FasadeShape extends Shape {
     this.height = data.height;
     this.width = data.width;
     this.level = data.level === undefined ? 0 : data.level;
-    if (this.level === 0) this.caption = new TextShape('ФАСАД', {x: data.position.x + data.width / 2, y: data.position.y - 50})
     this.parent = data.parent;
     this.base = data.base === undefined ? FasadBase.MIRROR : data.base;
+    if (this.level === 0) this.caption = new TextShape('ФАСАД', {x: data.position.x + data.width / 2, y: data.position.y - 50})
+    const orientation = (this.parent && this.parent.divided) || FasadeShape.HOR
+    this.baseCaption = new TextShape(this.base, {x:0, y:0}, orientation === FasadeShape.HOR ? 0 : -Math.PI / 2)
     this.children = []
     this.divided = data.divided
     this.minHeight = 100
@@ -57,16 +59,17 @@ export default class FasadeShape extends Shape {
       { key: "base", 
         type: PropertyTypes.LIST, 
         items: (captions) => getFasadBases().map(b => captions.info.materials.fasadBases[b]), 
-        editable: () => !this.isCombi(), 
-        getValue: (captions) => (this.isCombi() ? captions.info.materials.combi : captions.info.materials.fasadBases[this.base]), 
+        editable: () => !this.hasChildren(), 
+        getValue: (captions) => (this.isCombi() ? captions.info.materials.combi : captions.info.materials.fasadBases[this.getBase()]), 
         setValue: (index) => {this.preSetBase(getFasadBases()[index])}},
     ]
   }
 
-  drawSelf(ctx, realRect, screenRect, print = false) {
+  draw(ctx, realRect, screenRect, print = false, captions) {
+    this.captions = captions
     let saveState = {...this.state}
     if(print) this.state = {...this.state, selected: false, highlighted: false}  
-    super.drawSelf(ctx, realRect, screenRect);
+    super.draw(ctx, realRect, screenRect);
     const topLeft = Geometry.realToScreen(this.rect, realRect, screenRect);
     const bottomRight = Geometry.realToScreen(this.rect.last, realRect, screenRect);
     const width = bottomRight.x - topLeft.x;
@@ -74,7 +77,8 @@ export default class FasadeShape extends Shape {
     let x = topLeft.x
     let y = topLeft.y
     ctx.strokeRect(x, y, width, height);
-    if(this.caption) this.caption.drawSelf(ctx, realRect, screenRect, 14)
+    if(this.caption) this.caption.draw(ctx, realRect, screenRect, 14)
+    if(this.baseCaption && !this.hasChildren()) this.baseCaption.draw(ctx, realRect, screenRect)
     if(!print && (this.state.fixedWidth || this.state.fixedHeight)) {
       ctx.lineWidth = 1
       let lock = (this.state.fixedWidth && !this.state.fixedHeight) ? CustomPaths.LOCK_WIDTH : 0
@@ -85,6 +89,7 @@ export default class FasadeShape extends Shape {
     }
     if(print) this.state = {...saveState}
   }
+
   refresh(realRect, screenRect) {
     this.rect.height = this.height;
     this.rect.width = this.width;
@@ -92,6 +97,14 @@ export default class FasadeShape extends Shape {
       x: this.rect.x + this.rect.width,
       y: this.rect.y + this.rect.height,
     };
+    if(this.baseCaption){
+      const width  = Geometry.realToScreenLength(this.width, realRect.bottomRight.x - realRect.topLeft.x, screenRect.width)
+      const height  = Geometry.realToScreenLength(this.height, realRect.bottomRight.x - realRect.topLeft.x, screenRect.width)
+      const text = this.captions && this.captions.toolbars.info.materials.fasadBases[this.base]
+      this.baseCaption.setText(text || this.base)
+      this.baseCaption.setFitRect({width, height})
+      this.baseCaption.setPoint({x: (this.rect.x + this.rect.last.x) / 2, y: (this.rect.y + this.rect.last.y) / 2})
+    }
   }
 
   fixWidth(fix){
@@ -273,6 +286,10 @@ export default class FasadeShape extends Shape {
     this.parent.applyChanges()
   }
 
+  getBase(){
+    return this.hasChildren() ? this.children[0].base : this.base
+  }
+
   checkHeight(height){
     if(height < this.minHeight) return false
     if(this.state.fixedHeight && height !== this.height) return false
@@ -391,7 +408,7 @@ export default class FasadeShape extends Shape {
   }
 
   isUnderCursor(p, pixelRatio) {
-    const mult = 2;
+    const mult = 1;
     return (
       p.x >= this.rect.x - pixelRatio * mult &&
       p.x <= this.rect.x + this.rect.width + pixelRatio * mult &&

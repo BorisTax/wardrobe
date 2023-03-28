@@ -6,8 +6,8 @@ export default class SingleFasadeDimension extends Dimension {
         this.fasade = fasade
         this.vertical = vertical
     }
-    drawSelf(ctx, realRect, screenRect, print = false) {
-        super.drawSelf(ctx, realRect, screenRect, print)
+    draw(ctx, realRect, screenRect, print = false) {
+        super.draw(ctx, realRect, screenRect, print)
     }
     refresh() {
         const { firstPoint, secondPoint } = this.fasade.getSingleDimensionData(this.vertical)

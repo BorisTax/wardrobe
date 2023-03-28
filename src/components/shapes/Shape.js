@@ -33,7 +33,7 @@ export default class Shape {
         ctx.setLineDash(this.getStyle().getStroke());
         ctx.lineWidth = this.getStyle().getWidth();
     }
-    drawSelf(ctx, realRect, screenRect) {
+    draw(ctx, realRect, screenRect) {
         this.refresh(realRect, screenRect);
         this.refreshStyle(ctx)
     }

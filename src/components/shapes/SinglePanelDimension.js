@@ -5,8 +5,8 @@ export default class SinglePanelDimension extends Dimension {
         super({ vertical, firstPoint, secondPoint });
         this.panel = panel
     }
-    drawSelf(ctx, realRect, screenRect, print = false) {
-        super.drawSelf(ctx, realRect, screenRect, print)
+    draw(ctx, realRect, screenRect, print = false) {
+        super.draw(ctx, realRect, screenRect, print)
     }
     refresh() {
         const { firstPoint, secondPoint } = this.panel.getSingleDimensionData()

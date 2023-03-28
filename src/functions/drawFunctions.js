@@ -17,15 +17,15 @@ export function paint(ctx, viewPortData, appData, print = false) {
     
     for (let dimension of dimensions) {
         //dimension.setState({selected: appData.selectedPanels.has(dimension)})
-        dimension.drawSelf(ctx, realRect, screenRect, print);
+        dimension.draw(ctx, realRect, screenRect, print);
     }
     for (let shape of panels) {
         //shape.setState({selected: appData.selectedPanels.has(shape)})
-        if(!shape.hasChildren() || appData.selectedPanels.has(shape) || shape.level === 0) shape.drawSelf(ctx, realRect, screenRect, print);
+        if(!shape.hasChildren() || appData.selectedPanels.has(shape) || shape.level === 0) shape.draw(ctx, realRect, screenRect, print, appData.captions);
     }
     let curShape = appData.mouseHandler.curShape;
-    if (curShape != null) curShape.drawSelf(ctx, realRect, screenRect);
-    if (appData.curShape != null) appData.curShape.drawSelf(ctx, realRect, screenRect);
+    if (curShape != null) curShape.draw(ctx, realRect, screenRect);
+    if (appData.curShape != null) appData.curShape.draw(ctx, realRect, screenRect);
     ctx.lineWidth = 1;
     ctx.setLineDash(ShapeStyle.SOLID);
     ctx.fillStyle = color;
@@ -41,7 +41,7 @@ export function paint(ctx, viewPortData, appData, print = false) {
     ctx.lineWidth = 1;
     if (!appData.isMobile && appData.mouseHandler.mouseOnScreen) {
         appData.cursor.setPosition(viewPortData.curRealPoint);
-        appData.cursor.drawSelf(ctx, realRect, screenRect);
+        appData.cursor.draw(ctx, realRect, screenRect);
     }
 
 }

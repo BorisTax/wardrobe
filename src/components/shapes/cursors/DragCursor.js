@@ -5,7 +5,7 @@ export default class DragCursor extends Cursor{
     static NODRAG = "NODRAG"
     type = DragCursor.DRAG
     hint = ""
-    drawSelf(ctx, realRect,  screenRect){
+    draw(ctx, realRect,  screenRect){
         this.refresh(realRect,screenRect);
         ctx.strokeStyle=this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());

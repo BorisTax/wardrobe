@@ -29,12 +29,12 @@ export default class MeasureShape extends Shape{
         ]
         this.defineProperties();
     }
-    drawSelf(ctx, realRect, screenRect) {
-        super.drawSelf(ctx,realRect, screenRect)
-        this.outerRect.drawSelf(ctx, realRect, screenRect)
+    draw(ctx, realRect, screenRect) {
+        super.draw(ctx,realRect, screenRect)
+        this.outerRect.draw(ctx, realRect, screenRect)
         if(this.state.selected||this.state.highlighted){this.innerRect.getStyle().setWidth(2)}else{this.innerRect.getStyle().setWidth(1)}
-        this.innerRect.drawSelf(ctx, realRect, screenRect)
-        this.captionShape.drawSelf(ctx, realRect, screenRect)
+        this.innerRect.draw(ctx, realRect, screenRect)
+        this.captionShape.draw(ctx, realRect, screenRect)
     }
     refresh(realRect, screenRect){
         let color=Color.BLACK

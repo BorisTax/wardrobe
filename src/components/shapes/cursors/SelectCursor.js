@@ -2,7 +2,7 @@ import Cursor from "./Cursor";
 
 export default class SelectCursor extends Cursor{
 
-    drawSelf(ctx, realRect,  screenRect){
+    draw(ctx, realRect,  screenRect){
         this.refresh(realRect,screenRect);
         ctx.strokeStyle=this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());

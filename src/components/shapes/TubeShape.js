@@ -13,7 +13,7 @@ export default class TubeShape extends PanelShape {
         ]
     }
 
-    drawSelf(ctx, realRect, screenRect, print = false) {
+    draw(ctx, realRect, screenRect, print = false) {
         if (this.state.hidden) return
         this.refresh(realRect, screenRect);
         this.refreshStyle(ctx)

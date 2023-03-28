@@ -13,8 +13,8 @@ export default class RectangleShape extends Shape {
         //this.defineProperties();
     }
 
-    drawSelf(ctx, realRect, screenRect, fill = false) {
-        super.drawSelf(ctx, realRect, screenRect)
+    draw(ctx, realRect, screenRect, fill = false) {
+        super.draw(ctx, realRect, screenRect)
         let x = this.rect.topLeft.x
         let y = this.rect.topLeft.y
         if (fill) {

@@ -41,7 +41,6 @@ export class FasadeSelectRectHandler extends MouseHandler {
         appData.fasades = bringSelectedToFront(appData.fasades, appData.selectedPanels)
     }
     up({ button, appActions }) {
-
     }
     keypress(code) {
         return super.keypress(code)

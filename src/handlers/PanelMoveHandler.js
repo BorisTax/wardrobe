@@ -3,8 +3,9 @@ import { PropertyTypes } from "../components/shapes/PropertyData";
 import Geometry from "../utils/geometry";
 import { Status } from "../reducers/functions";
 import { setCurCoord } from "../functions/viewPortFunctions";
-import { moveSelectedPanels, setWardrobeDimensions } from "../reducers/panels";
+import { moveSelectedPanels, SelectionSet, setWardrobeDimensions } from "../reducers/panels";
 import { WORKSPACE } from "../reducers/initialState";
+import Shape from '../components/shapes/Shape' 
 export class PanelMoveHandler extends MouseHandler {
     constructor(state, newPanel, movePoint) {
         super(state);
@@ -19,6 +20,16 @@ export class PanelMoveHandler extends MouseHandler {
         }
         this.panels = state.panels
         this.activeShape = state.curShape
+        let filterFunc
+        switch (this.activeShape.type) {
+            case Shape.DIMENSION:
+                filterFunc = s => s.type === Shape.DIMENSION && s === this.activeShape
+                break;
+            default:
+                filterFunc = s => s.type !== Shape.DIMENSION
+                break;
+        }
+        state.selectedPanels = new SelectionSet(Array.from(state.selectedPanels).filter(filterFunc));
         this.newPanel = newPanel;
         if (this.newPanel) this.panels = [...state.panels, state.curShape];
         this.curShape = state.curShape;

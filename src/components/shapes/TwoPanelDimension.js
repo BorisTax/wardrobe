@@ -6,8 +6,8 @@ export default class TwoPanelDimension extends Dimension {
         this.panel2 = panel2
         this.inside = inside
     }
-    drawSelf(ctx, realRect, screenRect, print = false) {
-        super.drawSelf(ctx, realRect, screenRect, print)
+    draw(ctx, realRect, screenRect, print = false) {
+        super.draw(ctx, realRect, screenRect, print)
     }
     refresh() {
         ({ firstPoint: this.firstPoint, secondPoint: this.secondPoint, midPoint: this.midPoint } = TwoPanelDimension.getPoints(this.panel1, this.panel2, this.inside))

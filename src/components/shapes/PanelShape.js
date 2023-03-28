@@ -52,11 +52,11 @@ export default class PanelShape extends Shape {
     ]
   }
 
-  drawSelf(ctx, realRect, screenRect, print = false) {
+  draw(ctx, realRect, screenRect, print = false) {
     if (this.state.hidden) return;
     let saveState = {...this.state}
     if(print) this.state = {...this.state, selected: false, highlighted: false}  
-    super.drawSelf(ctx, realRect, screenRect);
+    super.draw(ctx, realRect, screenRect);
     const topLeft = Geometry.realToScreen(this.rect, realRect, screenRect);
     const bottomRight = Geometry.realToScreen(this.rect.last, realRect, screenRect);
     const width = bottomRight.x - topLeft.x;

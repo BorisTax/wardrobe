@@ -72,11 +72,11 @@ export function printToPDF(state, save) {
         ({ height } = title.getTextRect(ctx, `${font}px serif`))
         h += height;
         title.setPoint(Geometry.screenToReal(widthMargin, h, screenRect.width, screenRect.height, realRect.topLeft, realRect.bottomRight))
-        title.drawSelf(ctx, realRect, screenRect, font)
+        title.draw(ctx, realRect, screenRect, font)
     }
     h += height;
     totalTableShape.model.topLeft = Geometry.screenToReal(widthMargin, h, screenRect.width, screenRect.height, realRect.topLeft, realRect.bottomRight)
-    totalTableShape.drawSelf(ctx, realRect, screenRect, tableFitRect, font);
+    totalTableShape.draw(ctx, realRect, screenRect, tableFitRect, font);
     var imgData = canv.toDataURL('image/png');
     doc.addImage(imgData, 'PNG', 10, 10);
 
@@ -118,15 +118,15 @@ export function printToPDF(state, save) {
             var { height: titleHeight } = title.getTextRect(ctx, "20px serif")
             h += titleHeight;
             title.setPoint({ x: t.outerRect.model.topLeft.x, y: t.outerRect.model.topLeft.y + Geometry.screenToRealLength(h, realRect.width, screenRect.width) })
-            title.drawSelf(ctx, realRect, screenRect, 20)
+            title.draw(ctx, realRect, screenRect, 20)
         }
-        t.drawSelf(ctx, realRect, screenRect, true, 0, 20)
+        t.draw(ctx, realRect, screenRect, true, 0, 20)
 
         for (let p of state.panels) {
             if (p.getTableId() === t.getId()) {
                 p.state.selected = false;
                 p.state.highlighted = false;
-                if (p.state.canBePlaced || p.model.placedForce) p.drawSelf(ctx, realRect, screenRect, true)
+                if (p.state.canBePlaced || p.model.placedForce) p.draw(ctx, realRect, screenRect, true)
             }
         }
         //ctx.scale(scale,scale)
@@ -136,7 +136,7 @@ export function printToPDF(state, save) {
             ({ height } = footer.getTextRect(ctx, "20px serif"))
             h += height;
             footer.setPoint({ x: t.outerRect.model.topLeft.x, y: t.outerRect.model.bottomRight.y - Geometry.screenToRealLength(h, realRect.width, screenRect.width) })
-            footer.drawSelf(ctx, realRect, screenRect, 20)
+            footer.draw(ctx, realRect, screenRect, 20)
         }
         imgData = canv.toDataURL('image/png');
         let dataUrlWithDpi = changeDpiDataUrl(imgData, 300)

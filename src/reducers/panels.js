@@ -87,6 +87,7 @@ export function divideFasadesHor(fasades, count){
   const newFasades = new Set()
   for(let f of fasades){
     if (f.level > 2) continue
+    f.divided = FasadeShape.HOR
     const profile = f.base === FasadBase.DSP ? 1 : 3
     const partLen = Math.round((f.height - profile * (count - 1)) / count )
     let total = 0
@@ -113,7 +114,7 @@ export function divideFasadesHor(fasades, count){
     let fasade = new FasadeShape(options)
     newFasades.add(fasade)
     f.children.push(fasade)
-    f.divided = FasadeShape.HOR
+    
     f.state.selectable = false
   }
   return newFasades
@@ -123,6 +124,7 @@ export function divideFasadesVert(fasades, count){
   const newFasades = new Set()
   for(let f of fasades){
     if (f.level > 2) continue
+    f.divided = FasadeShape.VERT
     const profile = f.base === FasadBase.DSP ? 1 : 3
     const partWidth = Math.round((f.width - profile * (count - 1)) / count )
     let total = 0
@@ -149,7 +151,7 @@ export function divideFasadesVert(fasades, count){
     let fasade = new FasadeShape(options)
     newFasades.add(fasade)
     f.children.push(fasade)
-    f.divided = FasadeShape.VERT
+    
     f.state.selectable = false
   }
   return newFasades

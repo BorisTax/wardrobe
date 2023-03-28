@@ -5,7 +5,7 @@ export default class DimensionCursor extends Cursor {
     static VERT = "vert"
     static HOR = "hor"
     type = DimensionCursor.ORD
-    drawSelf(ctx, realRect, screenRect) {
+    draw(ctx, realRect, screenRect) {
         this.refresh(realRect, screenRect);
         ctx.strokeStyle = this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());

@@ -21,20 +21,22 @@ export default class TextShape extends Shape {
     this.angle = angle;
     this.fitRect = { width: 1000, height: 1000 };
   }
-  drawSelf(ctx, realRect, screenRect, fontSize, vertical) {
-    super.drawSelf(ctx, realRect, screenRect);
+
+
+  draw(ctx, realRect, screenRect, fontSize, vertical) {
+    super.draw(ctx, realRect, screenRect);
     ctx.save();
 
     let basePoint = { ...this.p0 };
 
     var { width, height } = this.fitRect;
-    const fitWidth = Math.max(this.fitRect.width, this.fitRect.height);
-    const fitHeight = Math.min(this.fitRect.width, this.fitRect.height);
+    const fitWidth = this.fitRect.width//Math.max(this.fitRect.width, this.fitRect.height);
+    const fitHeight = this.fitRect.height//Math.min(this.fitRect.width, this.fitRect.height);
     if (!fontSize) {
       for (fontSize = 14; fontSize > 5; fontSize -= 1) {
         ctx.font = `${fontSize}px serif`;
         ({ width, height } = this.getTextRect(ctx, ctx.font));
-        if (fitWidth >= width && fitHeight >= height + 5) break;
+        if (fitWidth >= width && fitHeight >= height) break;
       }
       this.font = ctx.font;
     } else {

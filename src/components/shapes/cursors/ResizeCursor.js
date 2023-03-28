@@ -6,7 +6,7 @@ export default class ResizeCursor extends Cursor {
         super(point);
         this.vertical = !vertical;
     }
-    drawSelf(ctx, realRect, screenRect) {
+    draw(ctx, realRect, screenRect) {
         this.refresh(realRect, screenRect);
         ctx.strokeStyle = this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());
