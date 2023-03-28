@@ -35,10 +35,31 @@ export default class FasadeShape extends Shape {
     this.setStyle(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID));
     this.dimensions = new Set();
     this.properties = [
-      { key: "name", type: PropertyTypes.STRING, editable: () => false },
-      { key: "height", type: PropertyTypes.INTEGER_POSITIVE_NUMBER, editable: () => this.isHeightEditable(), extra: () => this.getHeightParts(), setValue: (value) => {this.setHeight(value)} },
-      { key: "width", type: PropertyTypes.INTEGER_POSITIVE_NUMBER, editable: () => this.isWidthEditable(), extra: () => this.getWidthParts(), setValue: (value) => {this.setWidth(value)}},
-      { key: "base", type: PropertyTypes.LIST, items: (captions) => getFasadBases().map(b => captions.info.materials.fasadBases[b]), editable: () => true, getValue: (value, captions) => captions.info.materials.fasadBases[value], setValue: (index) => {this.preSetBase(getFasadBases()[index])}},
+      { key: "name", 
+        type: PropertyTypes.STRING, 
+        editable: () => false, 
+        getValue: () => this.name
+      },
+      { key: "height", 
+        type: PropertyTypes.INTEGER_POSITIVE_NUMBER, 
+        editable: () => this.isHeightEditable(), 
+        extra: () => this.getHeightParts(), 
+        getValue: () => this.height, 
+        setValue: (value) => {this.setHeight(value)}
+      },
+      { key: "width", 
+        type: PropertyTypes.INTEGER_POSITIVE_NUMBER, 
+        editable: () => this.isWidthEditable(), 
+        extra: () => this.getWidthParts(), 
+        getValue: () => this.width, 
+        setValue: (value) => {this.setWidth(value)}
+      },
+      { key: "base", 
+        type: PropertyTypes.LIST, 
+        items: (captions) => getFasadBases().map(b => captions.info.materials.fasadBases[b]), 
+        editable: () => !this.isCombi(), 
+        getValue: (captions) => (this.isCombi() ? captions.info.materials.combi : captions.info.materials.fasadBases[this.base]), 
+        setValue: (index) => {this.preSetBase(getFasadBases()[index])}},
     ]
   }
 
@@ -125,6 +146,10 @@ export default class FasadeShape extends Shape {
     if(this.level === 0) return false
     if(this.state.fixedWidth) return false
     return this.parent.divided === FasadeShape.HOR ? this.level > 1: true 
+  }
+
+  isCombi(){
+    return this.hasChildren() && this.level === 0 && !this.children.every(c => c.base === this.children[0].base)
   }
 
   hasChildren(){

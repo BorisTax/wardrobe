@@ -99,6 +99,7 @@ export const captions = {
         "width": "Цвет ДСП",
         "depth": "Глубина",
         "height": "Высота",
+        "combi": "Комби",
         "fasadBases" : {
           "DSP": "ДСП",
           "MIRROR": "Зеркало",

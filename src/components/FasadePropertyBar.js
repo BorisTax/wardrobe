@@ -68,13 +68,13 @@ function getProperties(object, captions, updateState) {
 function getValueElement(p, captions, updateState) {
   if (p.editable()) {
     switch (p.type) {
-      case PropertyTypes.STRING: return <InputField type={p.type} value={p.value} setValue={(value) => { p.setValue(value); updateState() }} />
-      case PropertyTypes.INTEGER_POSITIVE_NUMBER: return <div><InputField type={p.type} value={p.value} setValue={(value) => { p.setValue(value); updateState() }} />{(p.extra && p.extra())? <span>{p.extra()}</span> : <></>}</div>
-      case PropertyTypes.BOOL: return <CheckBox value={p.value} onChange={(value) => { p.setValue(value); updateState() }} />
-      case PropertyTypes.LIST: return <ComboBox items={p.items(captions)} value={p.getValue(p.value, captions)} onChange={(index)=>{p.setValue(index); updateState()}} />
+      case PropertyTypes.STRING: return <InputField type={p.type} value={p.getValue()} setValue={(value) => { p.setValue(value); updateState() }} />
+      case PropertyTypes.INTEGER_POSITIVE_NUMBER: return <div><InputField type={p.type} value={p.getValue()} setValue={(value) => { p.setValue(value); updateState() }} />{(p.extra && p.extra())? <span>{p.extra()}</span> : <></>}</div>
+      case PropertyTypes.BOOL: return <CheckBox value={p.getValue()} onChange={(value) => { p.setValue(value); updateState() }} />
+      case PropertyTypes.LIST: return <ComboBox items={p.items(captions)} value={p.getValue(captions)} onChange={(index)=>{p.setValue(index); updateState()}} />
       default:
     }
   } else {
-    return <div>{p.value + (p.extra ? p.extra() : "")}</div>;
+    return <div>{p.getValue(captions) + (p.extra ? p.extra() : "")}</div>;
   }
 }
