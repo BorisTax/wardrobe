@@ -130,10 +130,13 @@ export default class FasadeShape extends Shape {
   hasChildren(){
     return this.children.length > 0
   }
-  deleteAllChildren(fasades){
+  deleteAllChildren(state){
     if(!this.hasChildren()) return
     const children = selectAllChildrenFasades(this.children)
-    children.forEach(c => fasades.delete(c))
+    children.forEach(c => {
+          state.fasades.delete(c); 
+          c.dimensions.forEach(d => state.fasadeDimensions.delete(d))
+        })
     this.children = []
   }
   resizeChildrenByHeight({initiator, newInitiatorHeight, newInitiatorBase, newParentHeight}){
@@ -155,7 +158,7 @@ export default class FasadeShape extends Shape {
     let total = 0
     let partSize
     for(let i = 0; i < ch.length - 1; i++) {
-      partSize = (ch[i] === initiator) ? (newInitiatorHeight || ch[i].height) : ch[i].height
+      partSize = (ch[i] === initiator) ? (newInitiatorHeight || partFreeSize) : ch[i].height
       if(ch[i] !== initiator && !ch[i].state.fixedHeight) partSize = partFreeSize
       if(!ch[i].checkHeight(partSize)) return false
       dy += partSize + profiles[i]
@@ -188,7 +191,7 @@ export default class FasadeShape extends Shape {
     let total = 0
     let partSize
     for(let i = 0; i < ch.length - 1; i++) {
-      partSize = (ch[i] === initiator) ? (newInitiatorWidth || ch[i].width) : ch[i].width
+      partSize = (ch[i] === initiator) ? (newInitiatorWidth || partFreeSize) : ch[i].width
       if(ch[i] !== initiator && !ch[i].state.fixedWidth) partSize = partFreeSize
       if(!ch[i].checkWidth(partSize)) return false
       dx += partSize + profiles[i]
@@ -205,19 +208,19 @@ export default class FasadeShape extends Shape {
   setHeight(height){
     if(this.parent.divided === FasadeShape.HOR) {
         const result = this.parent.resizeChildrenByHeight({initiator: this, newInitiatorHeight: height})
-        if(result) this.parent.applyChanges()
+        if(result) this.parent.applyChanges(); else this.discardChanges()
       }else{
         const result = this.parent.parent.resizeChildrenByHeight({initiator: this.parent, newInitiatorHeight: height})
-        if(result) this.parent.parent.applyChanges()
+        if(result) this.parent.parent.applyChanges(); else this.discardChanges()
       }
   }
   setWidth(width){
     if(this.parent.divided === FasadeShape.VERT) {
         const result = this.parent.resizeChildrenByWidth({initiator: this, newInitiatorWidth: width})
-        if(result) this.parent.applyChanges()
+        if(result) this.parent.applyChanges(); else this.discardChanges()
       }else{
         const result = this.parent.parent.resizeChildrenByWidth({initiator: this.parent, newInitiatorWidth: width})
-        if(result) this.parent.parent.applyChanges()
+        if(result) this.parent.parent.applyChanges(); else this.discardChanges()
       }
   }
 
@@ -240,7 +243,7 @@ export default class FasadeShape extends Shape {
       }else{
         result = this.parent.resizeChildrenByHeight({initiator: this, newInitiatorBase: base})
       }
-    if(!result) return
+    if(!result) return this.discardChanges()
     this.savedBase = base
     this.parent.applyChanges()
   }
@@ -310,11 +313,17 @@ export default class FasadeShape extends Shape {
       }
   }
 
+  discardChanges(){
+    this.savedHeight = null
+    this.savedWidth = null
+    this.savedBase = null
+  }
+
   getProfiles({initiator, newBase = initiator && initiator.base} = {}){
     let profiles = []
     for(let i=0; i < this.children.length - 1; i++) {
-      const base1 = this.children[i] === initiator ? newBase : (newBase || this.children[i].base)
-      const base2 = this.children[i + 1] === initiator ? newBase : (newBase || this.children[i + 1].base)
+      const base1 = this.children[i] === initiator ? (newBase || this.children[i].base) : this.children[i].base
+      const base2 = this.children[i + 1] === initiator ? (newBase || this.children[i + 1].base) : this.children[i + 1].base
       profiles.push(getProfile(base1, base2))
     }
     return profiles
