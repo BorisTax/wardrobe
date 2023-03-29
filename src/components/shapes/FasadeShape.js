@@ -7,6 +7,7 @@ import { PropertyTypes } from "./PropertyData";
 import TextShape from "./TextShape";
 import { FasadBase, getFasadBases } from "../../reducers/materialReducer";
 import { CustomPaths, getCustomPath } from "./shapes";
+import MultiTextShape from "./MultiTextShape";
 export default class FasadeShape extends Shape {
   static VERT = "vert"
   static HOR = "hor"
@@ -20,7 +21,7 @@ export default class FasadeShape extends Shape {
     this.base = data.base === undefined ? FasadBase.MIRROR : data.base;
     if (this.level === 0) this.caption = new TextShape('ФАСАД', {x: data.position.x + data.width / 2, y: data.position.y - 50})
     const orientation = (this.parent && this.parent.divided) || FasadeShape.HOR
-    this.baseCaption = new TextShape(this.base, {x:0, y:0}, orientation === FasadeShape.HOR ? 0 : -Math.PI / 2)
+    this.baseCaption = new MultiTextShape([this.base, " " + this.base + this.base], {x:0, y:0}, orientation === FasadeShape.HOR ? 0 : -Math.PI / 2)
     this.children = []
     this.divided = data.divided
     this.minHeight = 100
@@ -100,8 +101,9 @@ export default class FasadeShape extends Shape {
     if(this.baseCaption){
       const width  = Geometry.realToScreenLength(this.width, realRect.bottomRight.x - realRect.topLeft.x, screenRect.width)
       const height  = Geometry.realToScreenLength(this.height, realRect.bottomRight.x - realRect.topLeft.x, screenRect.width)
-      const text = this.captions && this.captions.toolbars.info.materials.fasadBases[this.base]
-      this.baseCaption.setText(text || this.base)
+      const text = (this.captions && this.captions.toolbars.info.materials.fasadBases[this.base]) || this.base
+
+      this.baseCaption.setText([text, " " + text + text])
       this.baseCaption.setFitRect({width, height})
       this.baseCaption.setPoint({x: (this.rect.x + this.rect.last.x) / 2, y: (this.rect.y + this.rect.last.y) / 2})
     }

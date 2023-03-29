@@ -91,6 +91,13 @@ export default class TextShape extends Shape {
         textMetrics.fontBoundingBoxDescent,
     };
   }
+  getRealTextRect(ctx, font, realRect, screenRect){
+    let {width, height} = this.getTextRect(ctx, font)
+    width = Geometry.screenToRealLength(width, realRect.bottomRight.x - realRect.topLeft.x, screenRect.width)
+    height = Geometry.screenToRealLength(height, realRect.bottomRight.x - realRect.topLeft.x, screenRect.width)
+    return {width, height}
+  }
+  
   refresh(realRect, screenRect) {
     this.p0 = Geometry.realToScreen(this.p, realRect, screenRect);
   }
