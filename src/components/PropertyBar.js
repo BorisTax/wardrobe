@@ -29,7 +29,7 @@ export default function PropertyBar() {
   let contents = <></>
   if (selectedCount === 1) {
     contents = <div className='gridContent'>
-      {getProperties(selected[0], captions, appActions.updateState)}
+      {getProperties(selected[0], appData, appActions.updateState)}
     </div>
   }
   let noSelected = false
@@ -54,14 +54,14 @@ export default function PropertyBar() {
   </ToolBar>
 }
 
-function getProperties(object, captions, updateState) {
+function getProperties(object, appData, updateState) {
   const props = [];
   for (let p of object.getProperties()) {
     if(p.hidden) continue
     const value = getValueElement(p, updateState);
     const prop = (
       <>
-        <div>{captions[p.key]}</div>
+        <div>{appData.captions.toolbars.property[p.key]}</div>
         {value}
       </>
     );

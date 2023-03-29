@@ -61,10 +61,6 @@ export const captions = {
   "toolbars": {
     "hide": "Свернуть",
     "unhide": "Развернуть",
-    "materials":{
-      "title":"Материалы",
-      "DSPColor" : "Цвет ДСП",
-    },
     "project": {
       "title": "Проект",
       "new": "Новый проект",
@@ -96,7 +92,9 @@ export const captions = {
       },
       "materials": {
         "title": "Материалы",
-        "width": "Цвет ДСП",
+        "dspMainColor": "Цвет корпуса ДСП",
+        "fasadBase": "Основа фасадов",
+        "fasadBaseColor": "Цвет фасадов",
         "depth": "Глубина",
         "height": "Высота",
         "combi": "Комби",
@@ -145,6 +143,7 @@ export const captions = {
       "depth": "Глубина",
       "width": "Ширина",
       "base": "Основа",
+      "baseColor": "Цвет/Материал/Код",
       "nodrill": "Не сверлить",
       "lock_width": "Зафиксировать ширину",
       "unlock_width": "Разблокировать ширину",

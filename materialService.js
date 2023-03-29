@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import emailValidator from 'deep-email-validator';
 
 export class MaterialService {
-    types = ['DSPColors']
+    types = ['DSP', 'MIRROR', 'LACOBEL', 'SAND']
     constructor(provider){
         this.provider = provider
     }

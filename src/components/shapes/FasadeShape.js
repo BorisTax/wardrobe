@@ -18,7 +18,8 @@ export default class FasadeShape extends Shape {
     this.width = data.width;
     this.level = data.level === undefined ? 0 : data.level;
     this.parent = data.parent;
-    this.base = data.base === undefined ? FasadBase.MIRROR : data.base;
+    this.base = data.base === undefined ? "" : data.base;
+    this.baseColor = data.baseColor === undefined ? FasadBase.MIRROR : data.baseColor;
     if (this.level === 0) this.caption = new TextShape('ФАСАД', {x: data.position.x + data.width / 2, y: data.position.y - 50})
     const orientation = (this.parent && this.parent.divided) || FasadeShape.HOR
     this.baseCaption = new MultiTextShape([this.base, " " + this.base + this.base], {x:0, y:0}, orientation === FasadeShape.HOR ? 0 : -Math.PI / 2)
@@ -59,10 +60,17 @@ export default class FasadeShape extends Shape {
       },
       { key: "base", 
         type: PropertyTypes.LIST, 
-        items: (captions) => getFasadBases().map(b => captions.info.materials.fasadBases[b]), 
+        items: (appData) => getFasadBases().map(b => appData.captions.toolbars.info.materials.fasadBases[b]), 
         editable: () => !this.hasChildren(), 
-        getValue: (captions) => (this.isCombi() ? captions.info.materials.combi : captions.info.materials.fasadBases[this.getBase()]), 
+        getValue: (appData) => (this.isCombi() ? appData.captions.toolbars.info.materials.combi : appData.captions.toolbars.info.materials.fasadBases[this.getBase()]), 
         setValue: (index) => {this.preSetBase(getFasadBases()[index])}},
+      { key: "baseColor", 
+        type: PropertyTypes.LIST, 
+        items: (appData) => appData.materials[this.base].map(m => m.name), 
+        editable: () => !this.hasChildren(), 
+        getValue: () => this.getBaseColor(), 
+        setValue: (_, value) => this.setBaseColor(value)
+      },
     ]
   }
 
@@ -101,9 +109,9 @@ export default class FasadeShape extends Shape {
     if(this.baseCaption){
       const width  = Geometry.realToScreenLength(this.width, realRect.bottomRight.x - realRect.topLeft.x, screenRect.width)
       const height  = Geometry.realToScreenLength(this.height, realRect.bottomRight.x - realRect.topLeft.x, screenRect.width)
-      const text = (this.captions && this.captions.toolbars.info.materials.fasadBases[this.base]) || this.base
-
-      this.baseCaption.setText([text, " " + text + text])
+      const text1 = (this.captions && this.captions.toolbars.info.materials.fasadBases[this.base]) || this.base
+      const text2 = this.getBaseColor()
+      this.baseCaption.setText([text1, " " + text2])
       this.baseCaption.setFitRect({width, height})
       this.baseCaption.setPoint({x: (this.rect.x + this.rect.last.x) / 2, y: (this.rect.y + this.rect.last.y) / 2})
     }
@@ -290,6 +298,13 @@ export default class FasadeShape extends Shape {
 
   getBase(){
     return this.hasChildren() ? this.children[0].base : this.base
+  }
+  getBaseColor(){
+    return this.hasChildren() ? this.children[0].baseColor : this.baseColor
+  }
+  setBaseColor(baseColor){
+    this.baseColor = baseColor
+    if(this.hasChildren()) this.children.forEach(c => c.setBaseColor(baseColor))
   }
 
   checkHeight(height){

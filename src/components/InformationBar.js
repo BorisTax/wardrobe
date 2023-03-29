@@ -50,7 +50,7 @@ function getInfoData(appData) {
                 id: "materials",
                 name: caps.materials.title,
                 children: [
-                    { id: "DSPColor", name: <MaterialBar/> },
+                    { id: "material", name: <MaterialBar/> },
                 ]
             }
         ]

@@ -97,6 +97,7 @@ export function divideFasadesHor(fasades, count){
       level: f.level + 1, 
       parent: f, 
       base: f.base, 
+      baseColor: f.baseColor,
       name: "Элемент фасада",
       position: {x: pos.x, y: pos.y}
     }
@@ -134,6 +135,7 @@ export function divideFasadesVert(fasades, count){
       level: f.level + 1, 
       parent: f, 
       base: f.base, 
+      baseColor: f.baseColor,
       name: "Элемент фасада",
       position: {x: pos.x, y: pos.y}
     }

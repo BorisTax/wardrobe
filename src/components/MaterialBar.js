@@ -5,13 +5,13 @@ import ComboBox from './ComboBox';
 
 export default function MaterialBar({ disabled }) {
     const materials = useSelector(store => store.materials)
-    const captions = useSelector(store => store.captions.toolbars.materials)
+    const captions = useSelector(store => store.captions.toolbars.info.materials)
     const appActions = useActions()
-    const DSPColors = materials.DSPColors.map(c => c.name)
-    const activeDSPColor = DSPColors[materials.activeDSPColorIndex]
+    const DSPColors = materials.DSP.map(c => c.name)
+    const activeDSPColor = materials.activeDSPColor
     return <div className='gridContent'>
            
-            <ComboBox title={captions.DSPColor} value={activeDSPColor} items={DSPColors} onChange={(index)=>appActions.setMaterial({activeDSPColorIndex: index})}/>
+            <ComboBox title={captions.dspMainColor} value={activeDSPColor} items={DSPColors} onChange={(_, value)=>appActions.setMaterial({activeDSPColor: value})}/>
 
         </div>
 }

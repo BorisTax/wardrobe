@@ -11,9 +11,10 @@ import { PropertyTypes } from './shapes/PropertyData';
 import Shape from './shapes/Shape';
 
 export default function FasadePropertyBar() {
-  const captions = useSelector(store => store.captions.toolbars)
+  const appData = useSelector(store => store)
+  const captions = appData.captions.toolbars
   const appActions = useActions()
-  const selected = Array.from(useSelector(store => store).selectedPanels)
+  const selected = Array.from(appData.selectedPanels)
   const selectedPanels = selected.filter(p => p.type !== Shape.DIMENSION)
   const levelUpEnabled = selectedPanels.length === 1 && selectedPanels[0].parent
   const fixedWidth = selectedPanels.length === 1 && selectedPanels[0].state.fixedWidth
@@ -24,7 +25,7 @@ export default function FasadePropertyBar() {
   let contents = <></>
   if (selectedCount === 1) {
     contents = <div className='propertyContent'>
-      {getProperties(selected[0], captions, appActions.updateState)}
+      {getProperties(selected[0], appData, appActions.updateState)}
     </div>
   }
   let noSelected = false
@@ -49,14 +50,14 @@ export default function FasadePropertyBar() {
   </ToolBar>
 }
 
-function getProperties(object, captions, updateState) {
+function getProperties(object, appData, updateState) {
   const props = [];
   for (let p of object.getProperties()) {
     if(p.hidden) continue
-    const value = getValueElement(p, captions, updateState);
+    const value = getValueElement(p, appData, updateState);
     const prop = (
       <>
-        <div>{captions.property[p.key]}</div>
+        <div>{appData.captions.toolbars.property[p.key]}</div>
         {value}
       </>
     );
@@ -65,16 +66,16 @@ function getProperties(object, captions, updateState) {
   return props
 }
 
-function getValueElement(p, captions, updateState) {
+function getValueElement(p, appData, updateState) {
   if (p.editable()) {
     switch (p.type) {
       case PropertyTypes.STRING: return <InputField type={p.type} value={p.getValue()} setValue={(value) => { p.setValue(value); updateState() }} />
       case PropertyTypes.INTEGER_POSITIVE_NUMBER: return <div><InputField type={p.type} value={p.getValue()} setValue={(value) => { p.setValue(value); updateState() }} />{(p.extra && p.extra())? <span>{p.extra()}</span> : <></>}</div>
       case PropertyTypes.BOOL: return <CheckBox value={p.getValue()} onChange={(value) => { p.setValue(value); updateState() }} />
-      case PropertyTypes.LIST: return <ComboBox items={p.items(captions)} value={p.getValue(captions)} onChange={(index)=>{p.setValue(index); updateState()}} />
+      case PropertyTypes.LIST: return <ComboBox items={p.items(appData)} value={p.getValue(appData)} onChange={(index)=>{p.setValue(index); updateState()}} />
       default:
     }
   } else {
-    return <div>{p.getValue(captions) + (p.extra ? p.extra() : "")}</div>;
+    return <div>{p.getValue(appData) + (p.extra ? p.extra() : "")}</div>;
   }
 }

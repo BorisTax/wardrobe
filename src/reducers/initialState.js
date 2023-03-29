@@ -27,6 +27,8 @@ export const WORKSPACE = {
 export function getInitialState(data) {
   const { wardrobe, panels } = createNewState(data)
   const fasades = createFasades({wardrobe})
+  const fasadBaseColors = {}
+  getFasadBases().forEach(b => fasadBaseColors[b] = [])
   return {
     workspace: WORKSPACE.CORPUS,
     cursor: new SelectCursor({ x: 0, y: 0 }),
@@ -44,9 +46,10 @@ export function getInitialState(data) {
     toolButtonsPressed: getButtonPressed(),
     information: { order: "", plan: "", currentDate: getNewDate() },
     materials: {
-      DSPColors: ["венге магия","дуб сонома", "белый110"],
+      DSP: ["венге магия","дуб сонома", "белый110"],
+      MIRROR: [''],
       fasadBases: getFasadBases(),
-      activeDSPColorIndex: 0
+      activeDSPColor: wardrobe.dspCorpus
     },
     resetView: panels.length > 0,
     showLoading: false,
