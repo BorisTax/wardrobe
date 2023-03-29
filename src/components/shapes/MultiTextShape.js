@@ -31,9 +31,9 @@ export default class MultiTextShape extends Shape {
   draw(ctx, realRect, screenRect, fontSize, vertical) {
     super.draw(ctx, realRect, screenRect);
     let basePoint = { ...this.p0 };
-    var { offsets, angle } = this.getTextOffsets(ctx, fontSize)
-    const totalWidth = offsets.width.reduce((a, i) => a + i, 0)
-    const totalHeight = offsets.height.reduce((a, i) => a + i, 0)
+    var { width: totalWidth, height: totalHeight, offsets, angle } = this.getTextOffsets(ctx, fontSize)
+    //const totalWidth = offsets.width.reduce((a, i) => a + i, 0)
+    //const totalHeight = offsets.height.reduce((a, i) => a + i, 0)
     const middleX = angle === 0 ? totalWidth / 2 : totalHeight / 2
     const middleY = angle === 0 ? totalHeight / 2 : totalWidth / 2 
     const newPoint = Geometry.rotatePoint(basePoint, angle, {
@@ -81,13 +81,13 @@ export default class MultiTextShape extends Shape {
       let multiLineHeight = 0
       for(let t of this.textShapes){
         ({ width, height } = t.getTextRect(ctx, ctx.font));
-        oneLineWidth = width
+        oneLineWidth += width
         oneWidthOffsets.push(width)
         oneLineHeight = Math.max(oneLineHeight, height)
         oneHeightOffsets.push(0)
         multiLineWidth = Math.max(multiLineWidth, width)
         multiWidthOffsets.push(0)
-        multiLineHeight = height
+        multiLineHeight += height
         multiHeightOffsets.push(height)
       }
       
