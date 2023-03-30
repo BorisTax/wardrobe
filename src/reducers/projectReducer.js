@@ -21,7 +21,7 @@ export default function projectReducer(state, action) {
             initialState.mouseHandler = new PanelFreeHandler(initialState)
             return {
                 result: true,
-                newState: { ...initialState, materials: {...state.materials, activeDSPColor: action.payload.wardrobe.dspcorpus}, showDialog: {show: false} }
+                newState: { ...initialState, materials: {...state.materials, activeDSPColor: action.payload.wardrobe.dspCorpus}, showDialog: {show: false} }
             };
 
         case ModelActions.SET_INFORMATION:

@@ -143,7 +143,7 @@ export const captions = {
       "depth": "Глубина",
       "width": "Ширина",
       "base": "Основа",
-      "baseColor": "Цвет/Материал/Код",
+      "baseColor": "Цвет",
       "nodrill": "Не сверлить",
       "lock_width": "Зафиксировать ширину",
       "unlock_width": "Разблокировать ширину",

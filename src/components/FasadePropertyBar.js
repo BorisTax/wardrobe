@@ -72,7 +72,7 @@ function getValueElement(p, appData, updateState) {
       case PropertyTypes.STRING: return <InputField type={p.type} value={p.getValue()} setValue={(value) => { p.setValue(value); updateState() }} />
       case PropertyTypes.INTEGER_POSITIVE_NUMBER: return <div><InputField type={p.type} value={p.getValue()} setValue={(value) => { p.setValue(value); updateState() }} />{(p.extra && p.extra())? <span>{p.extra()}</span> : <></>}</div>
       case PropertyTypes.BOOL: return <CheckBox value={p.getValue()} onChange={(value) => { p.setValue(value); updateState() }} />
-      case PropertyTypes.LIST: return <ComboBox items={p.items(appData)} value={p.getValue(appData)} onChange={(index)=>{p.setValue(index); updateState()}} />
+      case PropertyTypes.LIST: return <ComboBox items={p.items(appData)} value={p.getValue(appData)} onChange={(index, value)=>{p.setValue(index, value); updateState()}} />
       default:
     }
   } else {

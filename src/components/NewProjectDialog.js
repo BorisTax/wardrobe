@@ -31,7 +31,7 @@ export default function NewProjectDialog({start = false}) {
                     <InputField type={INTEGER_POSITIVE_NUMBER} value={height} max={3000} min={2000} setValue={value => setState(prev => ({ ...prev, height: +value }))} />
                     <ComboBox title={wardrobeCaps.type.type} items={[wardrobeCaps.type.single, wardrobeCaps.type.double]} value={typeValue} onChange = {(index)=>setState(prev => ({ ...prev, double: !!index }))}/>
                     <ComboBox title={wardrobeCaps.fasadeCount} items={[2, 3, 4]} value={fasadeCount} onChange = {(_, value)=>setState(prev => ({ ...prev, fasadeCount: +value}))}/>
-                    <ComboBox title={materialCaps.dspMainColor} items={dspColors} value={dspCorpus} onChange = {(_, value)=>setState(prev => ({ ...prev, dspcorpus: value}))}/>
+                    <ComboBox title={materialCaps.dspMainColor} items={dspColors} value={dspCorpus} onChange = {(_, value)=>setState(prev => ({ ...prev, dspCorpus: value}))}/>
                     <ComboBox title={materialCaps.fasadBase} items={fasadeBasesCaps} value={fasadeBasesCaps[fasadeBaseIndex]} onChange = {(index)=>setState(prev => ({ ...prev, fasadeBaseIndex: index}))}/>
                     <ComboBox title={materialCaps.fasadBaseColor} items={fasadeBaseColors} value={fasadeBaseColors[fasadeBaseColorIndex]} onChange = {(index)=>setState(prev => ({ ...prev, fasadeBaseColorIndex: index}))}/>
                 </div>
