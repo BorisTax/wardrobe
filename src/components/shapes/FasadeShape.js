@@ -63,7 +63,7 @@ export default class FasadeShape extends Shape {
         items: (appData) => getFasadBases().map(b => appData.captions.toolbars.info.materials.fasadBases[b]), 
         editable: () => !this.hasChildren(), 
         getValue: (appData) => (this.isCombi() ? appData.captions.toolbars.info.materials.combi : appData.captions.toolbars.info.materials.fasadBases[this.getBase()]), 
-        setValue: (index) => {this.preSetBase(getFasadBases()[index])}},
+        setValue: (index, _, appData) => {this.preSetBase(getFasadBases()[index]); this.setBaseColor(appData.materials[getFasadBases()[index]][0].name)}},
       { key: "baseColor", 
         type: PropertyTypes.LIST, 
         items: (appData) => appData.materials[this.base].map(m => m.name), 
