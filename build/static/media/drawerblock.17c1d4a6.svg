@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2020 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="169px" height="122px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 10.3 7.44"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#2B2A29;stroke-width:0.09;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .fil2 {fill:#FEFEFE}
+    .fil1 {fill:#2B2A29}
+    .fil0 {fill:#FEFEFE}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_1948419379328">
+   <polygon class="fil0" points="0,0 10.3,0 10.3,7.44 0,7.44 "/>
+   <path id="_1" class="fil1" d="M0 0l10.3 0 0 7.44 -10.3 0 0 -7.44zm10.19 0.11l-10.08 0 0 7.22 10.08 0 0 -7.22z"/>
+  </g>
+ </g>
+ <g id="Слой_x0020_1_0">
+  <metadata id="CorelCorpID_1Corel-Layer"/>
+  <g id="_1948419379520">
+   <polygon class="fil2 str0" points="1.55,0.85 4.15,1.91 3.61,1.92 1.01,0.86 "/>
+   <polygon class="fil2 str0" points="6.05,0.85 8.65,1.91 8.11,1.92 5.51,0.86 "/>
+   <polygon class="fil2 str0" points="5.93,1.03 8.11,1.92 8.11,3.52 5.93,2.62 "/>
+   <rect class="fil2 str0" x="4.03" y="1.78" width="5.08" height="2.19"/>
+   <rect class="fil2 str0" transform="matrix(0.754095 -0 0.0952416 0.0340625 3.61362 1.62901)" width="6.74" height="4.32"/>
+   <rect class="fil2 str0" transform="matrix(0.0610975 0.0164272 -0 0.506814 3.61363 1.66556)" width="6.74" height="4.32"/>
+   <polygon class="fil2 str0" points="1.01,0.86 3.61,1.92 3.61,3.52 1.01,2.45 "/>
+   <polygon class="fil2 str0" points="1.55,0.85 5.51,0.86 5.93,1.03 1.96,0.99 "/>
+  </g>
+  <g id="_1948419377984">
+   <polygon class="fil2 str0" points="1.55,3.41 4.15,4.47 3.61,4.48 1.01,3.42 "/>
+   <polygon class="fil2 str0" points="7.37,3.97 8.65,4.47 8.11,4.48 6.78,3.95 "/>
+   <polygon class="fil2 str0" points="6.78,3.95 8.11,4.48 8.11,6.08 6.78,5.55 "/>
+   <rect class="fil2 str0" x="4.03" y="4.34" width="5.08" height="2.19"/>
+   <rect class="fil2 str0" transform="matrix(0.754095 -0 0.0952416 0.0340625 3.61362 4.19456)" width="6.74" height="4.32"/>
+   <rect class="fil2 str0" transform="matrix(0.0610975 0.0164272 -0 0.506814 3.61363 4.23112)" width="6.74" height="4.32"/>
+   <polygon class="fil2 str0" points="1.01,3.42 3.61,4.48 3.61,6.08 1.01,5.02 "/>
+   <polygon class="fil2 str0" points="1.55,3.41 3.3,3.42 3.61,3.58 1.96,3.56 "/>
+  </g>
+ </g>
+</svg>
