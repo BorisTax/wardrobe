@@ -46,7 +46,7 @@ export function getInitialState(data) {
     toolButtonsPressed: getButtonPressed(),
     information: { order: "", plan: "", currentDate: getNewDate() },
     materials: {
-      DSP: ["венге магия","дуб сонома", "белый110"],
+      DSP: [{name: "венге магия"},{name: "дуб сонома"}, {name: "белый110"}],
       MIRROR: [''],
       fasadBases: getFasadBases(),
       activeDSPColor: wardrobe.dspCorpus

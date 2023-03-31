@@ -32,7 +32,7 @@ export default class MultiTextShape extends Shape {
     super.draw(ctx, realRect, screenRect);
     let basePoint = { ...this.p0 };
     var { width: totalWidth, height: totalHeight, offsets, angle } = this.getTextOffsets(ctx, fontSize)
-    const middleX = angle === 0 ? totalWidth / 2 : totalHeight / 2
+    const middleX = angle === 0 ? totalWidth / 2 : -totalHeight / 2
     const middleY = angle === 0 ? totalHeight / 2 : totalWidth / 2 
     const newPoint = Geometry.rotatePoint(basePoint, angle, {x: 0, y: 0});
     let i = 0 
