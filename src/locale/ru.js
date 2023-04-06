@@ -103,6 +103,7 @@ export const captions = {
           "MIRROR": "Зеркало",
           "SAND": "Песок",
           "LACOBEL": "Лакобель",
+          "FMP": "ФМП"
         }
       }
 

@@ -4,11 +4,12 @@ export const FasadBase = {
     DSP: "DSP",
     MIRROR: "MIRROR",
     SAND: "SAND",
-    LACOBEL: "LACOBEL"
+    LACOBEL: "LACOBEL",
+    FMP: "FMP"
 }
 
 
-export const getFasadBases = () => [FasadBase.DSP, FasadBase.MIRROR, FasadBase.SAND, FasadBase.LACOBEL]
+export const getFasadBases = () => [FasadBase.DSP, FasadBase.MIRROR, FasadBase.SAND, FasadBase.LACOBEL, FasadBase.FMP]
 
 export default function materialReducer(state, action){
     switch (action.type){
