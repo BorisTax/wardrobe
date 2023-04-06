@@ -32,8 +32,8 @@ export default class MultiTextShape extends Shape {
     super.draw(ctx, realRect, screenRect);
     let basePoint = { ...this.p0 };
     var { width: totalWidth, height: totalHeight, offsets, angle } = this.getTextOffsets(ctx, fontSize)
-    const middleX = angle === 0 ? totalWidth / 2 : -totalHeight / 2
-    const middleY = angle === 0 ? totalHeight / 2 : totalWidth / 2 
+    const middleX = totalWidth / 2
+    const middleY = totalHeight / 2 
     const newPoint = Geometry.rotatePoint(basePoint, angle, {x: 0, y: 0});
     let i = 0 
     let offsetX = 0
@@ -42,10 +42,14 @@ export default class MultiTextShape extends Shape {
         ctx.save();
         ctx.translate(basePoint.x - newPoint.x - middleX, basePoint.y - newPoint.y + middleY);
         ctx.rotate(angle);
-        ctx.fillText(t.text, basePoint.x + offsetX, basePoint.y + offsetY);
+        
+        if(angle===0)ctx.fillText(t.text, basePoint.x + offsetX, basePoint.y + offsetY - middleY);
+          else ctx.fillText(t.text, basePoint.x + offsetX , basePoint.y + offsetY + middleX);
+        
         ctx.restore();
-        offsetX += offsets.width[i]
-        offsetY += offsets.height[i]
+
+        offsetX += angle ===0 ? offsets.width[i] : offsets.height[i]
+        offsetY += angle ===0 ? offsets.height[i] : offsets.width[i]
         i++
     }
   }
@@ -82,11 +86,11 @@ export default class MultiTextShape extends Shape {
       }
       
       if (fitWidth >= oneLineWidth && fitHeight >= oneLineHeight) return {width: oneLineWidth, height: oneLineHeight, offsets: {width: oneWidthOffsets, height: oneHeightOffsets}, angle: 0};
-      if (fitHeight >= oneLineWidth && fitWidth >= oneLineHeight) return {width: oneLineWidth, height: oneLineHeight, offsets: {width: oneWidthOffsets, height: oneHeightOffsets}, angle: - Math.PI / 2};
+      if (fitHeight >= oneLineWidth && fitWidth >= oneLineHeight) return {width: oneLineHeight, height: oneLineWidth, offsets: {width: oneHeightOffsets, height: oneWidthOffsets}, angle: - Math.PI / 2};
       if (fitWidth >= multiLineWidth && fitHeight >= multiLineHeight) return {width: multiLineWidth, height: multiLineHeight, offsets: {width: multiWidthOffsets, height: multiHeightOffsets}, angle: 0};
-      if (fitHeight >= multiLineWidth && fitWidth >= multiLineHeight) return {width: multiLineWidth, height: multiLineHeight, offsets: {width: multiWidthOffsets, height: multiHeightOffsets}, angle: - Math.PI / 2};
+      if (fitHeight >= multiLineWidth && fitWidth >= multiLineHeight) return {width: multiLineHeight, height: multiLineWidth, offsets: {width: multiHeightOffsets, height: multiWidthOffsets}, angle: - Math.PI / 2};
     }
-    return {width, height, offsets: {width: oneWidthOffsets, height: oneHeightOffsets}};
+    return {width, height, offsets: {width: oneWidthOffsets, height: oneHeightOffsets}, angle: 0};
   }
 
   refresh(realRect, screenRect) {
